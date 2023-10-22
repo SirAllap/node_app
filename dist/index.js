@@ -12,3 +12,4 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log(`⚡️[server]: Example app listening on port ${port}`);
 });
+//# sourceMappingURL=index.js.map
