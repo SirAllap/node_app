@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/SirAllap/node_app/issues"
   },
-  "homepage": "https://github.com/SirAllap/node_app#readme"
+  "homepage": "https://github.com/SirAllap/node_app#readme",
+  "devDependencies": {
+    "@types/node": "^20.8.7"
+  }
 }
