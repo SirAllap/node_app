@@ -17,11 +17,30 @@ const express_1 = require("express");
 const bookings_json_1 = __importDefault(require("../data/bookings.json"));
 exports.bookingsController = (0, express_1.Router)();
 exports.bookingsController.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.send(bookings_json_1.default);
+    try {
+        res.send(bookings_json_1.default);
+    }
+    catch (error) {
+        res.status(500).send(`Error obtaining all bookings: ${error}`);
+    }
 }));
 exports.bookingsController.get('/:bookingId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = req.params.bookingId.toString();
-    const data = bookings_json_1.default.filter((booking) => booking.id === id);
-    res.send(data);
+    try {
+        const id = req.params.bookingId.toString();
+        const data = bookings_json_1.default.filter((booking) => booking.id === id);
+        res.send(data);
+    }
+    catch (error) {
+        res.status(500).send(`Error obtaining the booking: ${error}`);
+    }
+}));
+exports.bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        bookings_json_1.default.push(req.body);
+        res.send(bookings_json_1.default);
+    }
+    catch (error) {
+        res.status(500).send(`Error posting new booking: ${error}`);
+    }
 }));
 //# sourceMappingURL=bookings.js.map

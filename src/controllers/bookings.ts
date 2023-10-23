@@ -18,14 +18,34 @@ interface IBooking {
 }
 
 bookingsController.get('/', async (req: Request, res: Response) => {
-	res.send(bookingsData)
+	try {
+		res.send(bookingsData)
+	} catch (error) {
+		res.status(500).send(`Error obtaining all bookings: ${error}`)
+	}
 })
 
 bookingsController.get(
 	'/:bookingId',
 	async (req: Request<{ bookingId: number }>, res: Response) => {
-		const id = req.params.bookingId.toString()
-		const data = bookingsData.filter((booking) => booking.id === id)
-		res.send(data)
+		try {
+			const id = req.params.bookingId.toString()
+			const data = bookingsData.filter((booking) => booking.id === id)
+			res.send(data)
+		} catch (error) {
+			res.status(500).send(`Error obtaining the booking: ${error}`)
+		}
+	}
+)
+
+bookingsController.post(
+	'/',
+	async (req: Request<{}, {}, IBooking>, res: Response) => {
+		try {
+			bookingsData.push(req.body)
+			res.send(bookingsData)
+		} catch (error) {
+			res.status(500).send(`Error posting new booking: ${error}`)
+		}
 	}
 )
