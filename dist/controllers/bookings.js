@@ -19,4 +19,9 @@ exports.bookingsController = (0, express_1.Router)();
 exports.bookingsController.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.send(bookings_json_1.default);
 }));
+exports.bookingsController.get('/:bookingId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.bookingId.toString();
+    const data = bookings_json_1.default.filter((booking) => booking.id === id);
+    res.send(data);
+}));
 //# sourceMappingURL=bookings.js.map

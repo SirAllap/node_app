@@ -20,3 +20,12 @@ interface IBooking {
 bookingsController.get('/', async (req: Request, res: Response) => {
 	res.send(bookingsData)
 })
+
+bookingsController.get(
+	'/:bookingId',
+	async (req: Request<{ bookingId: number }>, res: Response) => {
+		const id = req.params.bookingId.toString()
+		const data = bookingsData.filter((booking) => booking.id === id)
+		res.send(data)
+	}
+)
