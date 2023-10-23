@@ -43,4 +43,15 @@ exports.bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, voi
         res.status(500).send(`Error posting new booking: ${error}`);
     }
 }));
+exports.bookingsController.put('/:bookingId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = req.params.bookingId.toString();
+        const data = bookings_json_1.default.filter((booking) => booking.id !== id);
+        const result = Object.assign(Object.assign({}, data), req.body);
+        res.send(result);
+    }
+    catch (error) {
+        res.status(500).send(`Error posting new booking: ${error}`);
+    }
+}));
 //# sourceMappingURL=bookings.js.map

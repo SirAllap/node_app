@@ -49,3 +49,20 @@ bookingsController.post(
 		}
 	}
 )
+
+bookingsController.put(
+	'/:bookingId',
+	async (
+		req: Request<{ bookingId: number }, {}, IBooking>,
+		res: Response
+	) => {
+		try {
+			const id = req.params.bookingId.toString()
+			const data = bookingsData.filter((booking) => booking.id !== id)
+			const result = { ...data, ...req.body }
+			res.send(result)
+		} catch (error) {
+			res.status(500).send(`Error posting new booking: ${error}`)
+		}
+	}
+)
