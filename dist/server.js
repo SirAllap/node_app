@@ -1,12 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+process.stdout.write('\x1B[2J\x1B[0f');
 const app_1 = require("./app");
 require("dotenv/config");
-const port = process.env.PORT;
-app_1.app.get('/', (req, res) => {
-    res.send("I'm alive MAAAATE 😎");
-});
-app_1.app.listen(port, () => {
-    console.log(`Server running ⚡️ on port: http://localhost:${port}`);
+const PORT = process.env.PORT;
+app_1.app.listen(PORT, () => {
+    console.info('>'.repeat(40));
+    console.info(`📡  PORT: http://localhost:${PORT}`);
+    console.info('>'.repeat(40) + '\n');
+}).on('error', (err) => {
+    console.error('Error starting the server:', err);
+    throw new Error('Error starting the server');
 });
 //# sourceMappingURL=server.js.map
