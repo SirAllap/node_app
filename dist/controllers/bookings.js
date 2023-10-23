@@ -46,12 +46,28 @@ exports.bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, voi
 exports.bookingsController.put('/:bookingId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.bookingId.toString();
-        const data = bookings_json_1.default.filter((booking) => booking.id !== id);
-        const result = Object.assign(Object.assign({}, data), req.body);
-        res.send(result);
+        const currentObjectIndex = bookings_json_1.default.findIndex((booking) => booking.id === id);
+        if (currentObjectIndex !== -1) {
+            bookings_json_1.default[currentObjectIndex] = req.body;
+            res.send(bookings_json_1.default);
+        }
+        else {
+            res.status(404).send('Booking not found');
+        }
     }
     catch (error) {
         res.status(500).send(`Error posting new booking: ${error}`);
+    }
+}));
+exports.bookingsController.delete('/:bookingId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = req.params.bookingId.toString();
+    const currentObjectIndex = bookings_json_1.default.findIndex((booking) => booking.id === id);
+    if (currentObjectIndex !== -1) {
+        bookings_json_1.default.splice(currentObjectIndex, 1);
+        res.send(bookings_json_1.default);
+    }
+    else {
+        res.status(404).send('Booking not found');
     }
 }));
 //# sourceMappingURL=bookings.js.map

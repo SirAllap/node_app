@@ -58,11 +58,33 @@ bookingsController.put(
 	) => {
 		try {
 			const id = req.params.bookingId.toString()
-			const data = bookingsData.filter((booking) => booking.id !== id)
-			const result = { ...data, ...req.body }
-			res.send(result)
+			const currentObjectIndex = bookingsData.findIndex(
+				(booking) => booking.id === id
+			)
+			if (currentObjectIndex !== -1) {
+				bookingsData[currentObjectIndex] = req.body
+				res.send(bookingsData)
+			} else {
+				res.status(404).send('Booking not found')
+			}
 		} catch (error) {
 			res.status(500).send(`Error posting new booking: ${error}`)
+		}
+	}
+)
+
+bookingsController.delete(
+	'/:bookingId',
+	async (req: Request<{ bookingId: number }>, res: Response) => {
+		const id = req.params.bookingId.toString()
+		const currentObjectIndex = bookingsData.findIndex(
+			(booking) => booking.id === id
+		)
+		if (currentObjectIndex !== -1) {
+			bookingsData.splice(currentObjectIndex, 1)
+			res.send(bookingsData)
+		} else {
+			res.status(404).send('Booking not found')
 		}
 	}
 )
