@@ -37,8 +37,8 @@ exports.bookingsController.get('/:bookingId', (req, res) => __awaiter(void 0, vo
 }));
 exports.bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        bookings_json_1.default.push(req.body);
-        res.send(bookings_json_1.default);
+        const result = yield bookings_json_1.default.push(req.body);
+        res.send(result);
     }
     catch (error) {
         res.status(500).send(`Error posting new booking: ${error}`);
@@ -49,8 +49,9 @@ exports.bookingsController.put('/:bookingId', (req, res) => __awaiter(void 0, vo
         const id = req.params.bookingId.toString();
         const currentObjectIndex = bookings_json_1.default.findIndex((booking) => booking.id === id);
         if (currentObjectIndex !== -1) {
-            bookings_json_1.default[currentObjectIndex] = req.body;
-            res.send(bookings_json_1.default);
+            const result = yield (bookings_json_1.default[currentObjectIndex] =
+                req.body);
+            res.send(result);
         }
         else {
             res.status(404).send('Booking not found');
@@ -65,7 +66,7 @@ exports.bookingsController.delete('/:bookingId', (req, res) => __awaiter(void 0,
         const id = req.params.bookingId.toString();
         const currentObjectIndex = bookings_json_1.default.findIndex((booking) => booking.id === id);
         if (currentObjectIndex !== -1) {
-            bookings_json_1.default.splice(currentObjectIndex, 1);
+            yield bookings_json_1.default.splice(currentObjectIndex, 1);
             res.status(200).send('Booking successfully deleted');
         }
         else {
@@ -76,4 +77,4 @@ exports.bookingsController.delete('/:bookingId', (req, res) => __awaiter(void 0,
         res.status(500).send(`Error deleting the booking: ${error}`);
     }
 }));
-//# sourceMappingURL=bookings.js.map
+//# sourceMappingURL=booking.js.map

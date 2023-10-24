@@ -1,4 +1,4 @@
-import { bookingsController } from './controllers/bookings'
+import { bookingsController } from './controllers/booking'
 import express, { Express } from 'express'
 import cors from 'cors'
 
