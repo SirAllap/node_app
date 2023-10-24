@@ -28,20 +28,33 @@ function getById(bookingId) {
         return result;
     });
 }
-// async function post(booking: IBooking) {
-// 	// Save a booking to json file
-// }
-// async function put(bookingId: number, update: Partial<IBooking>) {
-// 	// Update a booking by id and save to json file
-// }
-// async function _delete(bookingId: number) {
-// 	// Delete a booking by id from json file
-// }
+function post(booking) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const result = yield exports.bookings.push(booking);
+        return result;
+    });
+}
+function put(bookingId, update) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const id = bookingId.toString();
+        const currentObjectIndex = exports.bookings.findIndex((booking) => booking.id === id);
+        const result = (exports.bookings[currentObjectIndex] = Object.assign(Object.assign({}, exports.bookings[currentObjectIndex]), update));
+        return result;
+    });
+}
+function _delete(bookingId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const id = bookingId.toString();
+        const currentObjectIndex = exports.bookings.findIndex((booking) => booking.id === id);
+        const result = yield exports.bookings.splice(currentObjectIndex, 1);
+        return result;
+    });
+}
 exports.bookingService = {
     get,
     getById,
-    // post,
-    // put,
-    // delete: _delete,
+    post,
+    put,
+    delete: _delete,
 };
 //# sourceMappingURL=booking.js.map

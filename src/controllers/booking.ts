@@ -5,6 +5,8 @@ import { bookingService } from '../services/booking'
 
 export const bookingsController = Router()
 
+export const bookings = bookingsData as IBooking[]
+
 bookingsController.get('/', async (req: Request, res: Response) => {
 	try {
 		const result = await bookingService.get()
@@ -19,7 +21,7 @@ bookingsController.get(
 	async (req: Request<{ bookingId: number }>, res: Response) => {
 		try {
 			const result = await bookingService.getById(req.params.bookingId)
-			if (result) {
+			if (result.length !== 0) {
 				res.send(result)
 			} else {
 				res.status(500).send('The result is empty')
@@ -32,8 +34,8 @@ bookingsController.get(
 
 bookingsController.post('/', async (req: Request<IBooking>, res: Response) => {
 	try {
-		const result = await bookingsData.push(req.body)
-		res.send(result)
+		const result = await bookingService.post(req.body)
+		res.status(200).send('Booking successfully created')
 	} catch (error) {
 		res.status(500).send(`Error posting new booking: ${error}`)
 	}
@@ -43,21 +45,12 @@ bookingsController.put(
 	'/:bookingId',
 	async (req: Request<{ bookingId: number }, IBooking>, res: Response) => {
 		try {
-			const id = req.params.bookingId.toString()
-			const currentObjectIndex = bookingsData.findIndex(
-				(booking) => booking.id === id
-			)
-			if (currentObjectIndex !== -1) {
-				const result = (bookingsData[currentObjectIndex] = {
-					...bookingsData[currentObjectIndex],
-					...req.body,
-				})
-				res.send(result)
-			} else {
-				res.status(404).send('Booking not found')
-			}
+			const id = req.params.bookingId
+			const bookingToUpdate = req.body
+			await bookingService.put(id, bookingToUpdate),
+				res.status(200).send('Booking successfully updated')
 		} catch (error) {
-			res.status(500).send(`Error posting new booking: ${error}`)
+			res.status(500).send(`Booking not found: ${error}`)
 		}
 	}
 )
@@ -66,18 +59,15 @@ bookingsController.delete(
 	'/:bookingId',
 	async (req: Request<{ bookingId: number }>, res: Response) => {
 		try {
-			const id = req.params.bookingId.toString()
-			const currentObjectIndex = bookingsData.findIndex(
-				(booking) => booking.id === id
-			)
-			if (currentObjectIndex !== -1) {
-				await bookingsData.splice(currentObjectIndex, 1)
+			const id = req.params.bookingId
+			const result = await bookingService.delete(id)
+			if (result.some((b) => b.id.includes(id.toString()))) {
 				res.status(200).send('Booking successfully deleted')
 			} else {
-				res.status(404).send('Booking not found')
+				res.status(500).send('Booking not found')
 			}
 		} catch (error) {
-			res.status(500).send(`Error deleting the booking: ${error}`)
+			res.status(500).send(`Booking not found: ${error}`)
 		}
 	}
 )

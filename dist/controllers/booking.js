@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bookingsController = void 0;
+exports.bookings = exports.bookingsController = void 0;
 const express_1 = require("express");
 const bookings_json_1 = __importDefault(require("../data/bookings.json"));
 const booking_1 = require("../services/booking");
 exports.bookingsController = (0, express_1.Router)();
+exports.bookings = bookings_json_1.default;
 exports.bookingsController.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield booking_1.bookingService.get();
@@ -29,7 +30,7 @@ exports.bookingsController.get('/', (req, res) => __awaiter(void 0, void 0, void
 exports.bookingsController.get('/:bookingId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield booking_1.bookingService.getById(req.params.bookingId);
-        if (result) {
+        if (result.length !== 0) {
             res.send(result);
         }
         else {
@@ -42,8 +43,8 @@ exports.bookingsController.get('/:bookingId', (req, res) => __awaiter(void 0, vo
 }));
 exports.bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield bookings_json_1.default.push(req.body);
-        res.send(result);
+        const result = yield booking_1.bookingService.post(req.body);
+        res.status(200).send('Booking successfully created');
     }
     catch (error) {
         res.status(500).send(`Error posting new booking: ${error}`);
@@ -51,34 +52,28 @@ exports.bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, voi
 }));
 exports.bookingsController.put('/:bookingId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.bookingId.toString();
-        const currentObjectIndex = bookings_json_1.default.findIndex((booking) => booking.id === id);
-        if (currentObjectIndex !== -1) {
-            const result = (bookings_json_1.default[currentObjectIndex] = Object.assign(Object.assign({}, bookings_json_1.default[currentObjectIndex]), req.body));
-            res.send(result);
-        }
-        else {
-            res.status(404).send('Booking not found');
-        }
+        const id = req.params.bookingId;
+        const bookingToUpdate = req.body;
+        yield booking_1.bookingService.put(id, bookingToUpdate),
+            res.status(200).send('Booking successfully updated');
     }
     catch (error) {
-        res.status(500).send(`Error posting new booking: ${error}`);
+        res.status(500).send(`Booking not found: ${error}`);
     }
 }));
 exports.bookingsController.delete('/:bookingId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.bookingId.toString();
-        const currentObjectIndex = bookings_json_1.default.findIndex((booking) => booking.id === id);
-        if (currentObjectIndex !== -1) {
-            yield bookings_json_1.default.splice(currentObjectIndex, 1);
+        const id = req.params.bookingId;
+        const result = yield booking_1.bookingService.delete(id);
+        if (result.some((b) => b.id.includes(id.toString()))) {
             res.status(200).send('Booking successfully deleted');
         }
         else {
-            res.status(404).send('Booking not found');
+            res.status(500).send('Booking not found');
         }
     }
     catch (error) {
-        res.status(500).send(`Error deleting the booking: ${error}`);
+        res.status(500).send(`Booking not found: ${error}`);
     }
 }));
 //# sourceMappingURL=booking.js.map
