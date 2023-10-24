@@ -14,22 +14,22 @@ async function getById(bookingId: number) {
 	return result
 }
 
-async function post(booking: IBooking) {
-	// Save a booking to json file
-}
+// async function post(booking: IBooking) {
+// 	// Save a booking to json file
+// }
 
-async function put(bookingId: number, update: Partial<IBooking>) {
-	// Update a booking by id and save to json file
-}
+// async function put(bookingId: number, update: Partial<IBooking>) {
+// 	// Update a booking by id and save to json file
+// }
 
-async function _delete(bookingId: number) {
-	// Delete a booking by id from json file
-}
+// async function _delete(bookingId: number) {
+// 	// Delete a booking by id from json file
+// }
 
 export const bookingService = {
 	get,
 	getById,
-	post,
-	put,
-	delete: _delete,
+	// post,
+	// put,
+	// delete: _delete,
 }

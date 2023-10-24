@@ -8,6 +8,7 @@ const booking_1 = require("./controllers/booking");
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 exports.app = (0, express_1.default)();
+// middlewares
 exports.app.use((0, cors_1.default)());
 exports.app.use(express_1.default.json());
 exports.app.use('/bookings', booking_1.bookingsController);

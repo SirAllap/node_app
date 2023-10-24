@@ -28,23 +28,20 @@ function getById(bookingId) {
         return result;
     });
 }
-function post(booking) {
-    return __awaiter(this, void 0, void 0, function* () {
-    });
-}
-function put(bookingId, update) {
-    return __awaiter(this, void 0, void 0, function* () {
-    });
-}
-function _delete(bookingId) {
-    return __awaiter(this, void 0, void 0, function* () {
-    });
-}
+// async function post(booking: IBooking) {
+// 	// Save a booking to json file
+// }
+// async function put(bookingId: number, update: Partial<IBooking>) {
+// 	// Update a booking by id and save to json file
+// }
+// async function _delete(bookingId: number) {
+// 	// Delete a booking by id from json file
+// }
 exports.bookingService = {
     get,
     getById,
-    post,
-    put,
-    delete: _delete,
+    // post,
+    // put,
+    // delete: _delete,
 };
 //# sourceMappingURL=booking.js.map
