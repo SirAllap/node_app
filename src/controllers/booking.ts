@@ -1,12 +1,13 @@
 import { Request, Response, Router } from 'express'
 import bookingsData from '../data/bookings.json'
 import { IBooking } from '../models/booking'
+import { bookingService } from '../services/booking'
 
 export const bookingsController = Router()
 
 bookingsController.get('/', async (req: Request, res: Response) => {
 	try {
-		const result = await bookingsData
+		const result = await bookingService.get()
 		res.send(result)
 	} catch (error) {
 		res.status(500).send(`Error obtaining all bookings: ${error}`)
@@ -17,11 +18,12 @@ bookingsController.get(
 	'/:bookingId',
 	async (req: Request<{ bookingId: number }>, res: Response) => {
 		try {
-			const id = req.params.bookingId.toString()
-			const result = await bookingsData.filter(
-				(booking) => booking.id === id
-			)
-			res.send(result)
+			const result = await bookingService.getById(req.params.bookingId)
+			if (result) {
+				res.send(result)
+			} else {
+				res.status(500).send('The result is empty')
+			}
 		} catch (error) {
 			res.status(500).send(`Error obtaining the booking: ${error}`)
 		}
@@ -46,8 +48,10 @@ bookingsController.put(
 				(booking) => booking.id === id
 			)
 			if (currentObjectIndex !== -1) {
-				const result = await (bookingsData[currentObjectIndex] =
-					req.body)
+				const result = (bookingsData[currentObjectIndex] = {
+					...bookingsData[currentObjectIndex],
+					...req.body,
+				})
 				res.send(result)
 			} else {
 				res.status(404).send('Booking not found')

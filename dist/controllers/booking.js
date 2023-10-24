@@ -15,10 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingsController = void 0;
 const express_1 = require("express");
 const bookings_json_1 = __importDefault(require("../data/bookings.json"));
+const booking_1 = require("../services/booking");
 exports.bookingsController = (0, express_1.Router)();
 exports.bookingsController.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield bookings_json_1.default;
+        const result = yield booking_1.bookingService.get();
         res.send(result);
     }
     catch (error) {
@@ -27,9 +28,13 @@ exports.bookingsController.get('/', (req, res) => __awaiter(void 0, void 0, void
 }));
 exports.bookingsController.get('/:bookingId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.bookingId.toString();
-        const result = yield bookings_json_1.default.filter((booking) => booking.id === id);
-        res.send(result);
+        const result = yield booking_1.bookingService.getById(req.params.bookingId);
+        if (result) {
+            res.send(result);
+        }
+        else {
+            res.status(500).send('The result is empty');
+        }
     }
     catch (error) {
         res.status(500).send(`Error obtaining the booking: ${error}`);
@@ -49,8 +54,7 @@ exports.bookingsController.put('/:bookingId', (req, res) => __awaiter(void 0, vo
         const id = req.params.bookingId.toString();
         const currentObjectIndex = bookings_json_1.default.findIndex((booking) => booking.id === id);
         if (currentObjectIndex !== -1) {
-            const result = yield (bookings_json_1.default[currentObjectIndex] =
-                req.body);
+            const result = (bookings_json_1.default[currentObjectIndex] = Object.assign(Object.assign({}, bookings_json_1.default[currentObjectIndex]), req.body));
             res.send(result);
         }
         else {
