@@ -19,21 +19,16 @@ exports.roomsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0
         res.send(result);
     }
     catch (error) {
-        res.status(500).send(`Error obtaining all rooms: ${error}`);
+        res.status(500).send(`${error}`);
     }
 }));
 exports.roomsController.get('/:roomId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield room_1.roomService.getById(req.params.roomId);
-        if (result.length !== 0) {
-            res.send(result);
-        }
-        else {
-            res.status(500).send('The result is empty');
-        }
+        res.send(result);
     }
     catch (error) {
-        res.status(500).send(`Error obtaining the roonm: ${error}`);
+        res.status(500).send(`${error}`);
     }
 }));
 exports.roomsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -42,7 +37,7 @@ exports.roomsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0
         res.status(200).send('Room successfully created');
     }
     catch (error) {
-        res.status(500).send(`Error posting new room: ${error}`);
+        res.status(500).send(`${error}`);
     }
 }));
 exports.roomsController.put('/:roomId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -53,21 +48,16 @@ exports.roomsController.put('/:roomId', (req, res) => __awaiter(void 0, void 0, 
             res.status(200).send('Room successfully updated');
     }
     catch (error) {
-        res.status(500).send(`Room not found: ${error}`);
+        res.status(500).send(`${error}`);
     }
 }));
 exports.roomsController.delete('/:roomId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.roomId;
-        const result = yield room_1.roomService.delete(id);
-        if (result.some((room) => room.id.includes(id.toString()))) {
-            res.status(200).send('Room successfully deleted');
-        }
-        else {
-            res.status(500).send('Room not found');
-        }
+        yield room_1.roomService.delete(id);
+        res.status(200).send('Room successfully deleted');
     }
     catch (error) {
-        res.status(500).send(`Room not found: ${error}`);
+        res.status(500).send(`${error}`);
     }
 }));

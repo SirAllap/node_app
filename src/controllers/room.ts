@@ -9,7 +9,7 @@ roomsController.get('/', async (_req: Request, res: Response) => {
 		const result = await roomService.get()
 		res.send(result)
 	} catch (error) {
-		res.status(500).send(`Error obtaining all rooms: ${error}`)
+		res.status(500).send(`${error}`)
 	}
 })
 
@@ -18,13 +18,9 @@ roomsController.get(
 	async (req: Request<{ roomId: number }>, res: Response) => {
 		try {
 			const result = await roomService.getById(req.params.roomId)
-			if (result.length !== 0) {
-				res.send(result)
-			} else {
-				res.status(500).send('The result is empty')
-			}
+			res.send(result)
 		} catch (error) {
-			res.status(500).send(`Error obtaining the roonm: ${error}`)
+			res.status(500).send(`${error}`)
 		}
 	}
 )
@@ -34,7 +30,7 @@ roomsController.post('/', async (req: Request<IRoom>, res: Response) => {
 		await roomService.post(req.body)
 		res.status(200).send('Room successfully created')
 	} catch (error) {
-		res.status(500).send(`Error posting new room: ${error}`)
+		res.status(500).send(`${error}`)
 	}
 })
 
@@ -47,7 +43,7 @@ roomsController.put(
 			await roomService.put(id, roomToUpdate),
 				res.status(200).send('Room successfully updated')
 		} catch (error) {
-			res.status(500).send(`Room not found: ${error}`)
+			res.status(500).send(`${error}`)
 		}
 	}
 )
@@ -57,14 +53,10 @@ roomsController.delete(
 	async (req: Request<{ roomId: number }>, res: Response) => {
 		try {
 			const id = req.params.roomId
-			const result = await roomService.delete(id)
-			if (result.some((room: IRoom) => room.id.includes(id.toString()))) {
-				res.status(200).send('Room successfully deleted')
-			} else {
-				res.status(500).send('Room not found')
-			}
+			await roomService.delete(id)
+			res.status(200).send('Room successfully deleted')
 		} catch (error) {
-			res.status(500).send(`Room not found: ${error}`)
+			res.status(500).send(`${error}`)
 		}
 	}
 )
