@@ -5,12 +5,16 @@ import authMiddleware from './middlewares/auth'
 import { bookingsController } from './controllers/booking'
 import { roomsController } from './controllers/room'
 import { loginController } from './controllers/login'
+import hotelInfo from './data/hotelInfo.json'
 
 // middlewares & router
 export const app: Express = express()
 	.use(cors())
 	.use(express.json())
 	.use(morgan('combined'))
+	.use('/api-info', (_req: Request, res: Response) => {
+		res.send(hotelInfo)
+	})
 	.use('/login', loginController)
 	.use(authMiddleware)
 	.use('/bookings', bookingsController)
