@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express'
 import bookingsData from '../data/bookings.json'
 import { IBooking } from '../models/booking'
 import { bookingService } from '../services/booking'
+import { error } from 'console'
 
 export const bookingsController = Router()
 
@@ -24,10 +25,10 @@ bookingsController.get(
 			if (result.length !== 0) {
 				res.send(result)
 			} else {
-				res.status(500).send('The result is empty')
+				throw new Error()
 			}
 		} catch (error) {
-			res.status(500).send(`Error obtaining the booking: ${error}`)
+			res.status(500).send(`The result is empty: ${error}`)
 		}
 	}
 )
