@@ -18,14 +18,17 @@ function signJWT(payload: { user: string }) {
 	return { payload, token }
 }
 
-// function verifyJWT(token: string) {
-// 	// Verify the jwt token
-// }
+function verifyJWT(token: string) {
+	jwt.verify(token, secret, (err, token) => {
+		if (err) throw new Error('You are not authorized')
+		return token
+	})
+}
 
 const authService = {
 	login,
-	// signJWT,
-	// verifyJWT,
+	signJWT,
+	verifyJWT,
 }
 
 export default authService
