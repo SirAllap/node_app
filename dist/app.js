@@ -12,4 +12,8 @@ exports.app = (0, express_1.default)();
 exports.app.use((0, cors_1.default)());
 exports.app.use(express_1.default.json());
 exports.app.use('/bookings', booking_1.bookingsController);
+exports.app.use((err, _req, res, _next) => {
+    console.error(err);
+    return res.status(500).json({ error: true, message: 'Application error' });
+});
 //# sourceMappingURL=app.js.map

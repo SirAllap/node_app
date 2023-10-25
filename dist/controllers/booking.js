@@ -18,7 +18,7 @@ const bookings_json_1 = __importDefault(require("../data/bookings.json"));
 const booking_1 = require("../services/booking");
 exports.bookingsController = (0, express_1.Router)();
 exports.bookings = bookings_json_1.default;
-exports.bookingsController.get('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield booking_1.bookingService.get();
         res.send(result);
