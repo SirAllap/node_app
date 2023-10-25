@@ -5,7 +5,7 @@ const defaultUser = {
 	password: 'admin',
 }
 
-const secret: string = process.env.TOKEN_SECRET || ''
+const secret: string = process.env.SECRET || ''
 
 async function login(user: string, pass: string) {
 	if (defaultUser.user !== user || defaultUser.password !== pass)

@@ -11,11 +11,15 @@ const auth_1 = __importDefault(require("./middlewares/auth"));
 const booking_1 = require("./controllers/booking");
 const room_1 = require("./controllers/room");
 const login_1 = require("./controllers/login");
+const hotelInfo_json_1 = __importDefault(require("./data/hotelInfo.json"));
 // middlewares & router
 exports.app = (0, express_1.default)()
     .use((0, cors_1.default)())
     .use(express_1.default.json())
     .use((0, morgan_1.default)('combined'))
+    .use('/api-info', (_req, res) => {
+    res.send(hotelInfo_json_1.default);
+})
     .use('/login', login_1.loginController)
     .use(auth_1.default)
     .use('/bookings', booking_1.bookingsController)

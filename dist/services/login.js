@@ -18,7 +18,7 @@ const defaultUser = {
     user: 'admin',
     password: 'admin',
 };
-const secret = process.env.TOKEN_SECRET || '';
+const secret = process.env.SECRET || '';
 function login(user, pass) {
     return __awaiter(this, void 0, void 0, function* () {
         if (defaultUser.user !== user || defaultUser.password !== pass)
