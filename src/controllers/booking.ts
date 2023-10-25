@@ -7,7 +7,7 @@ export const bookingsController = Router()
 
 export const bookings = bookingsData as IBooking[]
 
-bookingsController.get('/', async (req: Request, res: Response) => {
+bookingsController.get('/', async (_req: Request, res: Response) => {
 	try {
 		const result = await bookingService.get()
 		res.send(result)
