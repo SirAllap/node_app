@@ -34,11 +34,11 @@ exports.bookingsController.get('/:bookingId', (req, res) => __awaiter(void 0, vo
             res.send(result);
         }
         else {
-            res.status(500).send('The result is empty');
+            throw new Error();
         }
     }
     catch (error) {
-        res.status(500).send(`Error obtaining the booking: ${error}`);
+        res.status(500).send(`The result is empty: ${error}`);
     }
 }));
 exports.bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -76,4 +76,3 @@ exports.bookingsController.delete('/:bookingId', (req, res) => __awaiter(void 0,
         res.status(500).send(`Booking not found: ${error}`);
     }
 }));
-//# sourceMappingURL=booking.js.map

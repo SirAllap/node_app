@@ -12,4 +12,3 @@ app_1.app.listen(PORT, () => {
     console.error('Error starting the server:', err);
     throw new Error('Error starting the server');
 });
-//# sourceMappingURL=server.js.map
