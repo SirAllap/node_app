@@ -10,7 +10,10 @@ const secret: string = process.env.SECRET || ''
 async function login(user: string, pass: string) {
 	if (defaultUser.user !== user || defaultUser.password !== pass)
 		throw new Error('Credentials are wrong')
-	return signJWT({ user })
+	else {
+		const result = await signJWT({ user })
+		return result
+	}
 }
 
 function signJWT(payload: { user: string }) {

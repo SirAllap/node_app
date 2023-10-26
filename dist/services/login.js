@@ -23,7 +23,10 @@ function login(user, pass) {
     return __awaiter(this, void 0, void 0, function* () {
         if (defaultUser.user !== user || defaultUser.password !== pass)
             throw new Error('Credentials are wrong');
-        return signJWT({ user });
+        else {
+            const result = yield signJWT({ user });
+            return result;
+        }
     });
 }
 function signJWT(payload) {
