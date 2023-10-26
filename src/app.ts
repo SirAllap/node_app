@@ -2,10 +2,12 @@ import express, { Express, Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 import authMiddleware from './middlewares/auth'
+import hotelInfo from './data/hotelInfo.json'
+import { loginController } from './controllers/login'
 import { bookingsController } from './controllers/booking'
 import { roomsController } from './controllers/room'
-import { loginController } from './controllers/login'
-import hotelInfo from './data/hotelInfo.json'
+import { contactsController } from './controllers/contact'
+import { usersController } from './controllers/user'
 
 // middlewares & router
 export const app: Express = express()
@@ -19,6 +21,8 @@ export const app: Express = express()
 	.use(authMiddleware)
 	.use('/bookings', bookingsController)
 	.use('/rooms', roomsController)
+	.use('/contacts', contactsController)
+	.use('/users', usersController)
 	.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
 		console.error(err)
 		return res

@@ -8,10 +8,12 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
 const auth_1 = __importDefault(require("./middlewares/auth"));
+const hotelInfo_json_1 = __importDefault(require("./data/hotelInfo.json"));
+const login_1 = require("./controllers/login");
 const booking_1 = require("./controllers/booking");
 const room_1 = require("./controllers/room");
-const login_1 = require("./controllers/login");
-const hotelInfo_json_1 = __importDefault(require("./data/hotelInfo.json"));
+const contact_1 = require("./controllers/contact");
+const user_1 = require("./controllers/user");
 // middlewares & router
 exports.app = (0, express_1.default)()
     .use((0, cors_1.default)())
@@ -24,6 +26,8 @@ exports.app = (0, express_1.default)()
     .use(auth_1.default)
     .use('/bookings', booking_1.bookingsController)
     .use('/rooms', room_1.roomsController)
+    .use('/contacts', contact_1.contactsController)
+    .use('/users', user_1.usersController)
     .use((err, _req, res, _next) => {
     console.error(err);
     return res

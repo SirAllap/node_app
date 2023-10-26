@@ -45,9 +45,9 @@ function put(roomId, update) {
     return __awaiter(this, void 0, void 0, function* () {
         const id = roomId.toString();
         const currentObjectIndex = exports.rooms.findIndex((room) => room.id === id);
-        const result = (exports.rooms[currentObjectIndex] = Object.assign(Object.assign({}, exports.rooms[currentObjectIndex]), update));
         if (currentObjectIndex === -1)
             throw new Error('Booking not found');
+        const result = (exports.rooms[currentObjectIndex] = Object.assign(Object.assign({}, exports.rooms[currentObjectIndex]), update));
         return result;
     });
 }
@@ -55,9 +55,9 @@ function _delete(roomId) {
     return __awaiter(this, void 0, void 0, function* () {
         const id = roomId.toString();
         const currentObjectIndex = exports.rooms.findIndex((room) => room.id === id);
-        const result = yield exports.rooms.splice(currentObjectIndex, 1);
         if (currentObjectIndex === -1)
             throw new Error('Booking not found');
+        const result = yield exports.rooms.splice(currentObjectIndex, 1);
         return result;
     });
 }

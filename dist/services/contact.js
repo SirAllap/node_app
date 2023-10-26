@@ -12,56 +12,56 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bookingService = exports.bookings = void 0;
-const bookings_json_1 = __importDefault(require("../data/bookings.json"));
-exports.bookings = bookings_json_1.default;
+exports.contactService = exports.contacts = void 0;
+const client_review_json_1 = __importDefault(require("../data/client_review.json"));
+exports.contacts = client_review_json_1.default;
 function get() {
     return __awaiter(this, void 0, void 0, function* () {
-        const result = yield exports.bookings;
+        const result = yield exports.contacts;
         if (!result)
-            throw new Error('Error obtaining all bookings');
+            throw new Error('Error obtaining all contacts');
         return result;
     });
 }
-function getById(bookingId) {
+function getById(contactId) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = bookingId.toString();
-        const result = yield exports.bookings.filter((booking) => booking.id === id);
+        const id = contactId.toString();
+        const result = yield exports.contacts.filter((contact) => contact.id === id);
         if (result.length === 0)
             throw new Error('Bad request');
         return result;
     });
 }
-function post(booking) {
+function post(contact) {
     return __awaiter(this, void 0, void 0, function* () {
-        const currentBoookingLength = exports.bookings.length;
-        const result = yield exports.bookings.push(booking);
-        if (currentBoookingLength === exports.bookings.length)
-            throw new Error('Error posting new booking');
+        const currentContactLength = exports.contacts.length;
+        const result = yield exports.contacts.push(contact);
+        if (currentContactLength === exports.contacts.length)
+            throw new Error('Error posting new contact');
         return result;
     });
 }
-function put(bookingId, update) {
+function put(contactId, update) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = bookingId.toString();
-        const currentObjectIndex = exports.bookings.findIndex((booking) => booking.id === id);
+        const id = contactId.toString();
+        const currentObjectIndex = exports.contacts.findIndex((contact) => contact.id === id);
         if (currentObjectIndex === -1)
-            throw new Error('Booking not found');
-        const result = (exports.bookings[currentObjectIndex] = Object.assign(Object.assign({}, exports.bookings[currentObjectIndex]), update));
+            throw new Error('contact not found');
+        const result = (exports.contacts[currentObjectIndex] = Object.assign(Object.assign({}, exports.contacts[currentObjectIndex]), update));
         return result;
     });
 }
-function _delete(bookingId) {
+function _delete(contactId) {
     return __awaiter(this, void 0, void 0, function* () {
-        const id = bookingId.toString();
-        const currentObjectIndex = exports.bookings.findIndex((booking) => booking.id === id);
+        const id = contactId.toString();
+        const currentObjectIndex = exports.contacts.findIndex((contact) => contact.id === id);
         if (currentObjectIndex === -1)
-            throw new Error('Booking not found');
-        const result = yield exports.bookings.splice(currentObjectIndex, 1);
+            throw new Error('contact not found');
+        const result = yield exports.contacts.splice(currentObjectIndex, 1);
         return result;
     });
 }
-exports.bookingService = {
+exports.contactService = {
     get,
     getById,
     post,
