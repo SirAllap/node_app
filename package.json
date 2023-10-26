@@ -4,17 +4,11 @@
 	"description": "",
 	"main": "/src/app.ts",
 	"scripts": {
-		"test": "jest",
 		"build": "rimraf dist && tsc",
+		"test": "npm run build && jest --coverage --verbose",
 		"deploy": "npm run build && serverless deploy --force",
 		"start": "sls offline start",
 		"dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\""
-	},
-	"jest": {
-		"testEnvironment": "node",
-		"coveragePathIgnorePatterns": [
-			"/node_modules/"
-		]
 	},
 	"repository": {
 		"type": "git",
