@@ -2,11 +2,11 @@ import authService from '../services/login'
 import { NextFunction, Request, Response } from 'express'
 
 interface IHeaders {
-	token?: string
+	token: string
 }
 
 export default function authMiddleware(
-	req: Request & { headers: IHeaders },
+	req: Request & { headers: Partial<IHeaders> },
 	res: Response,
 	next: NextFunction
 ) {
