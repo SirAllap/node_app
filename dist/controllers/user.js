@@ -19,7 +19,7 @@ exports.usersController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0
         res.send(result);
     }
     catch (error) {
-        res.status(500).send(`${error}`);
+        res.status(500).json(`${error}`);
     }
 }));
 exports.usersController.get('/:userId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -28,16 +28,16 @@ exports.usersController.get('/:userId', (req, res) => __awaiter(void 0, void 0, 
         res.send(result);
     }
     catch (error) {
-        res.status(500).send(`${error}`);
+        res.status(500).json(`${error}`);
     }
 }));
 exports.usersController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield user_1.userService.post(req.body);
-        res.status(200).send('User successfully created');
+        res.status(200).json('User successfully created');
     }
     catch (error) {
-        res.status(500).send(`${error}`);
+        res.status(500).json(`${error}`);
     }
 }));
 exports.usersController.put('/:userId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -45,19 +45,19 @@ exports.usersController.put('/:userId', (req, res) => __awaiter(void 0, void 0, 
         const id = req.params.userId;
         const userToUpdate = req.body;
         yield user_1.userService.put(id, userToUpdate),
-            res.status(200).send('User successfully updated');
+            res.status(200).json('User successfully updated');
     }
     catch (error) {
-        res.status(500).send(`${error}`);
+        res.status(500).json(`${error}`);
     }
 }));
 exports.usersController.delete('/:userId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.userId;
         yield user_1.userService.delete(id);
-        res.status(200).send('User successfully deleted');
+        res.status(200).json('User successfully deleted');
     }
     catch (error) {
-        res.status(500).send(`${error}`);
+        res.status(500).json(`${error}`);
     }
 }));

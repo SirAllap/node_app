@@ -12,7 +12,7 @@ loginController.post(
 			const result = await authService.login(userName, password)
 			res.send(result)
 		} catch (error) {
-			res.status(400).send(`${error}`)
+			res.status(400).json(`${error}`)
 		}
 	}
 )

@@ -19,7 +19,7 @@ exports.contactsController.get('/', (_req, res) => __awaiter(void 0, void 0, voi
         res.send(result);
     }
     catch (error) {
-        res.status(500).send(`${error}`);
+        res.status(500).json(`${error}`);
     }
 }));
 exports.contactsController.get('/:contactId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -28,16 +28,16 @@ exports.contactsController.get('/:contactId', (req, res) => __awaiter(void 0, vo
         res.send(result);
     }
     catch (error) {
-        res.status(500).send(`${error}`);
+        res.status(500).json(`${error}`);
     }
 }));
 exports.contactsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield contact_1.contactService.post(req.body);
-        res.status(200).send('Contact successfully created');
+        res.status(200).json('Contact successfully created');
     }
     catch (error) {
-        res.status(500).send(`${error}`);
+        res.status(500).json(`${error}`);
     }
 }));
 exports.contactsController.put('/:contactId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -45,19 +45,19 @@ exports.contactsController.put('/:contactId', (req, res) => __awaiter(void 0, vo
         const id = req.params.contactId;
         const contactToUpdate = req.body;
         yield contact_1.contactService.put(id, contactToUpdate),
-            res.status(200).send('Contact successfully updated');
+            res.status(200).json('Contact successfully updated');
     }
     catch (error) {
-        res.status(500).send(`${error}`);
+        res.status(500).json(`${error}`);
     }
 }));
 exports.contactsController.delete('/:contactId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.contactId;
         yield contact_1.contactService.delete(id);
-        res.status(200).send('Contact successfully deleted');
+        res.status(200).json('Contact successfully deleted');
     }
     catch (error) {
-        res.status(500).send(`${error}`);
+        res.status(500).json(`${error}`);
     }
 }));

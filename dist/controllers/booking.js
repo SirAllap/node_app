@@ -19,7 +19,7 @@ exports.bookingsController.get('/', (_req, res) => __awaiter(void 0, void 0, voi
         res.send(result);
     }
     catch (error) {
-        res.status(500).send(`${error}`);
+        res.status(500).json(`${error}`);
     }
 }));
 exports.bookingsController.get('/:bookingId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -28,16 +28,16 @@ exports.bookingsController.get('/:bookingId', (req, res) => __awaiter(void 0, vo
         res.send(result);
     }
     catch (error) {
-        res.status(500).send(`${error}`);
+        res.status(500).json(`${error}`);
     }
 }));
 exports.bookingsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield booking_1.bookingService.post(req.body);
-        res.status(200).send('Booking successfully created');
+        res.status(200).json('Booking successfully created');
     }
     catch (error) {
-        res.status(500).send(`${error}`);
+        res.status(500).json(`${error}`);
     }
 }));
 exports.bookingsController.put('/:bookingId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -45,19 +45,19 @@ exports.bookingsController.put('/:bookingId', (req, res) => __awaiter(void 0, vo
         const id = req.params.bookingId;
         const bookingToUpdate = req.body;
         yield booking_1.bookingService.put(id, bookingToUpdate),
-            res.status(200).send('Booking successfully updated');
+            res.status(200).json('Booking successfully updated');
     }
     catch (error) {
-        res.status(500).send(`${error}`);
+        res.status(500).json(`${error}`);
     }
 }));
 exports.bookingsController.delete('/:bookingId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.bookingId;
         yield booking_1.bookingService.delete(id);
-        res.status(200).send('Booking successfully deleted');
+        res.status(200).json('Booking successfully deleted');
     }
     catch (error) {
-        res.status(500).send(`${error}`);
+        res.status(500).json(`${error}`);
     }
 }));

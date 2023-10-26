@@ -9,7 +9,7 @@ contactsController.get('/', async (_req: Request, res: Response) => {
 		const result = await contactService.get()
 		res.send(result)
 	} catch (error) {
-		res.status(500).send(`${error}`)
+		res.status(500).json(`${error}`)
 	}
 })
 
@@ -20,7 +20,7 @@ contactsController.get(
 			const result = await contactService.getById(req.params.contactId)
 			res.send(result)
 		} catch (error) {
-			res.status(500).send(`${error}`)
+			res.status(500).json(`${error}`)
 		}
 	}
 )
@@ -28,9 +28,9 @@ contactsController.get(
 contactsController.post('/', async (req: Request<IContact>, res: Response) => {
 	try {
 		await contactService.post(req.body)
-		res.status(200).send('Contact successfully created')
+		res.status(200).json('Contact successfully created')
 	} catch (error) {
-		res.status(500).send(`${error}`)
+		res.status(500).json(`${error}`)
 	}
 })
 
@@ -41,9 +41,9 @@ contactsController.put(
 			const id = req.params.contactId
 			const contactToUpdate = req.body
 			await contactService.put(id, contactToUpdate),
-				res.status(200).send('Contact successfully updated')
+				res.status(200).json('Contact successfully updated')
 		} catch (error) {
-			res.status(500).send(`${error}`)
+			res.status(500).json(`${error}`)
 		}
 	}
 )
@@ -54,9 +54,9 @@ contactsController.delete(
 		try {
 			const id = req.params.contactId
 			await contactService.delete(id)
-			res.status(200).send('Contact successfully deleted')
+			res.status(200).json('Contact successfully deleted')
 		} catch (error) {
-			res.status(500).send(`${error}`)
+			res.status(500).json(`${error}`)
 		}
 	}
 )

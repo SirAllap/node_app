@@ -9,7 +9,7 @@ bookingsController.get('/', async (_req: Request, res: Response) => {
 		const result = await bookingService.get()
 		res.send(result)
 	} catch (error) {
-		res.status(500).send(`${error}`)
+		res.status(500).json(`${error}`)
 	}
 })
 
@@ -20,7 +20,7 @@ bookingsController.get(
 			const result = await bookingService.getById(req.params.bookingId)
 			res.send(result)
 		} catch (error) {
-			res.status(500).send(`${error}`)
+			res.status(500).json(`${error}`)
 		}
 	}
 )
@@ -28,9 +28,9 @@ bookingsController.get(
 bookingsController.post('/', async (req: Request<IBooking>, res: Response) => {
 	try {
 		await bookingService.post(req.body)
-		res.status(200).send('Booking successfully created')
+		res.status(200).json('Booking successfully created')
 	} catch (error) {
-		res.status(500).send(`${error}`)
+		res.status(500).json(`${error}`)
 	}
 })
 
@@ -41,9 +41,9 @@ bookingsController.put(
 			const id = req.params.bookingId
 			const bookingToUpdate = req.body
 			await bookingService.put(id, bookingToUpdate),
-				res.status(200).send('Booking successfully updated')
+				res.status(200).json('Booking successfully updated')
 		} catch (error) {
-			res.status(500).send(`${error}`)
+			res.status(500).json(`${error}`)
 		}
 	}
 )
@@ -54,9 +54,9 @@ bookingsController.delete(
 		try {
 			const id = req.params.bookingId
 			await bookingService.delete(id)
-			res.status(200).send('Booking successfully deleted')
+			res.status(200).json('Booking successfully deleted')
 		} catch (error) {
-			res.status(500).send(`${error}`)
+			res.status(500).json(`${error}`)
 		}
 	}
 )
