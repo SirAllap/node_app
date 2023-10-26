@@ -27,19 +27,19 @@ async function post(room: IRoom) {
 async function put(roomId: number, update: Partial<IRoom>) {
 	const id = roomId.toString()
 	const currentObjectIndex = rooms.findIndex((room) => room.id === id)
+	if (currentObjectIndex === -1) throw new Error('Booking not found')
 	const result = (rooms[currentObjectIndex] = {
 		...rooms[currentObjectIndex],
 		...update,
 	})
-	if (currentObjectIndex === -1) throw new Error('Booking not found')
 	return result
 }
 
 async function _delete(roomId: number) {
 	const id = roomId.toString()
 	const currentObjectIndex = rooms.findIndex((room) => room.id === id)
-	const result = await rooms.splice(currentObjectIndex, 1)
 	if (currentObjectIndex === -1) throw new Error('Booking not found')
+	const result = await rooms.splice(currentObjectIndex, 1)
 	return result
 }
 

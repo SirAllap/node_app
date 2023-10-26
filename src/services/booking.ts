@@ -29,11 +29,11 @@ async function put(bookingId: number, update: Partial<IBooking>) {
 	const currentObjectIndex = bookings.findIndex(
 		(booking) => booking.id === id
 	)
+	if (currentObjectIndex === -1) throw new Error('Booking not found')
 	const result = (bookings[currentObjectIndex] = {
 		...bookings[currentObjectIndex],
 		...update,
 	})
-	if (currentObjectIndex === -1) throw new Error('Booking not found')
 	return result
 }
 
@@ -42,8 +42,8 @@ async function _delete(bookingId: number) {
 	const currentObjectIndex = bookings.findIndex(
 		(booking) => booking.id === id
 	)
-	const result = await bookings.splice(currentObjectIndex, 1)
 	if (currentObjectIndex === -1) throw new Error('Booking not found')
+	const result = await bookings.splice(currentObjectIndex, 1)
 	return result
 }
 
