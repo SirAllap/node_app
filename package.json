@@ -4,10 +4,17 @@
 	"description": "",
 	"main": "/src/app.ts",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
+		"test": "jest",
 		"build": "rimraf dist && tsc",
+		"deploy": "npm run build && serverless deploy --force",
 		"start": "sls offline start",
 		"dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\""
+	},
+	"jest": {
+		"testEnvironment": "node",
+		"coveragePathIgnorePatterns": [
+			"/node_modules/"
+		]
 	},
 	"repository": {
 		"type": "git",
