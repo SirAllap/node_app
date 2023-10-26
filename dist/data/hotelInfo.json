@@ -2,7 +2,7 @@
     "name": "Hotel Miranda",
     "endpoints": {
         "public": {
-            "/": "GET",
+            "/info-app": "GET",
             "/login": "POST"
         },
         "private": {
