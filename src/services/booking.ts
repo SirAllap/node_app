@@ -1,49 +1,36 @@
 import bookingsData from '../data/bookings.json'
 import { IBooking } from '../models/booking'
+import { bookingModel } from '../models/booking.model'
 
 export const bookings = bookingsData as IBooking[]
 
 const fetchAll = async () => {
-	const result = await bookings
-	if (!result) throw new Error('Error obtaining all bookings')
+	const result = await bookingModel.find()
+	if (result.length === 0)
+		throw new Error('There is no bookings in the database.')
 	return result
 }
 
 const fetchOne = async (bookingId: number) => {
-	const id = bookingId.toString()
-	const result = await bookings.filter((booking) => booking.id === id)
-	if (result.length === 0) throw new Error('Bad request')
+	const result = await bookingModel.findById(bookingId)
+	if (!result)
+		throw new Error('There is no booking with that ID in the database.')
 	return result
 }
 
 const createOne = async (booking: IBooking) => {
-	const currentBoookingLength = bookings.length
-	const result = await bookings.push(booking)
-	if (currentBoookingLength === bookings.length)
-		throw new Error('Error posting new booking')
+	const result = await bookingModel.create(booking)
 	return result
 }
 
 const updateOne = async (bookingId: number, update: Partial<IBooking>) => {
-	const id = bookingId.toString()
-	const currentObjectIndex = bookings.findIndex(
-		(booking) => booking.id === id
-	)
-	if (currentObjectIndex === -1) throw new Error('Booking not found')
-	const result = (bookings[currentObjectIndex] = {
-		...bookings[currentObjectIndex],
-		...update,
-	})
+	await bookingModel.findByIdAndUpdate(bookingId, update)
+	const result = await bookingModel.findById(bookingId)
 	return result
 }
 
 const destroyOne = async (bookingId: number) => {
-	const id = bookingId.toString()
-	const currentObjectIndex = bookings.findIndex(
-		(booking) => booking.id === id
-	)
-	if (currentObjectIndex === -1) throw new Error('Booking not found')
-	const result = await bookings.splice(currentObjectIndex, 1)
+	const result = await bookingModel.findByIdAndDelete(bookingId)
 	return result
 }
 

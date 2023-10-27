@@ -1,6 +1,8 @@
 import express, { Express, Request, Response, NextFunction } from 'express'
+import { connect } from 'mongoose'
 import cors from 'cors'
 import morgan from 'morgan'
+import 'dotenv/config'
 import { authMiddleware } from './middlewares/auth'
 import api_info from './data/api_info.json'
 import { authController } from './controllers/auth'
@@ -8,6 +10,20 @@ import { bookingsController } from './controllers/booking'
 import { roomsController } from './controllers/room'
 import { contactsController } from './controllers/contact'
 import { usersController } from './controllers/user'
+
+// connect to DB
+;(async () => {
+	const URI: string = process.env.MONGO_URI || ''
+	try {
+		console.log(URI)
+		await connect(URI, {
+			dbName: process.env.MONGO_DB || 'Dashboard-api',
+		})
+		console.log('Connected to MongoDB')
+	} catch (err) {
+		throw new Error(`Error connecting to MongoDB: ${err}`)
+	}
+})()
 
 // middlewares & router
 export const app: Express = express()

@@ -22,19 +22,19 @@ exports.bookingsController.get('/', (_req, res, next) => __awaiter(void 0, void 
         next(error);
     }
 }));
-exports.bookingsController.get('/:bookingId', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController.get('/:bookingId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield booking_1.bookingService.fetchOne(req.params.bookingId);
         res.json(result);
     }
     catch (error) {
-        next(error);
+        res.status(500).json(`${error}`);
     }
 }));
 exports.bookingsController.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield booking_1.bookingService.createOne(req.body);
-        res.json({ message: 'Booking successfully created' });
+        const result = yield booking_1.bookingService.createOne(req.body);
+        res.json(result);
     }
     catch (error) {
         next(error);
@@ -42,10 +42,8 @@ exports.bookingsController.post('/', (req, res, next) => __awaiter(void 0, void 
 }));
 exports.bookingsController.put('/:bookingId', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.bookingId;
-        const bookingToUpdate = req.body;
-        yield booking_1.bookingService.updateOne(id, bookingToUpdate),
-            res.json({ message: 'Booking successfully updated' });
+        const result = yield booking_1.bookingService.updateOne(req.params.bookingId, req.body);
+        res.json(result);
     }
     catch (error) {
         next(error);
@@ -53,9 +51,8 @@ exports.bookingsController.put('/:bookingId', (req, res, next) => __awaiter(void
 }));
 exports.bookingsController.delete('/:bookingId', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.bookingId;
-        yield booking_1.bookingService.destroyOne(id);
-        res.json({ message: 'Booking successfully deleted' });
+        const result = yield booking_1.bookingService.destroyOne(req.params.bookingId);
+        res.json(result);
     }
     catch (error) {
         next(error);

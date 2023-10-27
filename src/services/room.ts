@@ -1,45 +1,36 @@
 import roomsData from '../data/rooms.json'
 import { IRoom } from '../models/room'
+import { roomModel } from '../models/room.model'
 
 export const rooms = roomsData as IRoom[]
 
 const fetchAll = async () => {
-	const result = await rooms
-	if (!result) throw new Error('Error obtaining all rooms')
+	const result = await roomModel.find()
+	if (result.length === 0)
+		throw new Error('There is no rooms in the database.')
 	return result
 }
 
 const fetchOne = async (roomId: number) => {
-	const id = roomId.toString()
-	const result = await rooms.filter((room) => room.id === id)
-	if (result.length === 0) throw new Error('Bad request')
+	const result = await roomModel.findById(roomId)
+	if (!result)
+		throw new Error('There is no room with that ID in the database.')
 	return result
 }
 
 const createOne = async (room: IRoom) => {
-	const currentRoomLenght = rooms.length
-	const result = await rooms.push(room)
-	if (currentRoomLenght === rooms.length)
-		throw new Error('Error posting new room')
+	const result = await roomModel.create(room)
 	return result
 }
 
 const updateOne = async (roomId: number, update: Partial<IRoom>) => {
-	const id = roomId.toString()
-	const currentObjectIndex = rooms.findIndex((room) => room.id === id)
-	if (currentObjectIndex === -1) throw new Error('Booking not found')
-	const result = (rooms[currentObjectIndex] = {
-		...rooms[currentObjectIndex],
-		...update,
-	})
+	await roomModel.findByIdAndUpdate(roomId, update)
+	const result = await roomModel.findById(roomId)
 	return result
 }
 
 const destroyOne = async (roomId: number) => {
-	const id = roomId.toString()
-	const currentObjectIndex = rooms.findIndex((room) => room.id === id)
-	if (currentObjectIndex === -1) throw new Error('Booking not found')
-	const result = await rooms.splice(currentObjectIndex, 1)
+	const result = await roomModel.findByIdAndDelete(roomId)
 	return result
 }
 

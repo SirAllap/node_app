@@ -18,16 +18,12 @@ bookingsController.get(
 
 bookingsController.get(
 	'/:bookingId',
-	async (
-		req: Request<{ bookingId: number }>,
-		res: Response,
-		next: NextFunction
-	) => {
+	async (req: Request<{ bookingId: number }>, res: Response) => {
 		try {
 			const result = await bookingService.fetchOne(req.params.bookingId)
 			res.json(result)
 		} catch (error) {
-			next(error)
+			res.status(500).json(`${error}`)
 		}
 	}
 )
@@ -36,8 +32,8 @@ bookingsController.post(
 	'/',
 	async (req: Request<IBooking>, res: Response, next: NextFunction) => {
 		try {
-			await bookingService.createOne(req.body)
-			res.json({ message: 'Booking successfully created' })
+			const result = await bookingService.createOne(req.body)
+			res.json(result)
 		} catch (error) {
 			next(error)
 		}
@@ -52,10 +48,11 @@ bookingsController.put(
 		next: NextFunction
 	) => {
 		try {
-			const id = req.params.bookingId
-			const bookingToUpdate = req.body
-			await bookingService.updateOne(id, bookingToUpdate),
-				res.json({ message: 'Booking successfully updated' })
+			const result = await bookingService.updateOne(
+				req.params.bookingId,
+				req.body
+			)
+			res.json(result)
 		} catch (error) {
 			next(error)
 		}
@@ -70,9 +67,8 @@ bookingsController.delete(
 		next: NextFunction
 	) => {
 		try {
-			const id = req.params.bookingId
-			await bookingService.destroyOne(id)
-			res.json({ message: 'Booking successfully deleted' })
+			const result = await bookingService.destroyOne(req.params.bookingId)
+			res.json(result)
 		} catch (error) {
 			next(error)
 		}
