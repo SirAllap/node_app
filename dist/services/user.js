@@ -14,41 +14,33 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = exports.users = void 0;
 const employee_data_json_1 = __importDefault(require("../data/employee_data.json"));
+const user_model_1 = require("../models/user.model");
 exports.users = employee_data_json_1.default;
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield exports.users;
-    if (!result)
-        throw new Error('Error obtaining all users');
+    const result = yield user_model_1.userModel.find();
+    if (result.length === 0)
+        throw new Error('There is no users in the database.');
     return result;
 });
 const fetchOne = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = userId.toString();
-    const result = yield exports.users.filter((user) => user.employee_id === id);
-    if (result.length === 0)
-        throw new Error('Bad request');
+    const result = yield user_model_1.userModel.findById(userId);
+    if (!result)
+        throw new Error('There is no user with that ID in the database.');
     return result;
 });
 const createOne = (user) => __awaiter(void 0, void 0, void 0, function* () {
-    const currentUsersLength = exports.users.length;
-    const result = yield exports.users.push(user);
-    if (currentUsersLength === exports.users.length)
-        throw new Error('Error posting new user');
+    const result = yield user_model_1.userModel.create(user);
     return result;
 });
 const updateOne = (userId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = userId.toString();
-    const currentObjectIndex = exports.users.findIndex((user) => user.employee_id === id);
-    if (currentObjectIndex === -1)
-        throw new Error('User not found');
-    const result = (exports.users[currentObjectIndex] = Object.assign(Object.assign({}, exports.users[currentObjectIndex]), update));
+    yield user_model_1.userModel.findByIdAndUpdate(userId, update, {
+        new: true,
+    });
+    const result = yield user_model_1.userModel.findById(userId);
     return result;
 });
 const destroyOne = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = userId.toString();
-    const currentObjectIndex = exports.users.findIndex((user) => user.employee_id === id);
-    if (currentObjectIndex === -1)
-        throw new Error('User not found');
-    const result = yield exports.users.splice(currentObjectIndex, 1);
+    const result = yield user_model_1.userModel.findByIdAndDelete(userId);
     return result;
 });
 exports.userService = {
