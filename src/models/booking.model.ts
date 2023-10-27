@@ -14,4 +14,4 @@ const bookingSchema = new Schema<IBooking>({
 	photos: { type: [String], required: true },
 })
 
-export const bookingModel = model<IBooking>('booking', bookingSchema)
+export const bookingModel = model<IBooking>('bookings', bookingSchema)

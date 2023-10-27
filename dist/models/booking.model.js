@@ -14,4 +14,4 @@ const bookingSchema = new mongoose_1.Schema({
     status: { type: String, required: true },
     photos: { type: [String], required: true },
 });
-exports.bookingModel = (0, mongoose_1.model)('booking', bookingSchema);
+exports.bookingModel = (0, mongoose_1.model)('bookings', bookingSchema);
