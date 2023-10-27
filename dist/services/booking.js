@@ -18,6 +18,8 @@ const booking_model_1 = require("../models/booking.model");
 exports.bookings = bookings_json_1.default;
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield booking_model_1.bookingModel.find();
+    if (result.length === 0)
+        throw new Error('There is no bookings in the database.');
     return result;
 });
 const fetchOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
@@ -31,7 +33,8 @@ const createOne = (booking) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const updateOne = (bookingId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield booking_model_1.bookingModel.findByIdAndUpdate(bookingId, update);
+    yield booking_model_1.bookingModel.findByIdAndUpdate(bookingId, update);
+    const result = yield booking_model_1.bookingModel.findById(bookingId);
     return result;
 });
 const destroyOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {

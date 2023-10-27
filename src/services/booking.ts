@@ -6,6 +6,8 @@ export const bookings = bookingsData as IBooking[]
 
 const fetchAll = async () => {
 	const result = await bookingModel.find()
+	if (result.length === 0)
+		throw new Error('There is no bookings in the database.')
 	return result
 }
 
@@ -22,7 +24,8 @@ const createOne = async (booking: IBooking) => {
 }
 
 const updateOne = async (bookingId: number, update: Partial<IBooking>) => {
-	const result = await bookingModel.findByIdAndUpdate(bookingId, update)
+	await bookingModel.findByIdAndUpdate(bookingId, update)
+	const result = await bookingModel.findById(bookingId)
 	return result
 }
 
