@@ -17,22 +17,25 @@ describe('Login endpoints', () => {
 			user: 'david',
 			pass: 'pallarés',
 		})
-		expect(res.statusCode).toEqual(400)
-		expect(res.body).toEqual('Error: Credentials are wrong')
+		expect(res.statusCode).toEqual(401)
+		expect(res.body).toEqual('Error: Wrong credentials')
 	})
 })
 describe('Trying to access a route without login', () => {
 	test('should access to a unathorized route', async () => {
 		const res = await supertest(app).get('/rooms').send()
-		expect(res.statusCode).toEqual(404)
-		expect(res.body).toEqual('Error: You are not authorized')
+		expect(res.statusCode).toEqual(401)
+		expect(res.body).toEqual({
+			error: true,
+			message: 'You are not authorized',
+		})
 	})
 })
 
 describe('Testing /bookings after login', () => {
-	let bookingId = ''
-	let guestName = ''
-	let token = ''
+	let bookingId: string = ''
+	let guestName: string = ''
+	let token: string = ''
 	beforeAll(async () => {
 		const res = await supertest(app).post('/login').send({
 			user: 'admin',
@@ -40,10 +43,11 @@ describe('Testing /bookings after login', () => {
 		})
 		token = res.body.token
 	})
-	test('Should return all the bookings', async () => {
+	test('Should return an array with all bookings', async () => {
 		const res = await supertest(app).get('/bookings').set('token', token)
 		bookingId = res.body[0].id
 		guestName = res.body[0].guest
+		expect(Array.isArray(res.body)).toBeTruthy()
 		expect(res.statusCode).toEqual(200)
 	})
 	test('Should return one booking', async () => {
@@ -74,8 +78,8 @@ describe('Testing /bookings after login', () => {
 			.post('/bookings')
 			.set('token', token)
 			.send(booking)
+		expect(res.body).toEqual({ message: 'Booking successfully created' })
 		expect(res.statusCode).toEqual(200)
-		expect(res.body).toEqual('Booking successfully created')
 	})
 	test('Should modify one booking', async () => {
 		const booking = {
@@ -97,15 +101,15 @@ describe('Testing /bookings after login', () => {
 			.put(`/bookings/${bookingId}`)
 			.set('token', token)
 			.send(booking)
+		expect(res.body).toEqual({ message: 'Booking successfully updated' })
 		expect(res.statusCode).toEqual(200)
-		expect(res.body).toEqual('Booking successfully updated')
 	})
 	test('Should delete one booking', async () => {
 		const res = await supertest(app)
 			.delete(`/bookings/${bookingId}`)
 			.set('token', token)
+		expect(res.body).toEqual({ message: 'Booking successfully deleted' })
 		expect(res.statusCode).toEqual(200)
-		expect(res.body).toEqual('Booking successfully deleted')
 	})
 })
 
