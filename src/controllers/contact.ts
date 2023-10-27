@@ -36,8 +36,8 @@ contactsController.post(
 	'/',
 	async (req: Request<IContact>, res: Response, next: NextFunction) => {
 		try {
-			await contactService.createOne(req.body)
-			res.json(req.body)
+			const result = await contactService.createOne(req.body)
+			res.json(result)
 		} catch (error) {
 			next(error)
 		}
@@ -52,10 +52,11 @@ contactsController.put(
 		next: NextFunction
 	) => {
 		try {
-			const id = req.params.contactId
-			const contactToUpdate = req.body
-			await contactService.updateOne(id, contactToUpdate)
-			res.json('Contact successfully updated')
+			const result = await contactService.updateOne(
+				req.params.contactId,
+				req.body
+			)
+			res.json(result)
 		} catch (error) {
 			next(error)
 		}
@@ -70,9 +71,8 @@ contactsController.delete(
 		next: NextFunction
 	) => {
 		try {
-			const id = req.params.contactId
-			await contactService.destroyOne(id)
-			res.json('Contact successfully deleted')
+			const result = await contactService.destroyOne(req.params.contactId)
+			res.json(result)
 		} catch (error) {
 			next(error)
 		}
