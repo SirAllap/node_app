@@ -1,4 +1,4 @@
-import authService from '../services/auth'
+import { authService } from '../services/auth'
 import { Request, Response, Router } from 'express'
 
 export const authController = Router()

@@ -8,19 +8,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authController = void 0;
-const auth_1 = __importDefault(require("../services/auth"));
+const auth_1 = require("../services/auth");
 const express_1 = require("express");
 exports.authController = (0, express_1.Router)();
 exports.authController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const userName = req.body.user;
         const password = req.body.pass;
-        const result = yield auth_1.default.login(userName, password);
+        const result = yield auth_1.authService.login(userName, password);
         res.json(result);
     }
     catch (error) {
