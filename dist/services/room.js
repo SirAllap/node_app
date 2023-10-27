@@ -14,41 +14,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.roomService = exports.rooms = void 0;
 const rooms_json_1 = __importDefault(require("../data/rooms.json"));
+const room_model_1 = require("../models/room.model");
 exports.rooms = rooms_json_1.default;
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield exports.rooms;
-    if (!result)
-        throw new Error('Error obtaining all rooms');
+    const result = yield room_model_1.roomModel.find();
+    if (result.length === 0)
+        throw new Error('There is no rooms in the database.');
     return result;
 });
 const fetchOne = (roomId) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = roomId.toString();
-    const result = yield exports.rooms.filter((room) => room.id === id);
-    if (result.length === 0)
-        throw new Error('Bad request');
+    const result = yield room_model_1.roomModel.findById(roomId);
+    if (!result)
+        throw new Error('There is no room with that ID in the database.');
     return result;
 });
 const createOne = (room) => __awaiter(void 0, void 0, void 0, function* () {
-    const currentRoomLenght = exports.rooms.length;
-    const result = yield exports.rooms.push(room);
-    if (currentRoomLenght === exports.rooms.length)
-        throw new Error('Error posting new room');
+    const result = yield room_model_1.roomModel.create(room);
     return result;
 });
 const updateOne = (roomId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = roomId.toString();
-    const currentObjectIndex = exports.rooms.findIndex((room) => room.id === id);
-    if (currentObjectIndex === -1)
-        throw new Error('Booking not found');
-    const result = (exports.rooms[currentObjectIndex] = Object.assign(Object.assign({}, exports.rooms[currentObjectIndex]), update));
+    yield room_model_1.roomModel.findByIdAndUpdate(roomId, update);
+    const result = yield room_model_1.roomModel.findById(roomId);
     return result;
 });
 const destroyOne = (roomId) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = roomId.toString();
-    const currentObjectIndex = exports.rooms.findIndex((room) => room.id === id);
-    if (currentObjectIndex === -1)
-        throw new Error('Booking not found');
-    const result = yield exports.rooms.splice(currentObjectIndex, 1);
+    const result = yield room_model_1.roomModel.findByIdAndDelete(roomId);
     return result;
 });
 exports.roomService = {
