@@ -4,30 +4,23 @@ import { contactService } from '../services/contact'
 
 export const contactsController = Router()
 
-contactsController.get(
-	'/',
-	async (_req: Request, res: Response, next: NextFunction) => {
-		try {
-			const result = await contactService.fetchAll()
-			res.json(result)
-		} catch (error) {
-			next(error)
-		}
+contactsController.get('/', async (_req: Request, res: Response) => {
+	try {
+		const result = await contactService.fetchAll()
+		res.json(result)
+	} catch (error) {
+		res.status(500).json(`${error}`)
 	}
-)
+})
 
 contactsController.get(
 	'/:contactId',
-	async (
-		req: Request<{ contactId: number }>,
-		res: Response,
-		next: NextFunction
-	) => {
+	async (req: Request<{ contactId: number }>, res: Response) => {
 		try {
 			const result = await contactService.fetchOne(req.params.contactId)
 			res.json(result)
 		} catch (error) {
-			next(error)
+			res.status(500).json(`${error}`)
 		}
 	}
 )

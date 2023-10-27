@@ -14,41 +14,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.contactService = exports.contacts = void 0;
 const client_review_json_1 = __importDefault(require("../data/client_review.json"));
+const contact_model_1 = require("../models/contact.model");
 exports.contacts = client_review_json_1.default;
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield exports.contacts;
-    if (!result)
-        throw new Error('Error obtaining all contacts');
+    const result = yield contact_model_1.contactModel.find();
+    if (result.length === 0)
+        throw new Error('There is no contacts in the database.');
     return result;
 });
 const fetchOne = (contactId) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = contactId.toString();
-    const result = yield exports.contacts.filter((contact) => contact.id === id);
-    if (result.length === 0)
-        throw new Error('Bad request');
+    const result = yield contact_model_1.contactModel.findById(contactId);
+    if (!result)
+        throw new Error('There is no contact with that ID in the database.');
     return result;
 });
 const createOne = (contact) => __awaiter(void 0, void 0, void 0, function* () {
-    const currentContactLength = exports.contacts.length;
-    const result = yield exports.contacts.push(contact);
-    if (currentContactLength === exports.contacts.length)
-        throw new Error('Error posting new contact');
+    const result = yield contact_model_1.contactModel.create(contact);
     return result;
 });
 const updateOne = (contactId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = contactId.toString();
-    const currentObjectIndex = exports.contacts.findIndex((contact) => contact.id === id);
-    if (currentObjectIndex === -1)
-        throw new Error('contact not found');
-    const result = (exports.contacts[currentObjectIndex] = Object.assign(Object.assign({}, exports.contacts[currentObjectIndex]), update));
+    yield contact_model_1.contactModel.findByIdAndUpdate(contactId, update);
+    const result = yield contact_model_1.contactModel.findById(contactId);
     return result;
 });
 const destroyOne = (contactId) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = contactId.toString();
-    const currentObjectIndex = exports.contacts.findIndex((contact) => contact.id === id);
-    if (currentObjectIndex === -1)
-        throw new Error('contact not found');
-    const result = yield exports.contacts.splice(currentObjectIndex, 1);
+    const result = yield contact_model_1.contactModel.findByIdAndDelete(contactId);
     return result;
 });
 exports.contactService = {
