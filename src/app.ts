@@ -1,7 +1,7 @@
 import express, { Express, Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
-import authMiddleware from './middlewares/auth'
+import { authMiddleware } from './middlewares/auth'
 import api_info from './data/api_info.json'
 import { authController } from './controllers/auth'
 import { bookingsController } from './controllers/booking'
