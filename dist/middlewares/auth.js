@@ -1,17 +1,15 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const login_1 = __importDefault(require("../services/login"));
-function authMiddleware(req, res, next) {
+exports.authMiddleware = void 0;
+const auth_1 = require("../services/auth");
+const authMiddleware = (req, res, next) => {
     try {
         const token = req.get('token') || '';
-        login_1.default.verifyJWT(token);
+        auth_1.authService.verifyJWT(token);
         next();
     }
     catch (error) {
-        res.status(404).json(`${error}`);
+        res.status(401).json({ error: true, message: 'You are not authorized' });
     }
-}
-exports.default = authMiddleware;
+};
+exports.authMiddleware = authMiddleware;
