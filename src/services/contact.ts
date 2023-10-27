@@ -3,20 +3,20 @@ import { IContact } from '../models/contact'
 
 export const contacts = contactData as IContact[]
 
-async function get() {
+const fetchAll = async () => {
 	const result = await contacts
 	if (!result) throw new Error('Error obtaining all contacts')
 	return result
 }
 
-async function getById(contactId: number) {
+const fetchOne = async (contactId: number) => {
 	const id = contactId.toString()
 	const result = await contacts.filter((contact) => contact.id === id)
 	if (result.length === 0) throw new Error('Bad request')
 	return result
 }
 
-async function post(contact: IContact) {
+const createOne = async (contact: IContact) => {
 	const currentContactLength = contacts.length
 	const result = await contacts.push(contact)
 	if (currentContactLength === contacts.length)
@@ -24,7 +24,7 @@ async function post(contact: IContact) {
 	return result
 }
 
-async function put(contactId: number, update: Partial<IContact>) {
+const updateOne = async (contactId: number, update: Partial<IContact>) => {
 	const id = contactId.toString()
 	const currentObjectIndex = contacts.findIndex(
 		(contact) => contact.id === id
@@ -37,7 +37,7 @@ async function put(contactId: number, update: Partial<IContact>) {
 	return result
 }
 
-async function _delete(contactId: number) {
+const destroyOne = async (contactId: number) => {
 	const id = contactId.toString()
 	const currentObjectIndex = contacts.findIndex(
 		(contact) => contact.id === id
@@ -48,9 +48,9 @@ async function _delete(contactId: number) {
 }
 
 export const contactService = {
-	get,
-	getById,
-	post,
-	put,
-	delete: _delete,
+	fetchAll,
+	fetchOne,
+	createOne,
+	updateOne,
+	destroyOne,
 }

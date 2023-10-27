@@ -15,56 +15,46 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingService = exports.bookings = void 0;
 const bookings_json_1 = __importDefault(require("../data/bookings.json"));
 exports.bookings = bookings_json_1.default;
-function get() {
-    return __awaiter(this, void 0, void 0, function* () {
-        const result = yield exports.bookings;
-        if (!result)
-            throw new Error('Error obtaining all bookings');
-        return result;
-    });
-}
-function getById(bookingId) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const id = bookingId.toString();
-        const result = yield exports.bookings.filter((booking) => booking.id === id);
-        if (result.length === 0)
-            throw new Error('Bad request');
-        return result;
-    });
-}
-function post(booking) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const currentBoookingLength = exports.bookings.length;
-        const result = yield exports.bookings.push(booking);
-        if (currentBoookingLength === exports.bookings.length)
-            throw new Error('Error posting new booking');
-        return result;
-    });
-}
-function put(bookingId, update) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const id = bookingId.toString();
-        const currentObjectIndex = exports.bookings.findIndex((booking) => booking.id === id);
-        if (currentObjectIndex === -1)
-            throw new Error('Booking not found');
-        const result = (exports.bookings[currentObjectIndex] = Object.assign(Object.assign({}, exports.bookings[currentObjectIndex]), update));
-        return result;
-    });
-}
-function _delete(bookingId) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const id = bookingId.toString();
-        const currentObjectIndex = exports.bookings.findIndex((booking) => booking.id === id);
-        if (currentObjectIndex === -1)
-            throw new Error('Booking not found');
-        const result = yield exports.bookings.splice(currentObjectIndex, 1);
-        return result;
-    });
-}
+const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield exports.bookings;
+    if (!result)
+        throw new Error('Error obtaining all bookings');
+    return result;
+});
+const fetchOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = bookingId.toString();
+    const result = yield exports.bookings.filter((booking) => booking.id === id);
+    if (result.length === 0)
+        throw new Error('Bad request');
+    return result;
+});
+const createOne = (booking) => __awaiter(void 0, void 0, void 0, function* () {
+    const currentBoookingLength = exports.bookings.length;
+    const result = yield exports.bookings.push(booking);
+    if (currentBoookingLength === exports.bookings.length)
+        throw new Error('Error posting new booking');
+    return result;
+});
+const updateOne = (bookingId, update) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = bookingId.toString();
+    const currentObjectIndex = exports.bookings.findIndex((booking) => booking.id === id);
+    if (currentObjectIndex === -1)
+        throw new Error('Booking not found');
+    const result = (exports.bookings[currentObjectIndex] = Object.assign(Object.assign({}, exports.bookings[currentObjectIndex]), update));
+    return result;
+});
+const destroyOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
+    const id = bookingId.toString();
+    const currentObjectIndex = exports.bookings.findIndex((booking) => booking.id === id);
+    if (currentObjectIndex === -1)
+        throw new Error('Booking not found');
+    const result = yield exports.bookings.splice(currentObjectIndex, 1);
+    return result;
+});
 exports.bookingService = {
-    get,
-    getById,
-    post,
-    put,
-    delete: _delete,
+    fetchAll,
+    fetchOne,
+    createOne,
+    updateOne,
+    destroyOne,
 };

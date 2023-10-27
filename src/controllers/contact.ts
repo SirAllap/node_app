@@ -1,62 +1,80 @@
-import { Request, Response, Router } from 'express'
+import { NextFunction, Request, Response, Router } from 'express'
 import { IContact } from '../models/contact'
 import { contactService } from '../services/contact'
 
 export const contactsController = Router()
 
-contactsController.get('/', async (_req: Request, res: Response) => {
-	try {
-		const result = await contactService.get()
-		res.send(result)
-	} catch (error) {
-		res.status(500).json(`${error}`)
-	}
-})
-
 contactsController.get(
-	'/:contactId',
-	async (req: Request<{ contactId: number }>, res: Response) => {
+	'/',
+	async (_req: Request, res: Response, next: NextFunction) => {
 		try {
-			const result = await contactService.getById(req.params.contactId)
-			res.send(result)
+			const result = await contactService.fetchAll()
+			res.json(result)
 		} catch (error) {
-			res.status(500).json(`${error}`)
+			next(error)
 		}
 	}
 )
 
-contactsController.post('/', async (req: Request<IContact>, res: Response) => {
-	try {
-		await contactService.post(req.body)
-		res.status(200).json('Contact successfully created')
-	} catch (error) {
-		res.status(500).json(`${error}`)
+contactsController.get(
+	'/:contactId',
+	async (
+		req: Request<{ contactId: number }>,
+		res: Response,
+		next: NextFunction
+	) => {
+		try {
+			const result = await contactService.fetchOne(req.params.contactId)
+			res.json(result)
+		} catch (error) {
+			next(error)
+		}
 	}
-})
+)
+
+contactsController.post(
+	'/',
+	async (req: Request<IContact>, res: Response, next: NextFunction) => {
+		try {
+			await contactService.createOne(req.body)
+			res.json(req.body)
+		} catch (error) {
+			next(error)
+		}
+	}
+)
 
 contactsController.put(
 	'/:contactId',
-	async (req: Request<{ contactId: number }, IContact>, res: Response) => {
+	async (
+		req: Request<{ contactId: number }, IContact>,
+		res: Response,
+		next: NextFunction
+	) => {
 		try {
 			const id = req.params.contactId
 			const contactToUpdate = req.body
-			await contactService.put(id, contactToUpdate),
-				res.status(200).json('Contact successfully updated')
+			await contactService.updateOne(id, contactToUpdate)
+			res.json('Contact successfully updated')
 		} catch (error) {
-			res.status(500).json(`${error}`)
+			next(error)
 		}
 	}
 )
 
 contactsController.delete(
 	'/:contactId',
-	async (req: Request<{ contactId: number }>, res: Response) => {
+	async (
+		req: Request<{ contactId: number }>,
+		res: Response,
+		next: NextFunction
+	) => {
 		try {
 			const id = req.params.contactId
-			await contactService.delete(id)
-			res.status(200).json('Contact successfully deleted')
+			await contactService.destroyOne(id)
+			res.json('Contact successfully deleted')
 		} catch (error) {
-			res.status(500).json(`${error}`)
+			next(error)
 		}
 	}
 )

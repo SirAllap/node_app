@@ -3,20 +3,20 @@ import { IUser } from '../models/user'
 
 export const users = usersData as IUser[]
 
-async function get() {
+const fetchAll = async () => {
 	const result = await users
 	if (!result) throw new Error('Error obtaining all users')
 	return result
 }
 
-async function getById(userId: number) {
+const fetchOne = async (userId: number) => {
 	const id = userId.toString()
 	const result = await users.filter((user) => user.employee_id === id)
 	if (result.length === 0) throw new Error('Bad request')
 	return result
 }
 
-async function post(user: IUser) {
+const createOne = async (user: IUser) => {
 	const currentUsersLength = users.length
 	const result = await users.push(user)
 	if (currentUsersLength === users.length)
@@ -24,7 +24,7 @@ async function post(user: IUser) {
 	return result
 }
 
-async function put(userId: number, update: Partial<IUser>) {
+const updateOne = async (userId: number, update: Partial<IUser>) => {
 	const id = userId.toString()
 	const currentObjectIndex = users.findIndex(
 		(user) => user.employee_id === id
@@ -37,7 +37,7 @@ async function put(userId: number, update: Partial<IUser>) {
 	return result
 }
 
-async function _delete(userId: number) {
+const destroyOne = async (userId: number) => {
 	const id = userId.toString()
 	const currentObjectIndex = users.findIndex(
 		(user) => user.employee_id === id
@@ -48,9 +48,9 @@ async function _delete(userId: number) {
 }
 
 export const userService = {
-	get,
-	getById,
-	post,
-	put,
-	delete: _delete,
+	fetchAll,
+	fetchOne,
+	createOne,
+	updateOne,
+	destroyOne,
 }

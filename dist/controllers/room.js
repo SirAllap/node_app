@@ -15,8 +15,8 @@ const room_1 = require("../services/room");
 exports.roomsController = (0, express_1.Router)();
 exports.roomsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield room_1.roomService.get();
-        res.send(result);
+        const result = yield room_1.roomService.fetchAll();
+        res.json(result);
     }
     catch (error) {
         res.status(500).json(`${error}`);
@@ -24,8 +24,8 @@ exports.roomsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0
 }));
 exports.roomsController.get('/:roomId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield room_1.roomService.getById(req.params.roomId);
-        res.send(result);
+        const result = yield room_1.roomService.fetchOne(req.params.roomId);
+        res.json(result);
     }
     catch (error) {
         res.status(500).json(`${error}`);
@@ -33,8 +33,8 @@ exports.roomsController.get('/:roomId', (req, res) => __awaiter(void 0, void 0, 
 }));
 exports.roomsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield room_1.roomService.post(req.body);
-        res.status(200).json('Room successfully created');
+        yield room_1.roomService.createOne(req.body);
+        res.json('Room successfully created');
     }
     catch (error) {
         res.status(500).json(`${error}`);
@@ -44,8 +44,8 @@ exports.roomsController.put('/:roomId', (req, res) => __awaiter(void 0, void 0, 
     try {
         const id = req.params.roomId;
         const roomToUpdate = req.body;
-        yield room_1.roomService.put(id, roomToUpdate),
-            res.status(200).json('Room successfully updated');
+        yield room_1.roomService.updateOne(id, roomToUpdate),
+            res.json('Room successfully updated');
     }
     catch (error) {
         res.status(500).json(`${error}`);
@@ -54,8 +54,8 @@ exports.roomsController.put('/:roomId', (req, res) => __awaiter(void 0, void 0, 
 exports.roomsController.delete('/:roomId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.roomId;
-        yield room_1.roomService.delete(id);
-        res.status(200).json('Room successfully deleted');
+        yield room_1.roomService.destroyOne(id);
+        res.json('Room successfully deleted');
     }
     catch (error) {
         res.status(500).json(`${error}`);

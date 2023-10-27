@@ -6,8 +6,8 @@ export const usersController = Router()
 
 usersController.get('/', async (_req: Request, res: Response) => {
 	try {
-		const result = await userService.get()
-		res.send(result)
+		const result = await userService.fetchAll()
+		res.json(result)
 	} catch (error) {
 		res.status(500).json(`${error}`)
 	}
@@ -17,8 +17,8 @@ usersController.get(
 	'/:userId',
 	async (req: Request<{ userId: number }>, res: Response) => {
 		try {
-			const result = await userService.getById(req.params.userId)
-			res.send(result)
+			const result = await userService.fetchOne(req.params.userId)
+			res.json(result)
 		} catch (error) {
 			res.status(500).json(`${error}`)
 		}
@@ -27,8 +27,8 @@ usersController.get(
 
 usersController.post('/', async (req: Request<IUser>, res: Response) => {
 	try {
-		await userService.post(req.body)
-		res.status(200).json('User successfully created')
+		await userService.createOne(req.body)
+		res.json('User successfully created')
 	} catch (error) {
 		res.status(500).json(`${error}`)
 	}
@@ -40,8 +40,8 @@ usersController.put(
 		try {
 			const id = req.params.userId
 			const userToUpdate = req.body
-			await userService.put(id, userToUpdate),
-				res.status(200).json('User successfully updated')
+			await userService.updateOne(id, userToUpdate),
+				res.json('User successfully updated')
 		} catch (error) {
 			res.status(500).json(`${error}`)
 		}
@@ -53,8 +53,8 @@ usersController.delete(
 	async (req: Request<{ userId: number }>, res: Response) => {
 		try {
 			const id = req.params.userId
-			await userService.delete(id)
-			res.status(200).json('User successfully deleted')
+			await userService.destroyOne(id)
+			res.json('User successfully deleted')
 		} catch (error) {
 			res.status(500).json(`${error}`)
 		}

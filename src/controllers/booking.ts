@@ -1,62 +1,80 @@
-import { Request, Response, Router } from 'express'
+import { NextFunction, Request, Response, Router } from 'express'
 import { IBooking } from '../models/booking'
 import { bookingService } from '../services/booking'
 
 export const bookingsController = Router()
 
-bookingsController.get('/', async (_req: Request, res: Response) => {
-	try {
-		const result = await bookingService.get()
-		res.send(result)
-	} catch (error) {
-		res.status(500).json(`${error}`)
-	}
-})
-
 bookingsController.get(
-	'/:bookingId',
-	async (req: Request<{ bookingId: number }>, res: Response) => {
+	'/',
+	async (_req: Request, res: Response, next: NextFunction) => {
 		try {
-			const result = await bookingService.getById(req.params.bookingId)
-			res.send(result)
+			const result = await bookingService.fetchAll()
+			res.json(result)
 		} catch (error) {
-			res.status(500).json(`${error}`)
+			next(error)
 		}
 	}
 )
 
-bookingsController.post('/', async (req: Request<IBooking>, res: Response) => {
-	try {
-		await bookingService.post(req.body)
-		res.status(200).json('Booking successfully created')
-	} catch (error) {
-		res.status(500).json(`${error}`)
+bookingsController.get(
+	'/:bookingId',
+	async (
+		req: Request<{ bookingId: number }>,
+		res: Response,
+		next: NextFunction
+	) => {
+		try {
+			const result = await bookingService.fetchOne(req.params.bookingId)
+			res.json(result)
+		} catch (error) {
+			next(error)
+		}
 	}
-})
+)
+
+bookingsController.post(
+	'/',
+	async (req: Request<IBooking>, res: Response, next: NextFunction) => {
+		try {
+			await bookingService.createOne(req.body)
+			res.json({ message: 'Booking successfully created' })
+		} catch (error) {
+			next(error)
+		}
+	}
+)
 
 bookingsController.put(
 	'/:bookingId',
-	async (req: Request<{ bookingId: number }, IBooking>, res: Response) => {
+	async (
+		req: Request<{ bookingId: number }, IBooking>,
+		res: Response,
+		next: NextFunction
+	) => {
 		try {
 			const id = req.params.bookingId
 			const bookingToUpdate = req.body
-			await bookingService.put(id, bookingToUpdate),
-				res.status(200).json('Booking successfully updated')
+			await bookingService.updateOne(id, bookingToUpdate),
+				res.json({ message: 'Booking successfully updated' })
 		} catch (error) {
-			res.status(500).json(`${error}`)
+			next(error)
 		}
 	}
 )
 
 bookingsController.delete(
 	'/:bookingId',
-	async (req: Request<{ bookingId: number }>, res: Response) => {
+	async (
+		req: Request<{ bookingId: number }>,
+		res: Response,
+		next: NextFunction
+	) => {
 		try {
 			const id = req.params.bookingId
-			await bookingService.delete(id)
-			res.status(200).json('Booking successfully deleted')
+			await bookingService.destroyOne(id)
+			res.json({ message: 'Booking successfully deleted' })
 		} catch (error) {
-			res.status(500).json(`${error}`)
+			next(error)
 		}
 	}
 )

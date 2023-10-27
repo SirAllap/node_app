@@ -3,20 +3,20 @@ import { IBooking } from '../models/booking'
 
 export const bookings = bookingsData as IBooking[]
 
-async function get() {
+const fetchAll = async () => {
 	const result = await bookings
 	if (!result) throw new Error('Error obtaining all bookings')
 	return result
 }
 
-async function getById(bookingId: number) {
+const fetchOne = async (bookingId: number) => {
 	const id = bookingId.toString()
 	const result = await bookings.filter((booking) => booking.id === id)
 	if (result.length === 0) throw new Error('Bad request')
 	return result
 }
 
-async function post(booking: IBooking) {
+const createOne = async (booking: IBooking) => {
 	const currentBoookingLength = bookings.length
 	const result = await bookings.push(booking)
 	if (currentBoookingLength === bookings.length)
@@ -24,7 +24,7 @@ async function post(booking: IBooking) {
 	return result
 }
 
-async function put(bookingId: number, update: Partial<IBooking>) {
+const updateOne = async (bookingId: number, update: Partial<IBooking>) => {
 	const id = bookingId.toString()
 	const currentObjectIndex = bookings.findIndex(
 		(booking) => booking.id === id
@@ -37,7 +37,7 @@ async function put(bookingId: number, update: Partial<IBooking>) {
 	return result
 }
 
-async function _delete(bookingId: number) {
+const destroyOne = async (bookingId: number) => {
 	const id = bookingId.toString()
 	const currentObjectIndex = bookings.findIndex(
 		(booking) => booking.id === id
@@ -48,9 +48,9 @@ async function _delete(bookingId: number) {
 }
 
 export const bookingService = {
-	get,
-	getById,
-	post,
-	put,
-	delete: _delete,
+	fetchAll,
+	fetchOne,
+	createOne,
+	updateOne,
+	destroyOne,
 }

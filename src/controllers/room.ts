@@ -6,8 +6,8 @@ export const roomsController = Router()
 
 roomsController.get('/', async (_req: Request, res: Response) => {
 	try {
-		const result = await roomService.get()
-		res.send(result)
+		const result = await roomService.fetchAll()
+		res.json(result)
 	} catch (error) {
 		res.status(500).json(`${error}`)
 	}
@@ -17,8 +17,8 @@ roomsController.get(
 	'/:roomId',
 	async (req: Request<{ roomId: number }>, res: Response) => {
 		try {
-			const result = await roomService.getById(req.params.roomId)
-			res.send(result)
+			const result = await roomService.fetchOne(req.params.roomId)
+			res.json(result)
 		} catch (error) {
 			res.status(500).json(`${error}`)
 		}
@@ -27,8 +27,8 @@ roomsController.get(
 
 roomsController.post('/', async (req: Request<IRoom>, res: Response) => {
 	try {
-		await roomService.post(req.body)
-		res.status(200).json('Room successfully created')
+		await roomService.createOne(req.body)
+		res.json('Room successfully created')
 	} catch (error) {
 		res.status(500).json(`${error}`)
 	}
@@ -40,8 +40,8 @@ roomsController.put(
 		try {
 			const id = req.params.roomId
 			const roomToUpdate = req.body
-			await roomService.put(id, roomToUpdate),
-				res.status(200).json('Room successfully updated')
+			await roomService.updateOne(id, roomToUpdate),
+				res.json('Room successfully updated')
 		} catch (error) {
 			res.status(500).json(`${error}`)
 		}
@@ -53,8 +53,8 @@ roomsController.delete(
 	async (req: Request<{ roomId: number }>, res: Response) => {
 		try {
 			const id = req.params.roomId
-			await roomService.delete(id)
-			res.status(200).json('Room successfully deleted')
+			await roomService.destroyOne(id)
+			res.json('Room successfully deleted')
 		} catch (error) {
 			res.status(500).json(`${error}`)
 		}
