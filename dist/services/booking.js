@@ -14,41 +14,28 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingService = exports.bookings = void 0;
 const bookings_json_1 = __importDefault(require("../data/bookings.json"));
+const booking_model_1 = require("../models/booking.model");
 exports.bookings = bookings_json_1.default;
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield exports.bookings;
-    if (!result)
-        throw new Error('Error obtaining all bookings');
+    const result = yield booking_model_1.bookingModel.find();
     return result;
 });
 const fetchOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = bookingId.toString();
-    const result = yield exports.bookings.filter((booking) => booking.id === id);
-    if (result.length === 0)
-        throw new Error('Bad request');
+    const result = yield booking_model_1.bookingModel.findById(bookingId);
+    if (!result)
+        throw new Error('There is no booking with that ID in the database.');
     return result;
 });
 const createOne = (booking) => __awaiter(void 0, void 0, void 0, function* () {
-    const currentBoookingLength = exports.bookings.length;
-    const result = yield exports.bookings.push(booking);
-    if (currentBoookingLength === exports.bookings.length)
-        throw new Error('Error posting new booking');
+    const result = yield booking_model_1.bookingModel.create(booking);
     return result;
 });
 const updateOne = (bookingId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = bookingId.toString();
-    const currentObjectIndex = exports.bookings.findIndex((booking) => booking.id === id);
-    if (currentObjectIndex === -1)
-        throw new Error('Booking not found');
-    const result = (exports.bookings[currentObjectIndex] = Object.assign(Object.assign({}, exports.bookings[currentObjectIndex]), update));
+    const result = yield booking_model_1.bookingModel.findByIdAndUpdate(bookingId, update);
     return result;
 });
 const destroyOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = bookingId.toString();
-    const currentObjectIndex = exports.bookings.findIndex((booking) => booking.id === id);
-    if (currentObjectIndex === -1)
-        throw new Error('Booking not found');
-    const result = yield exports.bookings.splice(currentObjectIndex, 1);
+    const result = yield booking_model_1.bookingModel.findByIdAndDelete(bookingId);
     return result;
 });
 exports.bookingService = {
