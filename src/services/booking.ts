@@ -1,8 +1,5 @@
-import bookingsData from '../data/bookings.json'
 import { IBooking } from '../models/booking'
 import { bookingModel } from '../models/booking.model'
-
-export const bookings = bookingsData as IBooking[]
 
 const fetchAll = async () => {
 	const result = await bookingModel.find()

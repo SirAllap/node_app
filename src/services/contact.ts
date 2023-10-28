@@ -1,8 +1,5 @@
-import contactData from '../data/client_review.json'
 import { IContact } from '../models/contact'
 import { contactModel } from '../models/contact.model'
-
-export const contacts = contactData as IContact[]
 
 const fetchAll = async () => {
 	const result = await contactModel.find()

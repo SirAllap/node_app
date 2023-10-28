@@ -1,24 +1,23 @@
-import usersData from '../data/employee_data.json'
+import bcrypt from 'bcrypt'
 import { IUser } from '../models/user'
 import { userModel } from '../models/user.model'
 
-export const users = usersData as IUser[]
-
 const fetchAll = async () => {
-	const result = await userModel.find()
+	const result = await userModel.find({}, { password: 0 })
 	if (result.length === 0)
 		throw new Error('There is no users in the database.')
 	return result
 }
 
 const fetchOne = async (userId: number) => {
-	const result = await userModel.findById(userId)
+	const result = await userModel.findById(userId, { password: 0 })
 	if (!result)
 		throw new Error('There is no user with that ID in the database.')
 	return result
 }
 
 const createOne = async (user: IUser) => {
+	user.password = bcrypt.hashSync(user.password || '', 10)
 	const result = await userModel.create(user)
 	return result
 }
@@ -27,12 +26,12 @@ const updateOne = async (userId: number, update: Partial<IUser>) => {
 	await userModel.findByIdAndUpdate(userId, update, {
 		new: true,
 	})
-	const result = await userModel.findById(userId)
+	const result = await userModel.findById(userId, { password: 0 })
 	return result
 }
 
 const destroyOne = async (userId: number) => {
-	const result = await userModel.findByIdAndDelete(userId)
+	const result = await userModel.findByIdAndDelete(userId, { password: 0 })
 	return result
 }
 
