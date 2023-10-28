@@ -8,14 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bookingService = exports.bookings = void 0;
-const bookings_json_1 = __importDefault(require("../data/bookings.json"));
+exports.bookingService = void 0;
 const booking_model_1 = require("../models/booking.model");
-exports.bookings = bookings_json_1.default;
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield booking_model_1.bookingModel.find();
     if (result.length === 0)

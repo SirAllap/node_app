@@ -12,23 +12,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userService = exports.users = void 0;
-const employee_data_json_1 = __importDefault(require("../data/employee_data.json"));
+exports.userService = void 0;
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const user_model_1 = require("../models/user.model");
-exports.users = employee_data_json_1.default;
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.userModel.find();
+    const result = yield user_model_1.userModel.find({}, { password: 0 });
     if (result.length === 0)
         throw new Error('There is no users in the database.');
     return result;
 });
 const fetchOne = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.userModel.findById(userId);
+    const result = yield user_model_1.userModel.findById(userId, { password: 0 });
     if (!result)
         throw new Error('There is no user with that ID in the database.');
     return result;
 });
 const createOne = (user) => __awaiter(void 0, void 0, void 0, function* () {
+    user.password = bcrypt_1.default.hashSync(user.password || '', 10);
     const result = yield user_model_1.userModel.create(user);
     return result;
 });
@@ -36,11 +36,11 @@ const updateOne = (userId, update) => __awaiter(void 0, void 0, void 0, function
     yield user_model_1.userModel.findByIdAndUpdate(userId, update, {
         new: true,
     });
-    const result = yield user_model_1.userModel.findById(userId);
+    const result = yield user_model_1.userModel.findById(userId, { password: 0 });
     return result;
 });
 const destroyOne = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.userModel.findByIdAndDelete(userId);
+    const result = yield user_model_1.userModel.findByIdAndDelete(userId, { password: 0 });
     return result;
 });
 exports.userService = {
