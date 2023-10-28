@@ -3,6 +3,7 @@ import { IUser } from './user'
 
 const userSchema = new Schema<IUser>({
 	full_name: { type: String, required: true },
+	password: { type: String, required: true },
 	email: { type: String, required: true },
 	photo: { type: String, required: true },
 	start_date: { type: String, required: true },
