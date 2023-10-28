@@ -1,6 +1,6 @@
 export interface IRoom {
+	id?: number
 	room_number: string
-	id: string
 	room_photo: string[]
 	room_type: string
 	description: string

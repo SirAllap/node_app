@@ -1,6 +1,7 @@
 export interface IUser {
-	employee_id: string
+	id?: number
 	full_name: string
+	password?: string
 	email: string
 	photo: string
 	start_date: string
