@@ -15,9 +15,7 @@ const express_1 = require("express");
 exports.authController = (0, express_1.Router)();
 exports.authController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const userName = req.body.user;
-        const password = req.body.pass;
-        const result = yield auth_1.authService.login(userName, password);
+        const result = yield auth_1.authService.login(req.body.email, req.body.password);
         res.json(result);
     }
     catch (error) {

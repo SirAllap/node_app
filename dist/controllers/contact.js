@@ -13,28 +13,28 @@ exports.contactsController = void 0;
 const express_1 = require("express");
 const contact_1 = require("../services/contact");
 exports.contactsController = (0, express_1.Router)();
-exports.contactsController.get('/', (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.contactsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield contact_1.contactService.fetchAll();
         res.json(result);
     }
     catch (error) {
-        next(error);
+        res.status(500).json(`${error}`);
     }
 }));
-exports.contactsController.get('/:contactId', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.contactsController.get('/:contactId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield contact_1.contactService.fetchOne(req.params.contactId);
         res.json(result);
     }
     catch (error) {
-        next(error);
+        res.status(500).json(`${error}`);
     }
 }));
 exports.contactsController.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield contact_1.contactService.createOne(req.body);
-        res.json(req.body);
+        const result = yield contact_1.contactService.createOne(req.body);
+        res.json(result);
     }
     catch (error) {
         next(error);
@@ -42,10 +42,8 @@ exports.contactsController.post('/', (req, res, next) => __awaiter(void 0, void 
 }));
 exports.contactsController.put('/:contactId', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.contactId;
-        const contactToUpdate = req.body;
-        yield contact_1.contactService.updateOne(id, contactToUpdate);
-        res.json('Contact successfully updated');
+        const result = yield contact_1.contactService.updateOne(req.params.contactId, req.body);
+        res.json(result);
     }
     catch (error) {
         next(error);
@@ -53,9 +51,8 @@ exports.contactsController.put('/:contactId', (req, res, next) => __awaiter(void
 }));
 exports.contactsController.delete('/:contactId', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.contactId;
-        yield contact_1.contactService.destroyOne(id);
-        res.json('Contact successfully deleted');
+        const result = yield contact_1.contactService.destroyOne(req.params.contactId);
+        res.json(result);
     }
     catch (error) {
         next(error);

@@ -31,33 +31,30 @@ exports.usersController.get('/:userId', (req, res) => __awaiter(void 0, void 0, 
         res.status(500).json(`${error}`);
     }
 }));
-exports.usersController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.usersController.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield user_1.userService.createOne(req.body);
-        res.json('User successfully created');
+        const result = yield user_1.userService.createOne(req.body);
+        res.json(result);
     }
     catch (error) {
-        res.status(500).json(`${error}`);
+        next(error);
     }
 }));
-exports.usersController.put('/:userId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.usersController.put('/:userId', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.userId;
-        const userToUpdate = req.body;
-        yield user_1.userService.updateOne(id, userToUpdate),
-            res.json('User successfully updated');
+        const result = yield user_1.userService.updateOne(req.params.userId, req.body);
+        res.json(result);
     }
     catch (error) {
-        res.status(500).json(`${error}`);
+        next(error);
     }
 }));
-exports.usersController.delete('/:userId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.usersController.delete('/:userId', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.userId;
-        yield user_1.userService.destroyOne(id);
-        res.json('User successfully deleted');
+        const result = yield user_1.userService.destroyOne(req.params.userId);
+        res.json(result);
     }
     catch (error) {
-        res.status(500).json(`${error}`);
+        next(error);
     }
 }));

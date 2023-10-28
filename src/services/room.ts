@@ -1,8 +1,5 @@
-import roomsData from '../data/rooms.json'
 import { IRoom } from '../models/room'
 import { roomModel } from '../models/room.model'
-
-export const rooms = roomsData as IRoom[]
 
 const fetchAll = async () => {
 	const result = await roomModel.find()
