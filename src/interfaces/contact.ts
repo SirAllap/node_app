@@ -1,5 +1,5 @@
 export interface IContact {
-	id?: number
+	contact_id?: number | string
 	full_name: string
 	email: string
 	phone_number: string
