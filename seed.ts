@@ -16,11 +16,6 @@ import { IRoom } from './src/interfaces/room'
 		})
 		console.log('Connected to MongoDB')
 
-		const newId = () => {
-			const id = new ObjectId()
-			return id.toString()
-		}
-
 		bookingModel.collection.drop()
 		roomModel.collection.drop()
 		contactModel.collection.drop()
@@ -31,7 +26,7 @@ import { IRoom } from './src/interfaces/room'
 
 		for (let index = 0; index < numOfData; index++) {
 			const roomInput = {
-				room_id: newId,
+				room_id: new ObjectId(),
 				room_number: faker.helpers.rangeToNumber({
 					min: 100,
 					max: 900,
@@ -89,7 +84,7 @@ import { IRoom } from './src/interfaces/room'
 
 		for (let index = 0; index < numOfData; index++) {
 			const bookingInput = {
-				booking_id: faker.string.uuid(),
+				booking_id: new ObjectId(),
 				guest: faker.person.fullName(),
 				phone_number: faker.phone.number(),
 				order_date: faker.date.recent(),
@@ -111,7 +106,7 @@ import { IRoom } from './src/interfaces/room'
 
 		for (let index = 0; index < numOfData; index++) {
 			const contactInput = {
-				contact_id: faker.string.uuid(),
+				contact_id: new ObjectId(),
 				full_name: faker.person.fullName(),
 				email: faker.internet.email(),
 				phone_number: faker.phone.number(),
@@ -124,9 +119,21 @@ import { IRoom } from './src/interfaces/room'
 			await contactModel.create(contactInput)
 		}
 
+		await userModel.create({
+			user_id: new ObjectId(),
+			full_name: 'David Pallarés Robaina',
+			password:
+				'$2a$10$vBaQo2hqdDGMwimjbE7YaeyD1ABwFy8sPbogp.uSxUZjhF7JD1IFy',
+			email: 'dpr@gmail.com',
+			photo: 'https://robohash.org/JohnDoe.png?set=any',
+			start_date: '2020-05-15',
+			description: 'Front Desk',
+			phone_number: '+1 (123) 456-7890',
+			status: 'active',
+		})
 		for (let index = 0; index < numOfData; index++) {
 			const userInput = {
-				user_id: faker.string.uuid(),
+				user_id: new ObjectId(),
 				full_name: faker.person.fullName(),
 				password: faker.internet.password(),
 				email: faker.internet.email(),
