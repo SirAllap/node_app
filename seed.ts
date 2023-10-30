@@ -8,10 +8,10 @@ import { contactModel } from './src/models/contact.model'
 import { userModel } from './src/models/user.model'
 import { IRoom } from './src/interfaces/room'
 ;(async () => {
-	const URI: string = process.env.MONGO_URI || ''
+	// const URI: string = process.env.MONGO_URI || ''
+	const URI_ATLAS: string = process.env.MONGO_ATLAS_URI || ''
 	try {
-		console.log(URI)
-		await connect(URI, {
+		await connect(URI_ATLAS, {
 			dbName: process.env.MONGO_DB || 'Dashboard-api',
 		})
 		console.log('Connected to MongoDB')
