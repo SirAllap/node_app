@@ -1,4 +1,4 @@
-service: contact-serverless-api
+service: travl-miranda-backend
 frameworkVersion: "3"
 
 provider:
@@ -7,7 +7,7 @@ provider:
   region: eu-west-1
   environment:
     SECRET: ${file(.env.json):SECRET}
-    MONGO_URI: ${file(.env.json):MONGO_URI}
+    MONGO_ATLAS_URI: ${file(.env.json):MONGO_ATLAS_URI}
 
 functions:
   api:

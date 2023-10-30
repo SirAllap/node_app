@@ -13,10 +13,10 @@ import { usersController } from './controllers/user'
 
 // connect to DB
 ;(async () => {
-	const URI: string = process.env.MONGO_URI || ''
+	// const URI: string = process.env.MONGO_URI || ''
+	const URI_ATLAS: string = process.env.MONGO_ATLAS_URI || ''
 	try {
-		console.log(URI)
-		await connect(URI, {
+		await connect(URI_ATLAS, {
 			dbName: process.env.MONGO_DB || 'Dashboard-api',
 		})
 		console.log('Connected to MongoDB')
