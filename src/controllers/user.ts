@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express'
-import { IUser } from '../models/user'
+import { IUser } from '../interfaces/user'
 import { userService } from '../services/user'
 
 export const usersController = Router()

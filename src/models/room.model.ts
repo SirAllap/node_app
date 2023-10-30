@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose'
-import { IRoom } from './room'
+import { IRoom } from '../interfaces/room'
 
 const roomSchema = new Schema<IRoom>({
 	room_number: { type: String, required: true },

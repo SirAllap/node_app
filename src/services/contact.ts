@@ -1,4 +1,4 @@
-import { IContact } from '../models/contact'
+import { IContact } from '../interfaces/contact'
 import { contactModel } from '../models/contact.model'
 
 const fetchAll = async () => {

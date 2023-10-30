@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose'
-import { IContact } from './contact'
+import { IContact } from '../interfaces/contact'
 
 const contacSchema = new Schema<IContact>({
 	full_name: { type: String, required: true },

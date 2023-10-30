@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose'
-import { IBooking } from './booking'
+import { IBooking } from '../interfaces/booking'
 
 const bookingSchema = new Schema<IBooking>({
 	guest: { type: String, required: true },

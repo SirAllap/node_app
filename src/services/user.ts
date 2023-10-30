@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import { IUser } from '../models/user'
+import { IUser } from '../interfaces/user'
 import { userModel } from '../models/user.model'
 
 const fetchAll = async () => {
