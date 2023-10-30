@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcryptjs'
 import { IUser } from '../interfaces/user'
 import { userModel } from '../models/user.model'
 
