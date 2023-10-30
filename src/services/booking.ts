@@ -1,4 +1,4 @@
-import { IBooking } from '../models/booking'
+import { IBooking } from '../interfaces/booking'
 import { bookingModel } from '../models/booking.model'
 
 const fetchAll = async () => {

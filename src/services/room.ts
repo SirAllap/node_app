@@ -1,4 +1,4 @@
-import { IRoom } from '../models/room'
+import { IRoom } from '../interfaces/room'
 import { roomModel } from '../models/room.model'
 
 const fetchAll = async () => {

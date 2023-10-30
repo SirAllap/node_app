@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = void 0;
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_model_1 = require("../models/user.model");
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.userModel.find({}, { password: 0 });
@@ -28,7 +28,7 @@ const fetchOne = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const createOne = (user) => __awaiter(void 0, void 0, void 0, function* () {
-    user.password = bcrypt_1.default.hashSync(user.password || '', 10);
+    user.password = bcryptjs_1.default.hashSync(user.password || '', 10);
     const result = yield user_model_1.userModel.create(user);
     return result;
 });

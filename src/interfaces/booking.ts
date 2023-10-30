@@ -1,5 +1,5 @@
 export interface IBooking {
-	id?: number
+	booking_id?: number | string
 	guest: string
 	phone_number: string
 	order_date: string
@@ -10,4 +10,5 @@ export interface IBooking {
 	room_number: string
 	status: string
 	photos: string[]
+	roomId: string | number
 }

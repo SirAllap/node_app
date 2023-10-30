@@ -15,14 +15,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.authService = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 require("dotenv/config");
-const bcrypt_1 = __importDefault(require("bcrypt"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_model_1 = require("../models/user.model");
 const secret = process.env.SECRET || '';
 const login = (email, password) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.userModel.findOne({ email: email });
     if (!result)
         throw new Error('User not found');
-    bcrypt_1.default.compare(password, result.password || '', (err, res) => {
+    bcryptjs_1.default.compare(password, result.password || '', (err, res) => {
         if (err)
             throw new Error('Something went wrong');
         if (!res)

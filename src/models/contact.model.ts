@@ -1,7 +1,8 @@
 import { Schema, model } from 'mongoose'
-import { IContact } from './contact'
+import { IContact } from '../interfaces/contact'
 
 const contacSchema = new Schema<IContact>({
+	contact_id: { type: String, required: true },
 	full_name: { type: String, required: true },
 	email: { type: String, required: true },
 	phone_number: { type: String, required: true },
