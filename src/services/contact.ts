@@ -21,13 +21,20 @@ const createOne = async (contact: IContact) => {
 }
 
 const updateOne = async (contactId: number, update: Partial<IContact>) => {
-	await contactModel.findByIdAndUpdate(contactId, update)
-	const result = await contactModel.findById(contactId)
+	const result = await contactModel.findByIdAndUpdate(contactId, update, {
+		new: true,
+	})
+	if (!result) {
+		throw new Error()
+	}
 	return result
 }
 
 const destroyOne = async (contactId: number) => {
 	const result = await contactModel.findByIdAndDelete(contactId)
+	if (!result) {
+		throw new Error()
+	}
 	return result
 }
 

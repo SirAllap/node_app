@@ -28,12 +28,19 @@ const createOne = (contact) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const updateOne = (contactId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    yield contact_model_1.contactModel.findByIdAndUpdate(contactId, update);
-    const result = yield contact_model_1.contactModel.findById(contactId);
+    const result = yield contact_model_1.contactModel.findByIdAndUpdate(contactId, update, {
+        new: true,
+    });
+    if (!result) {
+        throw new Error();
+    }
     return result;
 });
 const destroyOne = (contactId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield contact_model_1.contactModel.findByIdAndDelete(contactId);
+    if (!result) {
+        throw new Error();
+    }
     return result;
 });
 exports.contactService = {
