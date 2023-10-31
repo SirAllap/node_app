@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingModel = void 0;
 const mongoose_1 = require("mongoose");
 const bookingSchema = new mongoose_1.Schema({
+    booking_id: { type: String, required: true },
     guest: { type: String, required: true },
     phone_number: { type: String, required: true },
     order_date: { type: String, required: true },
@@ -13,5 +14,6 @@ const bookingSchema = new mongoose_1.Schema({
     room_number: { type: String, required: true },
     status: { type: String, required: true },
     photos: { type: [String], required: true },
+    roomId: { type: String },
 });
 exports.bookingModel = (0, mongoose_1.model)('bookings', bookingSchema);

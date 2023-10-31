@@ -21,13 +21,20 @@ const createOne = async (booking: IBooking) => {
 }
 
 const updateOne = async (bookingId: number, update: Partial<IBooking>) => {
-	await bookingModel.findByIdAndUpdate(bookingId, update)
-	const result = await bookingModel.findById(bookingId)
+	const result = await bookingModel.findByIdAndUpdate(bookingId, update, {
+		new: true,
+	})
+	if (!result) {
+		throw new Error()
+	}
 	return result
 }
 
 const destroyOne = async (bookingId: number) => {
 	const result = await bookingModel.findByIdAndDelete(bookingId)
+	if (!result) {
+		throw new Error()
+	}
 	return result
 }
 
