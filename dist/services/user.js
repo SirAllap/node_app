@@ -33,14 +33,19 @@ const createOne = (user) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const updateOne = (userId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    yield user_model_1.userModel.findByIdAndUpdate(userId, update, {
+    const result = yield user_model_1.userModel.findByIdAndUpdate(userId, update, {
         new: true,
     });
-    const result = yield user_model_1.userModel.findById(userId, { password: 0 });
+    if (!result) {
+        throw new Error();
+    }
     return result;
 });
 const destroyOne = (userId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.userModel.findByIdAndDelete(userId, { password: 0 });
+    if (!result) {
+        throw new Error();
+    }
     return result;
 });
 exports.userService = {
