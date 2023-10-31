@@ -23,15 +23,20 @@ const createOne = async (user: IUser) => {
 }
 
 const updateOne = async (userId: number, update: Partial<IUser>) => {
-	await userModel.findByIdAndUpdate(userId, update, {
+	const result = await userModel.findByIdAndUpdate(userId, update, {
 		new: true,
 	})
-	const result = await userModel.findById(userId, { password: 0 })
+	if (!result) {
+		throw new Error()
+	}
 	return result
 }
 
 const destroyOne = async (userId: number) => {
 	const result = await userModel.findByIdAndDelete(userId, { password: 0 })
+	if (!result) {
+		throw new Error()
+	}
 	return result
 }
 

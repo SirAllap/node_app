@@ -28,12 +28,19 @@ const createOne = (booking) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const updateOne = (bookingId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    yield booking_model_1.bookingModel.findByIdAndUpdate(bookingId, update);
-    const result = yield booking_model_1.bookingModel.findById(bookingId);
+    const result = yield booking_model_1.bookingModel.findByIdAndUpdate(bookingId, update, {
+        new: true,
+    });
+    if (!result) {
+        throw new Error();
+    }
     return result;
 });
 const destroyOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield booking_model_1.bookingModel.findByIdAndDelete(bookingId);
+    if (!result) {
+        throw new Error();
+    }
     return result;
 });
 exports.bookingService = {

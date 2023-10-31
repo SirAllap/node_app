@@ -21,13 +21,20 @@ const createOne = async (room: IRoom) => {
 }
 
 const updateOne = async (roomId: number, update: Partial<IRoom>) => {
-	await roomModel.findByIdAndUpdate(roomId, update)
-	const result = await roomModel.findById(roomId)
+	const result = await roomModel.findByIdAndUpdate(roomId, update, {
+		new: true,
+	})
+	if (!result) {
+		throw new Error()
+	}
 	return result
 }
 
 const destroyOne = async (roomId: number) => {
 	const result = await roomModel.findByIdAndDelete(roomId)
+	if (!result) {
+		throw new Error()
+	}
 	return result
 }
 
