@@ -28,12 +28,19 @@ const createOne = (room) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const updateOne = (roomId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    yield room_model_1.roomModel.findByIdAndUpdate(roomId, update);
-    const result = yield room_model_1.roomModel.findById(roomId);
+    const result = yield room_model_1.roomModel.findByIdAndUpdate(roomId, update, {
+        new: true,
+    });
+    if (!result) {
+        throw new Error();
+    }
     return result;
 });
 const destroyOne = (roomId) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield room_model_1.roomModel.findByIdAndDelete(roomId);
+    if (!result) {
+        throw new Error();
+    }
     return result;
 });
 exports.roomService = {
