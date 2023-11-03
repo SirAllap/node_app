@@ -1,11 +1,10 @@
-import { ObjectId } from 'mongodb'
 import { connect } from 'mongoose'
 import 'dotenv/config'
 import { faker } from '@faker-js/faker'
-import { bookingModel } from './src/models/booking.model'
-import { roomModel } from './src/models/room.model'
-import { contactModel } from './src/models/contact.model'
-import { userModel } from './src/models/user.model'
+import { BookingModel } from './src/models/booking.model'
+import { RoomModel } from './src/models/room.model'
+import { ContactModel } from './src/models/contact.model'
+import { UserModel } from './src/models/user.model'
 import { IRoom } from './src/interfaces/room'
 ;(async () => {
 	// const URI: string = process.env.MONGO_URI || ''
@@ -16,17 +15,16 @@ import { IRoom } from './src/interfaces/room'
 		})
 		console.log('Connected to MongoDB')
 
-		bookingModel.collection.drop()
-		roomModel.collection.drop()
-		contactModel.collection.drop()
-		userModel.collection.drop()
+		BookingModel.collection.drop()
+		RoomModel.collection.drop()
+		ContactModel.collection.drop()
+		UserModel.collection.drop()
 
 		const numOfData: number = 10
 		const createdRooms: IRoom[] = []
 
 		for (let index = 0; index < numOfData; index++) {
 			const roomInput = {
-				room_id: new ObjectId(),
 				room_number: faker.helpers.rangeToNumber({
 					min: 100,
 					max: 900,
@@ -78,13 +76,12 @@ import { IRoom } from './src/interfaces/room'
 				discount: faker.helpers.arrayElement([0, 5, 10, 20]),
 				status: faker.helpers.arrayElement(['Available', 'Booked']),
 			}
-			const room = await roomModel.create(roomInput)
+			const room = await RoomModel.create(roomInput)
 			createdRooms.push(room)
 		}
 
-		for (let index = 0; index < numOfData; index++) {
+		for (let index = 0; index < numOfData + 20; index++) {
 			const bookingInput = {
-				booking_id: new ObjectId(),
 				guest: faker.person.fullName(),
 				phone_number: faker.phone.number(),
 				order_date: faker.date.recent(),
@@ -99,14 +96,13 @@ import { IRoom } from './src/interfaces/room'
 					'In Progress',
 				]),
 				photos: [faker.image.urlPicsumPhotos()],
-				roomId: createdRooms[index].room_id,
+				roomId: createdRooms[index]._id,
 			}
-			await bookingModel.create(bookingInput)
+			await BookingModel.create(bookingInput)
 		}
 
 		for (let index = 0; index < numOfData; index++) {
 			const contactInput = {
-				contact_id: new ObjectId(),
 				full_name: faker.person.fullName(),
 				email: faker.internet.email(),
 				phone_number: faker.phone.number(),
@@ -116,16 +112,15 @@ import { IRoom } from './src/interfaces/room'
 				dateTime: faker.date.recent(),
 				isArchived: faker.helpers.arrayElement(['true', 'false']),
 			}
-			await contactModel.create(contactInput)
+			await ContactModel.create(contactInput)
 		}
 
-		await userModel.create({
-			user_id: new ObjectId(),
+		await UserModel.create({
 			full_name: 'David Pallarés Robaina',
 			password:
 				'$2a$10$vBaQo2hqdDGMwimjbE7YaeyD1ABwFy8sPbogp.uSxUZjhF7JD1IFy',
 			email: 'dpr@gmail.com',
-			photo: 'https://robohash.org/JohnDoe.png?set=any',
+			photo: 'https://robohash.org/DavidPR.png?set=any',
 			start_date: '2020-05-15',
 			description: 'Front Desk',
 			phone_number: '+1 (123) 456-7890',
@@ -133,7 +128,6 @@ import { IRoom } from './src/interfaces/room'
 		})
 		for (let index = 0; index < numOfData; index++) {
 			const userInput = {
-				user_id: new ObjectId(),
 				full_name: faker.person.fullName(),
 				password: faker.internet.password(),
 				email: faker.internet.email(),
@@ -143,7 +137,7 @@ import { IRoom } from './src/interfaces/room'
 				phone_number: faker.phone.number(),
 				status: faker.helpers.arrayElement(['active', 'inactive']),
 			}
-			await userModel.create(userInput)
+			await UserModel.create(userInput)
 		}
 		process.exit()
 	} catch (err) {
