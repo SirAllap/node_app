@@ -1,27 +1,27 @@
 import { IContact } from '../interfaces/contact'
-import { contactModel } from '../models/contact.model'
+import { ContactModel } from '../models/contact.model'
 
 const fetchAll = async () => {
-	const result = await contactModel.find()
+	const result = await ContactModel.find()
 	if (result.length === 0)
 		throw new Error('There is no contacts in the database.')
 	return result
 }
 
 const fetchOne = async (contactId: number) => {
-	const result = await contactModel.findById(contactId)
+	const result = await ContactModel.findById(contactId)
 	if (!result)
 		throw new Error('There is no contact with that ID in the database.')
 	return result
 }
 
 const createOne = async (contact: IContact) => {
-	const result = await contactModel.create(contact)
+	const result = await ContactModel.create(contact)
 	return result
 }
 
 const updateOne = async (contactId: number, update: Partial<IContact>) => {
-	const result = await contactModel.findByIdAndUpdate(contactId, update, {
+	const result = await ContactModel.findByIdAndUpdate(contactId, update, {
 		new: true,
 	})
 	if (!result) {
@@ -31,7 +31,7 @@ const updateOne = async (contactId: number, update: Partial<IContact>) => {
 }
 
 const destroyOne = async (contactId: number) => {
-	const result = await contactModel.findByIdAndDelete(contactId)
+	const result = await ContactModel.findByIdAndDelete(contactId)
 	if (!result) {
 		throw new Error()
 	}

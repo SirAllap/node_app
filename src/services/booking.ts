@@ -1,27 +1,27 @@
 import { IBooking } from '../interfaces/booking'
-import { bookingModel } from '../models/booking.model'
+import { BookingModel } from '../models/booking.model'
 
 const fetchAll = async () => {
-	const result = await bookingModel.find()
+	const result = await BookingModel.find()
 	if (result.length === 0)
 		throw new Error('There is no bookings in the database.')
 	return result
 }
 
 const fetchOne = async (bookingId: number) => {
-	const result = await bookingModel.findById(bookingId)
+	const result = await BookingModel.findById(bookingId)
 	if (!result)
 		throw new Error('There is no booking with that ID in the database.')
 	return result
 }
 
 const createOne = async (booking: IBooking) => {
-	const result = await bookingModel.create(booking)
+	const result = await BookingModel.create(booking)
 	return result
 }
 
 const updateOne = async (bookingId: number, update: Partial<IBooking>) => {
-	const result = await bookingModel.findByIdAndUpdate(bookingId, update, {
+	const result = await BookingModel.findByIdAndUpdate(bookingId, update, {
 		new: true,
 	})
 	if (!result) {
@@ -31,7 +31,7 @@ const updateOne = async (bookingId: number, update: Partial<IBooking>) => {
 }
 
 const destroyOne = async (bookingId: number) => {
-	const result = await bookingModel.findByIdAndDelete(bookingId)
+	const result = await BookingModel.findByIdAndDelete(bookingId)
 	if (!result) {
 		throw new Error()
 	}

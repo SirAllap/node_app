@@ -1,27 +1,27 @@
 import { IRoom } from '../interfaces/room'
-import { roomModel } from '../models/room.model'
+import { RoomModel } from '../models/room.model'
 
 const fetchAll = async () => {
-	const result = await roomModel.find()
+	const result = await RoomModel.find()
 	if (result.length === 0)
 		throw new Error('There is no rooms in the database.')
 	return result
 }
 
 const fetchOne = async (roomId: number) => {
-	const result = await roomModel.findById(roomId)
+	const result = await RoomModel.findById(roomId)
 	if (!result)
 		throw new Error('There is no room with that ID in the database.')
 	return result
 }
 
 const createOne = async (room: IRoom) => {
-	const result = await roomModel.create(room)
+	const result = await RoomModel.create(room)
 	return result
 }
 
 const updateOne = async (roomId: number, update: Partial<IRoom>) => {
-	const result = await roomModel.findByIdAndUpdate(roomId, update, {
+	const result = await RoomModel.findByIdAndUpdate(roomId, update, {
 		new: true,
 	})
 	if (!result) {
@@ -31,7 +31,7 @@ const updateOne = async (roomId: number, update: Partial<IRoom>) => {
 }
 
 const destroyOne = async (roomId: number) => {
-	const result = await roomModel.findByIdAndDelete(roomId)
+	const result = await RoomModel.findByIdAndDelete(roomId)
 	if (!result) {
 		throw new Error()
 	}
