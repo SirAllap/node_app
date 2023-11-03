@@ -2,7 +2,6 @@ import { Schema, model } from 'mongoose'
 import { IContact } from '../interfaces/contact'
 
 const contacSchema = new Schema<IContact>({
-	contact_id: { type: String, required: true },
 	full_name: { type: String, required: true },
 	email: { type: String, required: true },
 	phone_number: { type: String, required: true },
@@ -13,4 +12,4 @@ const contacSchema = new Schema<IContact>({
 	isArchived: { type: String, required: true },
 })
 
-export const contactModel = model<IContact>('contacts', contacSchema)
+export const ContactModel = model<IContact>('contacts', contacSchema)
