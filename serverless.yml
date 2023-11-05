@@ -1,4 +1,4 @@
-service: contact-serverless-api
+service: contact-serverless-api-sql
 frameworkVersion: "3"
 
 provider:
