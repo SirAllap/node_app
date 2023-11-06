@@ -9,7 +9,7 @@ bookingsController.get(
 	async (_req: Request, res: Response, next: NextFunction) => {
 		try {
 			const result = await bookingService.fetchAll()
-			res.json(result)
+			res.json({ result })
 		} catch (error) {
 			next(error)
 		}
