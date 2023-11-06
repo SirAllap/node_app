@@ -1,18 +1,16 @@
 import usersData from '../data/employee_data.json'
 import { IUser } from '../models/user'
+import { SelectQuery } from '../util/util'
 
 export const users = usersData as IUser[]
 
 const fetchAll = async () => {
-	const result = await users
-	if (!result) throw new Error('Error obtaining all users')
+	const result = await SelectQuery('SELECT * FROM user;')
 	return result
 }
 
 const fetchOne = async (userId: number) => {
-	const id = userId.toString()
-	const result = await users.filter((user) => user.employee_id === id)
-	if (result.length === 0) throw new Error('Bad request')
+	const result = await SelectQuery(`SELECT * FROM user WHERE id = ${userId};`)
 	return result
 }
 
@@ -38,12 +36,7 @@ const updateOne = async (userId: number, update: Partial<IUser>) => {
 }
 
 const destroyOne = async (userId: number) => {
-	const id = userId.toString()
-	const currentObjectIndex = users.findIndex(
-		(user) => user.employee_id === id
-	)
-	if (currentObjectIndex === -1) throw new Error('User not found')
-	const result = await users.splice(currentObjectIndex, 1)
+	const result = await SelectQuery(`DELETE FROM user WHERE id = ${userId};`)
 	return result
 }
 
