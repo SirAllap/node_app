@@ -16,7 +16,7 @@ exports.bookingsController = (0, express_1.Router)();
 exports.bookingsController.get('/', (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield booking_1.bookingService.fetchAll();
-        res.json(result);
+        res.json({ result });
     }
     catch (error) {
         next(error);

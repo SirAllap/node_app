@@ -14,18 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingService = exports.bookings = void 0;
 const bookings_json_1 = __importDefault(require("../data/bookings.json"));
+const util_1 = require("../util/util");
 exports.bookings = bookings_json_1.default;
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield exports.bookings;
-    if (!result)
-        throw new Error('Error obtaining all bookings');
+    const result = yield (0, util_1.SelectQuery)('SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures FROM booking b LEFT JOIN room r ON b.room_id = r.id LEFT JOIN photo p ON r.id = p.room_id GROUP BY b.id, r.room_number, r.room_type;');
     return result;
 });
 const fetchOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = bookingId.toString();
-    const result = yield exports.bookings.filter((booking) => booking.id === id);
-    if (result.length === 0)
-        throw new Error('Bad request');
+    const result = yield (0, util_1.SelectQuery)(`SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures FROM booking b LEFT JOIN room r ON b.room_id = r.id LEFT JOIN photo p ON r.id = p.room_id WHERE b.id = ${bookingId} GROUP BY b.id, r.room_number, r.room_type;`);
     return result;
 });
 const createOne = (booking) => __awaiter(void 0, void 0, void 0, function* () {
@@ -44,11 +40,7 @@ const updateOne = (bookingId, update) => __awaiter(void 0, void 0, void 0, funct
     return result;
 });
 const destroyOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = bookingId.toString();
-    const currentObjectIndex = exports.bookings.findIndex((booking) => booking.id === id);
-    if (currentObjectIndex === -1)
-        throw new Error('Booking not found');
-    const result = yield exports.bookings.splice(currentObjectIndex, 1);
+    const result = yield (0, util_1.SelectQuery)(`DELETE FROM booking WHERE id = ${bookingId};`);
     return result;
 });
 exports.bookingService = {

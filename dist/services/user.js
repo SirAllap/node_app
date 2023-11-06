@@ -14,18 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = exports.users = void 0;
 const employee_data_json_1 = __importDefault(require("../data/employee_data.json"));
+const util_1 = require("../util/util");
 exports.users = employee_data_json_1.default;
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield exports.users;
-    if (!result)
-        throw new Error('Error obtaining all users');
+    const result = yield (0, util_1.SelectQuery)('SELECT * FROM user;');
     return result;
 });
 const fetchOne = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = userId.toString();
-    const result = yield exports.users.filter((user) => user.employee_id === id);
-    if (result.length === 0)
-        throw new Error('Bad request');
+    const result = yield (0, util_1.SelectQuery)(`SELECT * FROM user WHERE id = ${userId};`);
     return result;
 });
 const createOne = (user) => __awaiter(void 0, void 0, void 0, function* () {
@@ -44,11 +40,7 @@ const updateOne = (userId, update) => __awaiter(void 0, void 0, void 0, function
     return result;
 });
 const destroyOne = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = userId.toString();
-    const currentObjectIndex = exports.users.findIndex((user) => user.employee_id === id);
-    if (currentObjectIndex === -1)
-        throw new Error('User not found');
-    const result = yield exports.users.splice(currentObjectIndex, 1);
+    const result = yield (0, util_1.SelectQuery)(`DELETE FROM user WHERE id = ${userId};`);
     return result;
 });
 exports.userService = {

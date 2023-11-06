@@ -14,18 +14,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.contactService = exports.contacts = void 0;
 const client_review_json_1 = __importDefault(require("../data/client_review.json"));
+const util_1 = require("../util/util");
 exports.contacts = client_review_json_1.default;
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield exports.contacts;
-    if (!result)
-        throw new Error('Error obtaining all contacts');
+    const result = yield (0, util_1.SelectQuery)('SELECT * FROM contact;');
     return result;
 });
 const fetchOne = (contactId) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = contactId.toString();
-    const result = yield exports.contacts.filter((contact) => contact.id === id);
-    if (result.length === 0)
-        throw new Error('Bad request');
+    const result = yield (0, util_1.SelectQuery)(`SELECT * FROM contact WHERE id = ${contactId};`);
     return result;
 });
 const createOne = (contact) => __awaiter(void 0, void 0, void 0, function* () {
@@ -44,11 +40,7 @@ const updateOne = (contactId, update) => __awaiter(void 0, void 0, void 0, funct
     return result;
 });
 const destroyOne = (contactId) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = contactId.toString();
-    const currentObjectIndex = exports.contacts.findIndex((contact) => contact.id === id);
-    if (currentObjectIndex === -1)
-        throw new Error('contact not found');
-    const result = yield exports.contacts.splice(currentObjectIndex, 1);
+    const result = yield (0, util_1.SelectQuery)(`DELETE FROM contact WHERE id = ${contactId};`);
     return result;
 });
 exports.contactService = {
