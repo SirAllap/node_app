@@ -1,18 +1,18 @@
 import contactData from '../data/client_review.json'
 import { IContact } from '../models/contact'
+import { SelectQuery } from '../util/util'
 
 export const contacts = contactData as IContact[]
 
 const fetchAll = async () => {
-	const result = await contacts
-	if (!result) throw new Error('Error obtaining all contacts')
+	const result = await SelectQuery('SELECT * FROM contact;')
 	return result
 }
 
 const fetchOne = async (contactId: number) => {
-	const id = contactId.toString()
-	const result = await contacts.filter((contact) => contact.id === id)
-	if (result.length === 0) throw new Error('Bad request')
+	const result = await SelectQuery(
+		`SELECT * FROM contact WHERE id = ${contactId};`
+	)
 	return result
 }
 
@@ -38,12 +38,9 @@ const updateOne = async (contactId: number, update: Partial<IContact>) => {
 }
 
 const destroyOne = async (contactId: number) => {
-	const id = contactId.toString()
-	const currentObjectIndex = contacts.findIndex(
-		(contact) => contact.id === id
+	const result = await SelectQuery(
+		`DELETE FROM contact WHERE id = ${contactId};`
 	)
-	if (currentObjectIndex === -1) throw new Error('contact not found')
-	const result = await contacts.splice(currentObjectIndex, 1)
 	return result
 }
 
