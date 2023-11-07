@@ -36,7 +36,8 @@ contactsController.post(
 	'/',
 	async (req: Request<IContact>, res: Response, next: NextFunction) => {
 		try {
-			await contactService.createOne(req.body)
+			const newContact = { ...req.body }
+			await contactService.createOne(newContact)
 			res.json(req.body)
 		} catch (error) {
 			next(error)
@@ -53,7 +54,7 @@ contactsController.put(
 	) => {
 		try {
 			const id = req.params.contactId
-			const contactToUpdate = req.body
+			const contactToUpdate = { ...req.body }
 			await contactService.updateOne(id, contactToUpdate)
 			res.json('Contact successfully updated')
 		} catch (error) {

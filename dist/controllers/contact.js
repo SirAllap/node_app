@@ -33,7 +33,8 @@ exports.contactsController.get('/:contactId', (req, res, next) => __awaiter(void
 }));
 exports.contactsController.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield contact_1.contactService.createOne(req.body);
+        const newContact = Object.assign({}, req.body);
+        yield contact_1.contactService.createOne(newContact);
         res.json(req.body);
     }
     catch (error) {
@@ -43,7 +44,7 @@ exports.contactsController.post('/', (req, res, next) => __awaiter(void 0, void 
 exports.contactsController.put('/:contactId', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.contactId;
-        const contactToUpdate = req.body;
+        const contactToUpdate = Object.assign({}, req.body);
         yield contact_1.contactService.updateOne(id, contactToUpdate);
         res.json('Contact successfully updated');
     }
