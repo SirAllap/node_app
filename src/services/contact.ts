@@ -13,7 +13,9 @@ const fetchAll = async () => {
 const fetchOne = async (contactId: number) => {
 	const query = `
 	SELECT * 
-	FROM contact;
+	FROM contact
+	WHERE id=?
+	;
 	`
 	const params = [contactId]
 	const result = await SelectQuery(query, params)
@@ -23,7 +25,7 @@ const fetchOne = async (contactId: number) => {
 const createOne = async (contact: IContact) => {
 	const query = `
 	INSERT INTO contact (full_name, email, phone_number, subject_of_review, review_body, date, status)
-	VALUES (?, ?, ?, ?, ?, ?);
+	VALUES (?, ?, ?, ?, ?, ?, ?);
 	`
 	const params = [
 		contact.full_name,
@@ -34,7 +36,7 @@ const createOne = async (contact: IContact) => {
 		contact.date,
 		contact.status,
 	]
-	const result = ModifyQuery(query, params)
+	const result = await ModifyQuery(query, params)
 	return result
 }
 
@@ -54,7 +56,7 @@ const updateOne = async (contactId: number, update: Partial<IContact>) => {
 		update.status,
 		contactId,
 	]
-	const result = ModifyQuery(query, params)
+	const result = await ModifyQuery(query, params)
 	return result
 }
 

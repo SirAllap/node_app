@@ -22,7 +22,9 @@ const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
 const fetchOne = (contactId) => __awaiter(void 0, void 0, void 0, function* () {
     const query = `
 	SELECT * 
-	FROM contact;
+	FROM contact
+	WHERE id=?
+	;
 	`;
     const params = [contactId];
     const result = yield (0, util_1.SelectQuery)(query, params);
@@ -31,7 +33,7 @@ const fetchOne = (contactId) => __awaiter(void 0, void 0, void 0, function* () {
 const createOne = (contact) => __awaiter(void 0, void 0, void 0, function* () {
     const query = `
 	INSERT INTO contact (full_name, email, phone_number, subject_of_review, review_body, date, status)
-	VALUES (?, ?, ?, ?, ?, ?);
+	VALUES (?, ?, ?, ?, ?, ?, ?);
 	`;
     const params = [
         contact.full_name,
@@ -42,7 +44,7 @@ const createOne = (contact) => __awaiter(void 0, void 0, void 0, function* () {
         contact.date,
         contact.status,
     ];
-    const result = (0, util_1.ModifyQuery)(query, params);
+    const result = yield (0, util_1.ModifyQuery)(query, params);
     return result;
 });
 const updateOne = (contactId, update) => __awaiter(void 0, void 0, void 0, function* () {
@@ -61,7 +63,7 @@ const updateOne = (contactId, update) => __awaiter(void 0, void 0, void 0, funct
         update.status,
         contactId,
     ];
-    const result = (0, util_1.ModifyQuery)(query, params);
+    const result = yield (0, util_1.ModifyQuery)(query, params);
     return result;
 });
 const destroyOne = (contactId) => __awaiter(void 0, void 0, void 0, function* () {
