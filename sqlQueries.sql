@@ -26,13 +26,10 @@ CREATE TABLE IF NOT EXISTS `booking` (
 `check_in` DATE NOT NULL,
 `check_out` DATE NOT NULL,
 `special_request` VARCHAR(255) NOT NULL,
-`room_type` VARCHAR(45) NOT NULL,
-`room_number` INT NOT NULL,
 `status` VARCHAR(45) NOT NULL,
-`photos` VARCHAR(255) NOT NULL,
 `room_id` INT NOT NULL,
 PRIMARY KEY(`id`),
-FOREIGN KEY (`room_id`) REFERENCES `room` (`id`));
+FOREIGN KEY (`room_id`) REFERENCES `room` (`id`) ON DELETE CASCADE ON UPDATE CASCADE);
 
 -- -----------------------------------------------------
 -- Table `user`
@@ -121,9 +118,12 @@ SELECT * FROM contact;
 -- ---------
 -- Create contact
 -- ---------
-INSERT INTO contact (full_name, email, phone_number, subject_of_review, review_body, date, status) 
-VALUES ('David Pallarés Robaina', 'sirallap@gmail.com', '+34638492817', 'Great Service', 'The hotel has the best towels I`ve ever touched', '2023-12-30', 'Active');
-
+INSERT INTO contact (full_name, email, phone_number, subject_of_review, review_body, date, status) VALUES ('David Pallarés Robaina', 'sirallap@gmail.com', '+34638492817', 'Great Service', 'The hotel has the best towels I`ve ever touched', '2023-12-30', 'Active');
+INSERT INTO contact (full_name, email, phone_number, subject_of_review, review_body, date, status) VALUES ('Sarah Johnson', 'sarah.johnson@email.com', '+1234567890', 'Excellent Food', 'I had an amazing dining experience at the restaurant. The food was outstanding!', '2023-11-15', 'Active');
+INSERT INTO contact (full_name, email, phone_number, subject_of_review, review_body, date, status) VALUES ('Michael Smith', 'michael.smith@email.com', '+9876543210', 'Friendly Staff', 'The staff at the hotel were incredibly friendly and helpful. I felt welcomed from the moment I arrived.', '2023-11-20', 'Active');
+INSERT INTO contact (full_name, email, phone_number, subject_of_review, review_body, date, status) VALUES ('Linda Martinez', 'linda.martinez@email.com', '+5551234567', 'Clean Rooms', 'The rooms were spotlessly clean, and I appreciated the attention to detail in maintaining cleanliness.', '2023-11-25', 'Active');
+INSERT INTO contact (full_name, email, phone_number, subject_of_review, review_body, date, status) VALUES ('John Anderson', 'john.anderson@email.com', '+7890123456', 'Beautiful Location', 'The hotel is situated in a beautiful location with breathtaking views. It made my stay truly memorable.', '2023-12-02', 'Active');
+INSERT INTO contact (full_name, email, phone_number, subject_of_review, review_body, date, status) VALUES ('Mary Brown', 'mary.brown@email.com', '+1237894560', 'Efficient Service', 'The hotels service was efficient, and I was impressed with how smoothly everything ran during my stay.', '2023-12-10', 'Active');
 -- ---------
 -- Fetch all user
 -- ---------
@@ -228,6 +228,7 @@ FROM room r
 LEFT JOIN photo p ON r.id = p.room_id
 LEFT JOIN amenities_has_room ahr ON r.id = ahr.room_id
 LEFT JOIN amenity a ON ahr.amenity_id = a.id
+WHERE r.id = 1
 GROUP BY r.id;
 
 -- ---------
@@ -241,8 +242,7 @@ DELETE FROM booking WHERE id = 6;
 -- ---------
 -- Create booking
 -- ---------
-INSERT INTO booking (guest, phone_number, order_date, check_in, check_out, special_request, status, room_id) 
-VALUES ('Perico El Flaco', '+34777888777', '2023-05-25', '2023-10-05', '2023-10-15', 'I would like to have XXL towels', 'In Progress', 1);
+INSERT INTO booking (guest, phone_number, order_date, check_in, check_out, special_request, status, room_id) VALUES ('Perico El Flaco', '+34777888777', '2023-05-25', '2023-10-05', '2023-10-15', 'I would like to have XXL towels', 'In Progress', 1);
 
 INSERT INTO booking (guest, phone_number, order_date, check_in, check_out, special_request, status, room_id) 
 VALUES ('Luna The Doggy', '+34333222444', '2023-06-10', '2023-09-20', '2023-09-30', 'Extra doggy food', 'In Progress', 3);
@@ -264,3 +264,5 @@ FROM booking b
 LEFT JOIN room r ON b.room_id = r.id
 LEFT JOIN photo p ON r.id = p.room_id
 GROUP BY b.id, r.room_number, r.room_type;
+
+
