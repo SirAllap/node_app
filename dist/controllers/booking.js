@@ -33,7 +33,8 @@ exports.bookingsController.get('/:bookingId', (req, res, next) => __awaiter(void
 }));
 exports.bookingsController.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield booking_1.bookingService.createOne(req.body);
+        const newBooking = Object.assign({}, req.body);
+        yield booking_1.bookingService.createOne(newBooking);
         res.json({ message: 'Booking successfully created' });
     }
     catch (error) {
@@ -43,7 +44,7 @@ exports.bookingsController.post('/', (req, res, next) => __awaiter(void 0, void 
 exports.bookingsController.put('/:bookingId', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.bookingId;
-        const bookingToUpdate = req.body;
+        const bookingToUpdate = Object.assign({}, req.body);
         yield booking_1.bookingService.updateOne(id, bookingToUpdate),
             res.json({ message: 'Booking successfully updated' });
     }

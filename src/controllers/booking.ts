@@ -36,7 +36,8 @@ bookingsController.post(
 	'/',
 	async (req: Request<IBooking>, res: Response, next: NextFunction) => {
 		try {
-			await bookingService.createOne(req.body)
+			const newBooking = { ...req.body }
+			await bookingService.createOne(newBooking)
 			res.json({ message: 'Booking successfully created' })
 		} catch (error) {
 			next(error)
@@ -53,7 +54,7 @@ bookingsController.put(
 	) => {
 		try {
 			const id = req.params.bookingId
-			const bookingToUpdate = req.body
+			const bookingToUpdate = { ...req.body }
 			await bookingService.updateOne(id, bookingToUpdate),
 				res.json({ message: 'Booking successfully updated' })
 		} catch (error) {
