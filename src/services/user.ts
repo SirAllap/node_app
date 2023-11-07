@@ -1,8 +1,5 @@
-import usersData from '../data/employee_data.json'
 import { IUser } from '../models/user'
 import { ModifyQuery, SelectQuery } from '../util/util'
-
-export const users = usersData as IUser[]
 
 const fetchAll = async () => {
 	const query = `

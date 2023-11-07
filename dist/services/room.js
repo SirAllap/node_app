@@ -8,14 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.roomService = exports.rooms = void 0;
-const rooms_json_1 = __importDefault(require("../data/rooms.json"));
+exports.roomService = void 0;
 const util_1 = require("../util/util");
-exports.rooms = rooms_json_1.default;
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
     const query = `
 	SELECT r.*, GROUP_CONCAT(DISTINCT p.photos) AS all_photos, GROUP_CONCAT(a.amenities) AS all_amenities

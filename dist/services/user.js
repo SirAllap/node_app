@@ -8,14 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userService = exports.users = void 0;
-const employee_data_json_1 = __importDefault(require("../data/employee_data.json"));
+exports.userService = void 0;
 const util_1 = require("../util/util");
-exports.users = employee_data_json_1.default;
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
     const query = `
 	SELECT * 

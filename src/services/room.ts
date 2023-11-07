@@ -1,8 +1,5 @@
-import roomsData from '../data/rooms.json'
 import { IRoom } from '../models/room'
 import { ModifyQuery, SelectQuery } from '../util/util'
-
-export const rooms = roomsData as IRoom[]
 
 const fetchAll = async () => {
 	const query = `
