@@ -1,4 +1,4 @@
-import mysql, { PoolOptions } from 'mysql2/promise'
+import mysql, { PoolOptions, ResultSetHeader } from 'mysql2/promise'
 import 'dotenv/config'
 
 const host = process.env.SQL_HOST as string
@@ -16,11 +16,15 @@ const access: PoolOptions = {
 
 const pool = mysql.createPool(access)
 
-export const SelectQuery = async (query: string) => {
-	const [results] = await pool.execute(query)
+export const SelectQuery = async (queryString: string, params?: any[]) => {
+	const [results] = await pool.execute(queryString, params)
 	return results
 }
-// export const SelectQuery = async (query: string, params: any[] = []) => {
-// 	const [results] = await pool.execute(query, params)
-// 	return results
-// }
+
+export const ModifyQuery = async (
+	queryString: string,
+	params?: any[]
+): Promise<ResultSetHeader> => {
+	const [results] = await pool.query(queryString, params)
+	return results as ResultSetHeader
+}

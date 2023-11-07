@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SelectQuery = void 0;
+exports.ModifyQuery = exports.SelectQuery = void 0;
 const promise_1 = __importDefault(require("mysql2/promise"));
 require("dotenv/config");
 const host = process.env.SQL_HOST;
@@ -24,14 +24,16 @@ const access = {
     user: user,
     database: database,
     password: pass,
+    idleTimeout: 60000,
 };
 const pool = promise_1.default.createPool(access);
-const SelectQuery = (query) => __awaiter(void 0, void 0, void 0, function* () {
-    const [results] = yield pool.execute(query);
+const SelectQuery = (queryString, params) => __awaiter(void 0, void 0, void 0, function* () {
+    const [results] = yield pool.execute(queryString, params);
     return results;
 });
 exports.SelectQuery = SelectQuery;
-// export const SelectQuery = async (query: string, params: any[] = []) => {
-// 	const [results] = await pool.execute(query, params)
-// 	return results
-// }
+const ModifyQuery = (queryString, params) => __awaiter(void 0, void 0, void 0, function* () {
+    const [results] = yield pool.query(queryString, params);
+    return results;
+});
+exports.ModifyQuery = ModifyQuery;
