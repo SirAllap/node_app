@@ -17,30 +17,65 @@ const employee_data_json_1 = __importDefault(require("../data/employee_data.json
 const util_1 = require("../util/util");
 exports.users = employee_data_json_1.default;
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield (0, util_1.SelectQuery)('SELECT * FROM user;');
+    const query = `
+	SELECT * 
+	FROM user;
+	`;
+    const result = yield (0, util_1.SelectQuery)(query);
     return result;
 });
 const fetchOne = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield (0, util_1.SelectQuery)(`SELECT * FROM user WHERE id = ${userId};`);
+    const query = `
+	SELECT * 
+	FROM user WHERE id=?;
+	`;
+    const params = [userId];
+    const result = yield (0, util_1.SelectQuery)(query, params);
     return result;
 });
 const createOne = (user) => __awaiter(void 0, void 0, void 0, function* () {
-    const currentUsersLength = exports.users.length;
-    const result = yield exports.users.push(user);
-    if (currentUsersLength === exports.users.length)
-        throw new Error('Error posting new user');
+    const query = `
+	INSERT INTO user (full_name, email, photo, start_date, description, phone_number, status) 
+	VALUES (?, ?, ?, ?, ?, ?, ?);
+	`;
+    const params = [
+        user.full_name,
+        user.email,
+        user.photo,
+        user.start_date,
+        user.description,
+        user.phone_number,
+        user.status,
+    ];
+    const result = (0, util_1.ModifyQuery)(query, params);
     return result;
 });
 const updateOne = (userId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = userId.toString();
-    const currentObjectIndex = exports.users.findIndex((user) => user.employee_id === id);
-    if (currentObjectIndex === -1)
-        throw new Error('User not found');
-    const result = (exports.users[currentObjectIndex] = Object.assign(Object.assign({}, exports.users[currentObjectIndex]), update));
+    const query = `
+	UPDATE user
+	SET full_name=?, email=?, photo=?, start_date=?, description=?, phone_number=?, status=?
+	WHERE id=?;
+	`;
+    const params = [
+        update.full_name,
+        update.email,
+        update.photo,
+        update.start_date,
+        update.description,
+        update.phone_number,
+        update.status,
+        userId,
+    ];
+    const result = (0, util_1.ModifyQuery)(query, params);
     return result;
 });
 const destroyOne = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield (0, util_1.SelectQuery)(`DELETE FROM user WHERE id = ${userId};`);
+    const query = `
+	DELETE FROM user 
+	WHERE id=?;
+	`;
+    const params = [userId];
+    const result = yield (0, util_1.SelectQuery)(query, params);
     return result;
 });
 exports.userService = {

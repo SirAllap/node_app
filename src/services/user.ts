@@ -1,42 +1,73 @@
 import usersData from '../data/employee_data.json'
 import { IUser } from '../models/user'
-import { SelectQuery } from '../util/util'
+import { ModifyQuery, SelectQuery } from '../util/util'
 
 export const users = usersData as IUser[]
 
 const fetchAll = async () => {
-	const result = await SelectQuery('SELECT * FROM user;')
+	const query = `
+	SELECT * 
+	FROM user;
+	`
+	const result = await SelectQuery(query)
 	return result
 }
 
 const fetchOne = async (userId: number) => {
-	const result = await SelectQuery(`SELECT * FROM user WHERE id = ${userId};`)
+	const query = `
+	SELECT * 
+	FROM user WHERE id=?;
+	`
+	const params = [userId]
+	const result = await SelectQuery(query, params)
 	return result
 }
 
 const createOne = async (user: IUser) => {
-	const currentUsersLength = users.length
-	const result = await users.push(user)
-	if (currentUsersLength === users.length)
-		throw new Error('Error posting new user')
+	const query = `
+	INSERT INTO user (full_name, email, photo, start_date, description, phone_number, status) 
+	VALUES (?, ?, ?, ?, ?, ?, ?);
+	`
+	const params = [
+		user.full_name,
+		user.email,
+		user.photo,
+		user.start_date,
+		user.description,
+		user.phone_number,
+		user.status,
+	]
+	const result = ModifyQuery(query, params)
 	return result
 }
 
 const updateOne = async (userId: number, update: Partial<IUser>) => {
-	const id = userId.toString()
-	const currentObjectIndex = users.findIndex(
-		(user) => user.employee_id === id
-	)
-	if (currentObjectIndex === -1) throw new Error('User not found')
-	const result = (users[currentObjectIndex] = {
-		...users[currentObjectIndex],
-		...update,
-	})
+	const query = `
+	UPDATE user
+	SET full_name=?, email=?, photo=?, start_date=?, description=?, phone_number=?, status=?
+	WHERE id=?;
+	`
+	const params = [
+		update.full_name,
+		update.email,
+		update.photo,
+		update.start_date,
+		update.description,
+		update.phone_number,
+		update.status,
+		userId,
+	]
+	const result = ModifyQuery(query, params)
 	return result
 }
 
 const destroyOne = async (userId: number) => {
-	const result = await SelectQuery(`DELETE FROM user WHERE id = ${userId};`)
+	const query = `
+	DELETE FROM user 
+	WHERE id=?;
+	`
+	const params = [userId]
+	const result = await SelectQuery(query, params)
 	return result
 }
 
