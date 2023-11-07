@@ -8,39 +8,68 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.contactService = exports.contacts = void 0;
-const client_review_json_1 = __importDefault(require("../data/client_review.json"));
+exports.contactService = void 0;
 const util_1 = require("../util/util");
-exports.contacts = client_review_json_1.default;
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield (0, util_1.SelectQuery)('SELECT * FROM contact;');
+    const query = `
+	SELECT * 
+	FROM contact;
+	`;
+    const result = yield (0, util_1.SelectQuery)(query);
     return result;
 });
 const fetchOne = (contactId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield (0, util_1.SelectQuery)(`SELECT * FROM contact WHERE id = ${contactId};`);
+    const query = `
+	SELECT * 
+	FROM contact;
+	`;
+    const params = [contactId];
+    const result = yield (0, util_1.SelectQuery)(query, params);
     return result;
 });
 const createOne = (contact) => __awaiter(void 0, void 0, void 0, function* () {
-    const currentContactLength = exports.contacts.length;
-    const result = yield exports.contacts.push(contact);
-    if (currentContactLength === exports.contacts.length)
-        throw new Error('Error posting new contact');
+    const query = `
+	INSERT INTO contact (full_name, email, phone_number, subject_of_review, review_body, date, status)
+	VALUES (?, ?, ?, ?, ?, ?);
+	`;
+    const params = [
+        contact.full_name,
+        contact.email,
+        contact.phone_number,
+        contact.subject_of_review,
+        contact.review_body,
+        contact.date,
+        contact.status,
+    ];
+    const result = (0, util_1.ModifyQuery)(query, params);
     return result;
 });
 const updateOne = (contactId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = contactId.toString();
-    const currentObjectIndex = exports.contacts.findIndex((contact) => contact.id === id);
-    if (currentObjectIndex === -1)
-        throw new Error('contact not found');
-    const result = (exports.contacts[currentObjectIndex] = Object.assign(Object.assign({}, exports.contacts[currentObjectIndex]), update));
+    const query = `
+	UPDATE contact
+	SET full_name = ?, email = ?, phone_number = ?, subject_of_review = ?, review_body = ?, date = ?, status = ?
+	WHERE id = ?;
+	`;
+    const params = [
+        update.full_name,
+        update.email,
+        update.phone_number,
+        update.subject_of_review,
+        update.review_body,
+        update.date,
+        update.status,
+        contactId,
+    ];
+    const result = (0, util_1.ModifyQuery)(query, params);
     return result;
 });
 const destroyOne = (contactId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield (0, util_1.SelectQuery)(`DELETE FROM contact WHERE id = ${contactId};`);
+    const query = `
+	DELETE FROM contact
+	WHERE id=?;`;
+    const params = [contactId];
+    const result = yield (0, util_1.SelectQuery)(query, params);
     return result;
 });
 exports.contactService = {
