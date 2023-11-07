@@ -33,7 +33,8 @@ exports.roomsController.get('/:roomId', (req, res) => __awaiter(void 0, void 0, 
 }));
 exports.roomsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield room_1.roomService.createOne(req.body);
+        const newRoom = Object.assign({}, req.body);
+        yield room_1.roomService.createOne(newRoom);
         res.json('Room successfully created');
     }
     catch (error) {
@@ -43,7 +44,7 @@ exports.roomsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0
 exports.roomsController.put('/:roomId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.roomId;
-        const roomToUpdate = req.body;
+        const roomToUpdate = Object.assign({}, req.body);
         yield room_1.roomService.updateOne(id, roomToUpdate),
             res.json('Room successfully updated');
     }

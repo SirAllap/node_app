@@ -27,7 +27,8 @@ roomsController.get(
 
 roomsController.post('/', async (req: Request<IRoom>, res: Response) => {
 	try {
-		await roomService.createOne(req.body)
+		const newRoom = { ...req.body }
+		await roomService.createOne(newRoom)
 		res.json('Room successfully created')
 	} catch (error) {
 		res.status(500).json(`${error}`)
@@ -39,7 +40,7 @@ roomsController.put(
 	async (req: Request<{ roomId: number }, IRoom>, res: Response) => {
 		try {
 			const id = req.params.roomId
-			const roomToUpdate = req.body
+			const roomToUpdate = { ...req.body }
 			await roomService.updateOne(id, roomToUpdate),
 				res.json('Room successfully updated')
 		} catch (error) {
