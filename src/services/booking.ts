@@ -1,8 +1,8 @@
-import bookingsData from '../data/bookings.json'
+// import bookingsData from '../data/bookings.json'
 import { IBooking } from '../models/booking'
 import { SelectQuery } from '../util/util'
 
-export const bookings = bookingsData as IBooking[]
+// export const bookings = bookingsData as IBooking[]
 
 const fetchAll = async () => {
 	const result = await SelectQuery(
@@ -12,30 +12,33 @@ const fetchAll = async () => {
 }
 
 const fetchOne = async (bookingId: number) => {
-	const result = await SelectQuery(
-		`SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures FROM booking b LEFT JOIN room r ON b.room_id = r.id LEFT JOIN photo p ON r.id = p.room_id WHERE b.id = ${bookingId} GROUP BY b.id, r.room_number, r.room_type;`
-	)
+	const query = `SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures
+                 FROM booking b
+                 LEFT JOIN room r ON b.room_id = r.id
+                 LEFT JOIN photo p ON r.id = p.room_id
+                 WHERE b.id = ${bookingId}
+                 GROUP BY b.id, r.room_number, r.room_type;`
+
+	const result = await SelectQuery(query)
 	return result
 }
 
 const createOne = async (booking: IBooking) => {
-	const currentBoookingLength = bookings.length
-	const result = await bookings.push(booking)
-	if (currentBoookingLength === bookings.length)
-		throw new Error('Error posting new booking')
+	const query = `
+	INSERT INTO booking (guest, phone_number, order_date, check_in, check_out, special_request, status, room_id) 
+	VALUES ('${booking.guest}', '${booking.phone_number}', '${booking.order_date}', '${booking.check_in}', '${booking.check_out}', '${booking.special_request}', '${booking.status}', ${booking.room_id});
+	`
+	const result = await SelectQuery(query)
 	return result
 }
 
 const updateOne = async (bookingId: number, update: Partial<IBooking>) => {
-	const id = bookingId.toString()
-	const currentObjectIndex = bookings.findIndex(
-		(booking) => booking.id === id
-	)
-	if (currentObjectIndex === -1) throw new Error('Booking not found')
-	const result = (bookings[currentObjectIndex] = {
-		...bookings[currentObjectIndex],
-		...update,
-	})
+	const query = `
+	UPDATE booking
+	SET guest='${update.guest}', phone_number='${update.phone_number}', order_date='${update.order_date}', check_in='${update.check_in}', check_out='${update.check_out}', special_request='${update.special_request}', status='${update.status}', room_id=${update.room_id}
+	WHERE id = ${bookingId};
+	`
+	const result = await SelectQuery(query)
 	return result
 }
 

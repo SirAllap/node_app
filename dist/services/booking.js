@@ -8,35 +8,39 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.bookingService = exports.bookings = void 0;
-const bookings_json_1 = __importDefault(require("../data/bookings.json"));
+exports.bookingService = void 0;
 const util_1 = require("../util/util");
-exports.bookings = bookings_json_1.default;
+// export const bookings = bookingsData as IBooking[]
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield (0, util_1.SelectQuery)('SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures FROM booking b LEFT JOIN room r ON b.room_id = r.id LEFT JOIN photo p ON r.id = p.room_id GROUP BY b.id, r.room_number, r.room_type;');
     return result;
 });
 const fetchOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield (0, util_1.SelectQuery)(`SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures FROM booking b LEFT JOIN room r ON b.room_id = r.id LEFT JOIN photo p ON r.id = p.room_id WHERE b.id = ${bookingId} GROUP BY b.id, r.room_number, r.room_type;`);
+    const query = `SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures
+                 FROM booking b
+                 LEFT JOIN room r ON b.room_id = r.id
+                 LEFT JOIN photo p ON r.id = p.room_id
+                 WHERE b.id = ${bookingId}
+                 GROUP BY b.id, r.room_number, r.room_type;`;
+    const result = yield (0, util_1.SelectQuery)(query);
     return result;
 });
 const createOne = (booking) => __awaiter(void 0, void 0, void 0, function* () {
-    const currentBoookingLength = exports.bookings.length;
-    const result = yield exports.bookings.push(booking);
-    if (currentBoookingLength === exports.bookings.length)
-        throw new Error('Error posting new booking');
+    const query = `
+	INSERT INTO booking (guest, phone_number, order_date, check_in, check_out, special_request, status, room_id) 
+	VALUES ('${booking.guest}', '${booking.phone_number}', '${booking.order_date}', '${booking.check_in}', '${booking.check_out}', '${booking.special_request}', '${booking.status}', ${booking.room_id});
+	`;
+    const result = yield (0, util_1.SelectQuery)(query);
     return result;
 });
 const updateOne = (bookingId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = bookingId.toString();
-    const currentObjectIndex = exports.bookings.findIndex((booking) => booking.id === id);
-    if (currentObjectIndex === -1)
-        throw new Error('Booking not found');
-    const result = (exports.bookings[currentObjectIndex] = Object.assign(Object.assign({}, exports.bookings[currentObjectIndex]), update));
+    const query = `
+	UPDATE booking
+	SET guest='${update.guest}', phone_number='${update.phone_number}', order_date='${update.order_date}', check_in='${update.check_in}', check_out='${update.check_out}', special_request='${update.special_request}', status='${update.status}', room_id=${update.room_id}
+	WHERE id = ${bookingId};
+	`;
+    const result = yield (0, util_1.SelectQuery)(query);
     return result;
 });
 const destroyOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
