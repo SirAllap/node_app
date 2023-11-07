@@ -19,14 +19,19 @@ const host = process.env.SQL_HOST;
 const user = process.env.SQL_USER;
 const database = process.env.SQL_DATABASE;
 const pass = process.env.SQL_PASSWORD;
-const pool = promise_1.default.createPool({
+const access = {
     host: host,
     user: user,
     database: database,
     password: pass,
-});
-const SelectQuery = (queryString) => __awaiter(void 0, void 0, void 0, function* () {
-    const [results] = yield pool.execute(queryString);
+};
+const pool = promise_1.default.createPool(access);
+const SelectQuery = (query) => __awaiter(void 0, void 0, void 0, function* () {
+    const [results] = yield pool.execute(query);
     return results;
 });
 exports.SelectQuery = SelectQuery;
+// export const SelectQuery = async (query: string, params: any[] = []) => {
+// 	const [results] = await pool.execute(query, params)
+// 	return results
+// }
