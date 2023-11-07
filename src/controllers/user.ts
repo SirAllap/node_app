@@ -27,7 +27,8 @@ usersController.get(
 
 usersController.post('/', async (req: Request<IUser>, res: Response) => {
 	try {
-		await userService.createOne(req.body)
+		const newUser = { ...req.body }
+		await userService.createOne(newUser)
 		res.json('User successfully created')
 	} catch (error) {
 		res.status(500).json(`${error}`)
@@ -39,7 +40,7 @@ usersController.put(
 	async (req: Request<{ userId: number }, IUser>, res: Response) => {
 		try {
 			const id = req.params.userId
-			const userToUpdate = req.body
+			const userToUpdate = { ...req.body }
 			await userService.updateOne(id, userToUpdate),
 				res.json('User successfully updated')
 		} catch (error) {

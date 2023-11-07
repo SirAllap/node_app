@@ -33,7 +33,8 @@ exports.usersController.get('/:userId', (req, res) => __awaiter(void 0, void 0, 
 }));
 exports.usersController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield user_1.userService.createOne(req.body);
+        const newUser = Object.assign({}, req.body);
+        yield user_1.userService.createOne(newUser);
         res.json('User successfully created');
     }
     catch (error) {
@@ -43,7 +44,7 @@ exports.usersController.post('/', (req, res) => __awaiter(void 0, void 0, void 0
 exports.usersController.put('/:userId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.params.userId;
-        const userToUpdate = req.body;
+        const userToUpdate = Object.assign({}, req.body);
         yield user_1.userService.updateOne(id, userToUpdate),
             res.json('User successfully updated');
     }
