@@ -11,40 +11,71 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingService = void 0;
 const util_1 = require("../util/util");
-// export const bookings = bookingsData as IBooking[]
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield (0, util_1.SelectQuery)('SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures FROM booking b LEFT JOIN room r ON b.room_id = r.id LEFT JOIN photo p ON r.id = p.room_id GROUP BY b.id, r.room_number, r.room_type;');
+    const query = `
+	SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures 
+	FROM booking b LEFT JOIN room r ON b.room_id = r.id 
+	LEFT JOIN photo p ON r.id = p.room_id 
+	GROUP BY b.id, r.room_number, r.room_type;
+	`;
+    const result = yield (0, util_1.SelectQuery)(query);
     return result;
 });
 const fetchOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
-    const query = `SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures
-                 FROM booking b
-                 LEFT JOIN room r ON b.room_id = r.id
-                 LEFT JOIN photo p ON r.id = p.room_id
-                 WHERE b.id = ${bookingId}
-                 GROUP BY b.id, r.room_number, r.room_type;`;
-    const result = yield (0, util_1.SelectQuery)(query);
+    const query = `
+	SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures
+	FROM booking b
+	LEFT JOIN room r ON b.room_id = r.id
+	LEFT JOIN photo p ON r.id = p.room_id
+	WHERE b.id = ?
+	GROUP BY b.id, r.room_number, r.room_type;
+	`;
+    const params = [bookingId];
+    const result = yield (0, util_1.SelectQuery)(query, params);
     return result;
 });
 const createOne = (booking) => __awaiter(void 0, void 0, void 0, function* () {
     const query = `
 	INSERT INTO booking (guest, phone_number, order_date, check_in, check_out, special_request, status, room_id) 
-	VALUES ('${booking.guest}', '${booking.phone_number}', '${booking.order_date}', '${booking.check_in}', '${booking.check_out}', '${booking.special_request}', '${booking.status}', ${booking.room_id});
+	VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 	`;
-    const result = yield (0, util_1.SelectQuery)(query);
+    const params = [
+        booking.guest,
+        booking.phone_number,
+        booking.order_date,
+        booking.check_in,
+        booking.check_out,
+        booking.special_request,
+        booking.status,
+        booking.room_id,
+    ];
+    const result = yield (0, util_1.ModifyQuery)(query, params);
     return result;
 });
 const updateOne = (bookingId, update) => __awaiter(void 0, void 0, void 0, function* () {
     const query = `
 	UPDATE booking
-	SET guest='${update.guest}', phone_number='${update.phone_number}', order_date='${update.order_date}', check_in='${update.check_in}', check_out='${update.check_out}', special_request='${update.special_request}', status='${update.status}', room_id=${update.room_id}
-	WHERE id = ${bookingId};
+	SET guest=?, phone_number=?, order_date=?, check_in=?, check_out=?, special_request=?, status=?, room_id=?
+	WHERE id=?;
 	`;
-    const result = yield (0, util_1.SelectQuery)(query);
+    const params = [
+        update.guest,
+        update.phone_number,
+        update.order_date,
+        update.check_in,
+        update.check_out,
+        update.special_request,
+        update.status,
+        update.room_id,
+        bookingId,
+    ];
+    const result = yield (0, util_1.ModifyQuery)(query, params);
     return result;
 });
 const destroyOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield (0, util_1.SelectQuery)(`DELETE FROM booking WHERE id = ${bookingId};`);
+    const query = `DELETE FROM booking WHERE id=?;`;
+    const params = [bookingId];
+    const result = yield (0, util_1.ModifyQuery)(query, params);
     return result;
 });
 exports.bookingService = {
