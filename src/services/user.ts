@@ -1,4 +1,4 @@
-import { IUser } from '../models/user'
+import { IUser } from '../interface/user'
 import { ModifyQuery, SelectQuery } from '../util/util'
 
 const fetchAll = async () => {

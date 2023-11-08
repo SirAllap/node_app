@@ -1,4 +1,4 @@
-import { IBooking } from '../models/booking'
+import { IBooking } from '../interface/booking'
 import { ModifyQuery, SelectQuery } from '../util/util'
 
 const fetchAll = async () => {
@@ -27,6 +27,7 @@ const fetchOne = async (bookingId: number) => {
 }
 
 const createOne = async (booking: IBooking) => {
+	console.trace()
 	const query = `
 	INSERT INTO booking (guest, phone_number, order_date, check_in, check_out, special_request, status, room_id) 
 	VALUES (?, ?, ?, ?, ?, ?, ?, ?);

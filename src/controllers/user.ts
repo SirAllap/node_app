@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express'
-import { IUser } from '../models/user'
+import { IUser } from '../interface/user'
 import { userService } from '../services/user'
 
 export const usersController = Router()

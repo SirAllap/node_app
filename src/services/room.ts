@@ -1,4 +1,4 @@
-import { IRoom } from '../models/room'
+import { IRoom } from '../interface/room'
 import { ModifyQuery, SelectQuery } from '../util/util'
 
 const fetchAll = async () => {
@@ -42,7 +42,10 @@ const createOne = async (room: IRoom) => {
 		room.status,
 	]
 	const result = await ModifyQuery(query, params)
-	return result
+	console.log(result)
+	if (result.affectedRows === 0) throw new Error('Nothing has been created')
+	const createdRoom = await fetchOne(result.insertId)
+	return createdRoom
 }
 
 const updateOne = async (roomId: number, update: Partial<IRoom>) => {

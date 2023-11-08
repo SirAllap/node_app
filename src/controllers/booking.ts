@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express'
-import { IBooking } from '../models/booking'
+import { IBooking } from '../interface/booking'
 import { bookingService } from '../services/booking'
 
 export const bookingsController = Router()

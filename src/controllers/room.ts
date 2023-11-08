@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express'
-import { IRoom } from '../models/room'
+import { IRoom } from '../interface/room'
 import { roomService } from '../services/room'
 
 export const roomsController = Router()

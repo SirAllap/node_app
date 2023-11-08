@@ -1,4 +1,4 @@
-import { IContact } from '../models/contact'
+import { IContact } from '../interface/contact'
 import { ModifyQuery, SelectQuery } from '../util/util'
 
 const fetchAll = async () => {

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response, Router } from 'express'
-import { IContact } from '../models/contact'
+import { IContact } from '../interface/contact'
 import { contactService } from '../services/contact'
 
 export const contactsController = Router()
