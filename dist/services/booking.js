@@ -35,6 +35,7 @@ const fetchOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const createOne = (booking) => __awaiter(void 0, void 0, void 0, function* () {
+    console.trace();
     const query = `
 	INSERT INTO booking (guest, phone_number, order_date, check_in, check_out, special_request, status, room_id) 
 	VALUES (?, ?, ?, ?, ?, ?, ?, ?);
