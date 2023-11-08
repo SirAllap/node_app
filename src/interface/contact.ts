@@ -4,6 +4,6 @@ export interface IContact {
 	phone_number: string
 	subject_of_review: string
 	review_body: string
-	date: string
+	date: Date | string
 	status: string
 }
