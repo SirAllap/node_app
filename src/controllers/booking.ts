@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import { IBooking } from '../interface/booking'
 import { bookingService } from '../services/booking'
+import { validateOject } from '../validators/validation'
+import { bookingSchema } from '../validators/schemas'
 
 export const bookingsController = Router()
 
@@ -34,7 +36,8 @@ bookingsController.get(
 
 bookingsController.post(
 	'/',
-	async (req: Request<IBooking>, res: Response, next: NextFunction) => {
+	validateOject(bookingSchema),
+	async (req: Request<{}, IBooking>, res: Response, next: NextFunction) => {
 		try {
 			const newBooking = { ...req.body }
 			await bookingService.createOne(newBooking)
@@ -47,8 +50,9 @@ bookingsController.post(
 
 bookingsController.put(
 	'/:bookingId',
+	validateOject(bookingSchema),
 	async (
-		req: Request<{ bookingId: number }, IBooking>,
+		req: Request<{ bookingId: string }, {}, IBooking>,
 		res: Response,
 		next: NextFunction
 	) => {
