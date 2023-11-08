@@ -40,7 +40,7 @@ const createOne = async (contact: IContact) => {
 	return result
 }
 
-const updateOne = async (contactId: number, update: Partial<IContact>) => {
+const updateOne = async (contactId: string, update: Partial<IContact>) => {
 	const query = `
 	UPDATE contact
 	SET full_name = ?, email = ?, phone_number = ?, subject_of_review = ?, review_body = ?, date = ?, status = ?

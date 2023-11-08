@@ -38,7 +38,7 @@ const createOne = async (user: IUser) => {
 	return result
 }
 
-const updateOne = async (userId: number, update: Partial<IUser>) => {
+const updateOne = async (userId: string, update: Partial<IUser>) => {
 	const query = `
 	UPDATE user
 	SET full_name=?, email=?, photo=?, start_date=?, description=?, phone_number=?, status=?

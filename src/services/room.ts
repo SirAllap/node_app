@@ -48,7 +48,7 @@ const createOne = async (room: IRoom) => {
 	return createdRoom
 }
 
-const updateOne = async (roomId: number, update: Partial<IRoom>) => {
+const updateOne = async (roomId: string, update: Partial<IRoom>) => {
 	const query = `
 	UPDATE room
 	SET room_number=?, room_type=?, description=?, price=?, offer_price=?, discount=?, status=?

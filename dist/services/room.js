@@ -50,7 +50,11 @@ const createOne = (room) => __awaiter(void 0, void 0, void 0, function* () {
         room.status,
     ];
     const result = yield (0, util_1.ModifyQuery)(query, params);
-    return result;
+    console.log(result);
+    if (result.affectedRows === 0)
+        throw new Error('Nothing has been created');
+    const createdRoom = yield fetchOne(result.insertId);
+    return createdRoom;
 });
 const updateOne = (roomId, update) => __awaiter(void 0, void 0, void 0, function* () {
     const query = `

@@ -46,7 +46,7 @@ const createOne = async (booking: IBooking) => {
 	return result
 }
 
-const updateOne = async (bookingId: number, update: Partial<IBooking>) => {
+const updateOne = async (bookingId: string, update: Partial<IBooking>) => {
 	const query = `
 	UPDATE booking
 	SET guest=?, phone_number=?, order_date=?, check_in=?, check_out=?, special_request=?, status=?, room_id=?
