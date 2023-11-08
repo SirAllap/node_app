@@ -1,6 +1,8 @@
 import { Request, Response, Router } from 'express'
 import { IUser } from '../interface/user'
 import { userService } from '../services/user'
+import { validateOject } from '../validators/validation'
+import { userSchema } from '../validators/schemas'
 
 export const usersController = Router()
 
@@ -25,19 +27,24 @@ usersController.get(
 	}
 )
 
-usersController.post('/', async (req: Request<IUser>, res: Response) => {
-	try {
-		const newUser = { ...req.body }
-		await userService.createOne(newUser)
-		res.json('User successfully created')
-	} catch (error) {
-		res.status(500).json(`${error}`)
+usersController.post(
+	'/',
+	validateOject(userSchema),
+	async (req: Request<{}, IUser>, res: Response) => {
+		try {
+			const newUser = { ...req.body }
+			await userService.createOne(newUser)
+			res.json('User successfully created')
+		} catch (error) {
+			res.status(500).json(`${error}`)
+		}
 	}
-})
+)
 
 usersController.put(
 	'/:userId',
-	async (req: Request<{ userId: number }, IUser>, res: Response) => {
+	validateOject(userSchema),
+	async (req: Request<{ userId: string }, {}, IUser>, res: Response) => {
 		try {
 			const id = req.params.userId
 			const userToUpdate = { ...req.body }
