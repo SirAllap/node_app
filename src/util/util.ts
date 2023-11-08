@@ -28,3 +28,7 @@ export const ModifyQuery = async (
 	const [results] = await pool.query(queryString, params)
 	return results as ResultSetHeader
 }
+
+export const endConection = async () => {
+	await pool.end()
+}
