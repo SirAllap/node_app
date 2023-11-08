@@ -1,6 +1,8 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import { IContact } from '../interface/contact'
 import { contactService } from '../services/contact'
+import { validateOject } from '../validators/validation'
+import { contactSchema } from '../validators/schemas'
 
 export const contactsController = Router()
 
@@ -34,7 +36,8 @@ contactsController.get(
 
 contactsController.post(
 	'/',
-	async (req: Request<IContact>, res: Response, next: NextFunction) => {
+	validateOject(contactSchema),
+	async (req: Request<{}, IContact>, res: Response, next: NextFunction) => {
 		try {
 			const newContact = { ...req.body }
 			await contactService.createOne(newContact)
@@ -47,8 +50,9 @@ contactsController.post(
 
 contactsController.put(
 	'/:contactId',
+	validateOject(contactSchema),
 	async (
-		req: Request<{ contactId: number }, IContact>,
+		req: Request<{ contactId: string }, {}, IContact>,
 		res: Response,
 		next: NextFunction
 	) => {
