@@ -1,6 +1,8 @@
-import { NextFunction, Request, Response, Router } from 'express'
-import { IUser } from '../interfaces/user'
+import { Request, Response, Router } from 'express'
+import { IUser } from '../interface/user'
 import { userService } from '../services/user'
+import { validateOject } from '../validators/validation'
+import { userSchema } from '../validators/schemas'
 
 export const usersController = Router()
 
@@ -27,6 +29,14 @@ usersController.get(
 
 usersController.post(
 	'/',
+	validateOject(userSchema),
+	async (req: Request<{}, IUser>, res: Response) => {
+		try {
+			const newUser = { ...req.body }
+			await userService.createOne(newUser)
+			res.json('User successfully created')
+		} catch (error) {
+			res.status(500).json(`${error}`)
 	async (req: Request<IUser>, res: Response, next: NextFunction) => {
 		try {
 			const result = await userService.createOne(req.body)
@@ -39,6 +49,13 @@ usersController.post(
 
 usersController.put(
 	'/:userId',
+	validateOject(userSchema),
+	async (req: Request<{ userId: string }, {}, IUser>, res: Response) => {
+		try {
+			const id = req.params.userId
+			const userToUpdate = { ...req.body }
+			await userService.updateOne(id, userToUpdate),
+				res.json('User successfully updated')
 	async (
 		req: Request<{ userId: number }, IUser>,
 		res: Response,
