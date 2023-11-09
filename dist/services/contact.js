@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.contactService = void 0;
+
 const util_1 = require("../util/util");
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
     const query = `
@@ -72,6 +73,7 @@ const destroyOne = (contactId) => __awaiter(void 0, void 0, void 0, function* ()
 	WHERE id=?;`;
     const params = [contactId];
     const result = yield (0, util_1.SelectQuery)(query, params);
+
     return result;
 });
 exports.contactService = {

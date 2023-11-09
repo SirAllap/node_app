@@ -35,9 +35,11 @@ exports.roomsController.get('/:roomId', (req, res) => __awaiter(void 0, void 0, 
 }));
 exports.roomsController.post('/', (0, validation_1.validateOject)(schemas_1.roomSchema), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+
         const newRoom = Object.assign({}, req.body);
         yield room_1.roomService.createOne(newRoom);
         res.json('Room successfully created');
+
     }
     catch (error) {
         res.status(500).json(`${error}`);
@@ -45,10 +47,13 @@ exports.roomsController.post('/', (0, validation_1.validateOject)(schemas_1.room
 }));
 exports.roomsController.put('/:roomId', (0, validation_1.validateOject)(schemas_1.roomSchema), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+
         const id = req.params.roomId;
         const roomToUpdate = Object.assign({}, req.body);
         yield room_1.roomService.updateOne(id, roomToUpdate),
             res.json('Room successfully updated');
+
+
     }
     catch (error) {
         res.status(500).json(`${error}`);
@@ -56,9 +61,8 @@ exports.roomsController.put('/:roomId', (0, validation_1.validateOject)(schemas_
 }));
 exports.roomsController.delete('/:roomId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = req.params.roomId;
-        yield room_1.roomService.destroyOne(id);
-        res.json('Room successfully deleted');
+        const result = yield room_1.roomService.destroyOne(req.params.roomId);
+        res.json(result);
     }
     catch (error) {
         res.status(500).json(`${error}`);

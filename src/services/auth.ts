@@ -1,22 +1,22 @@
 import jwt from 'jsonwebtoken'
 import 'dotenv/config'
-const defaultUser = {
-	user: 'admin',
-	password: 'admin',
-}
+import bcrypt from 'bcryptjs'
+import { userModel } from '../models/user.model'
 
 const secret: string = process.env.SECRET || ''
 
-const login = async (user: string, pass: string) => {
-	if (defaultUser.user !== user || defaultUser.password !== pass)
-		throw new Error('Wrong credentials')
-	else {
-		const result = signJWT({ user })
-		return result
-	}
+const login = async (email: string, password: string) => {
+	const result = await userModel.findOne({ email: email })
+	if (!result) throw new Error('User not found')
+	bcrypt.compare(password, result.password || '', (err, res) => {
+		if (err) throw new Error('Something went wrong')
+		if (!res) throw new Error('Email or password incorrect')
+	})
+	const signResponse = signJWT({ email })
+	return signResponse
 }
 
-const signJWT = (payload: { user: string }) => {
+const signJWT = (payload: { email: string }) => {
 	const token = jwt.sign(payload, secret, { expiresIn: '1h' })
 	return { payload, token }
 }

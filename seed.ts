@@ -1,3 +1,4 @@
+
 import { faker } from '@faker-js/faker'
 import { ModifyQuery, endConection } from './src/util/util'
 
@@ -208,4 +209,5 @@ const loopPlus: number = 60
 		await ModifyQuery(query, params)
 	}
 	endConection()
+
 })()

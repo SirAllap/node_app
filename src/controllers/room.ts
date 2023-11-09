@@ -60,9 +60,8 @@ roomsController.delete(
 	'/:roomId',
 	async (req: Request<{ roomId: number }>, res: Response) => {
 		try {
-			const id = req.params.roomId
-			await roomService.destroyOne(id)
-			res.json('Room successfully deleted')
+			const result = await roomService.destroyOne(req.params.roomId)
+			res.json(result)
 		} catch (error) {
 			res.status(500).json(`${error}`)
 		}

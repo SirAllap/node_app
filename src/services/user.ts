@@ -55,6 +55,7 @@ const updateOne = async (userId: string, update: Partial<IUser>) => {
 		userId,
 	]
 	const result = ModifyQuery(query, params)
+
 	return result
 }
 
@@ -65,6 +66,7 @@ const destroyOne = async (userId: number) => {
 	`
 	const params = [userId]
 	const result = await SelectQuery(query, params)
+
 	return result
 }
 

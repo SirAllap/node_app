@@ -1,4 +1,6 @@
+
 service: contact-serverless-api-sql
+
 frameworkVersion: "3"
 
 provider:
@@ -7,6 +9,7 @@ provider:
   region: eu-west-1
   environment:
     SECRET: ${file(.env.json):SECRET}
+    MONGO_ATLAS_URI: ${file(.env.json):MONGO_ATLAS_URI}
 
 functions:
   api:

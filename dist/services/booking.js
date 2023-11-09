@@ -10,6 +10,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingService = void 0;
+
 const util_1 = require("../util/util");
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
     const query = `
@@ -77,6 +78,7 @@ const destroyOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* ()
     const query = `DELETE FROM booking WHERE id=?;`;
     const params = [bookingId];
     const result = yield (0, util_1.ModifyQuery)(query, params);
+
     return result;
 });
 exports.bookingService = {
