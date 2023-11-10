@@ -16,12 +16,12 @@ const access: PoolOptions = {
 
 const pool = mysql.createPool(access)
 
-export const SelectQuery = async (queryString: string, params?: any[]) => {
+export const selectQuery = async (queryString: string, params?: any[]) => {
 	const [results] = await pool.execute(queryString, params)
 	return results
 }
 
-export const ModifyQuery = async (
+export const modifyQuery = async (
 	queryString: string,
 	params?: any[]
 ): Promise<ResultSetHeader> => {

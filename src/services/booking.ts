@@ -1,5 +1,5 @@
 import { IBooking } from '../interface/booking'
-import { ModifyQuery, SelectQuery } from '../util/util'
+import { modifyQuery, selectQuery } from '../util/util'
 
 const fetchAll = async () => {
 	const query = `
@@ -8,7 +8,7 @@ const fetchAll = async () => {
 	LEFT JOIN photo p ON r.id = p.room_id 
 	GROUP BY b.id, r.room_number, r.room_type;
 	`
-	const result = await SelectQuery(query)
+	const result = await selectQuery(query)
 	return result
 }
 
@@ -22,7 +22,7 @@ const fetchOne = async (bookingId: number) => {
 	GROUP BY b.id, r.room_number, r.room_type;
 	`
 	const params = [bookingId]
-	const result = await SelectQuery(query, params)
+	const result = await selectQuery(query, params)
 	return result
 }
 
@@ -42,7 +42,7 @@ const createOne = async (booking: IBooking) => {
 		booking.status,
 		booking.room_id,
 	]
-	const result = await ModifyQuery(query, params)
+	const result = await modifyQuery(query, params)
 	return result
 }
 
@@ -63,14 +63,14 @@ const updateOne = async (bookingId: string, update: Partial<IBooking>) => {
 		update.room_id,
 		bookingId,
 	]
-	const result = await ModifyQuery(query, params)
+	const result = await modifyQuery(query, params)
 	return result
 }
 
 const destroyOne = async (bookingId: number) => {
 	const query = `DELETE FROM booking WHERE id=?;`
 	const params = [bookingId]
-	const result = await ModifyQuery(query, params)
+	const result = await modifyQuery(query, params)
 	return result
 }
 
