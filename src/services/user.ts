@@ -1,12 +1,12 @@
 import { IUser } from '../interface/user'
-import { ModifyQuery, SelectQuery } from '../util/util'
+import { modifyQuery, selectQuery } from '../util/util'
 
 const fetchAll = async () => {
 	const query = `
 	SELECT * 
 	FROM user;
 	`
-	const result = await SelectQuery(query)
+	const result = await selectQuery(query)
 	return result
 }
 
@@ -16,7 +16,7 @@ const fetchOne = async (userId: number) => {
 	FROM user WHERE id=?;
 	`
 	const params = [userId]
-	const result = await SelectQuery(query, params)
+	const result = await selectQuery(query, params)
 	return result
 }
 
@@ -34,7 +34,7 @@ const createOne = async (user: IUser) => {
 		user.phone_number,
 		user.status,
 	]
-	const result = ModifyQuery(query, params)
+	const result = modifyQuery(query, params)
 	return result
 }
 
@@ -54,7 +54,7 @@ const updateOne = async (userId: string, update: Partial<IUser>) => {
 		update.status,
 		userId,
 	]
-	const result = ModifyQuery(query, params)
+	const result = modifyQuery(query, params)
 
 	return result
 }
@@ -65,7 +65,7 @@ const destroyOne = async (userId: number) => {
 	WHERE id=?;
 	`
 	const params = [userId]
-	const result = await SelectQuery(query, params)
+	const result = await selectQuery(query, params)
 
 	return result
 }

@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express'
 import { IRoom } from '../interface/room'
 import { roomService } from '../services/room'
-import { validateOject } from '../validators/validation'
+import { validateOject } from '../middlewares/validation'
 import { roomSchema } from '../validators/schemas'
 
 export const roomsController = Router()

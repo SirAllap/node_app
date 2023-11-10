@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express'
 import { IUser } from '../interface/user'
 import { userService } from '../services/user'
-import { validateOject } from '../validators/validation'
+import { validateOject } from '../middlewares/validation'
 import { userSchema } from '../validators/schemas'
 
 export const usersController = Router()

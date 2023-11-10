@@ -1,9 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express'
-
 import { IBooking } from '../interface/booking'
-
 import { bookingService } from '../services/booking'
-import { validateOject } from '../validators/validation'
+import { validateOject } from '../middlewares/validation'
 import { bookingSchema } from '../validators/schemas'
 
 export const bookingsController = Router()
@@ -37,11 +35,9 @@ bookingsController.post(
 	validateOject(bookingSchema),
 	async (req: Request<{}, IBooking>, res: Response, next: NextFunction) => {
 		try {
-
 			const newBooking = { ...req.body }
 			await bookingService.createOne(newBooking)
 			res.json({ message: 'Booking successfully created' })
-
 		} catch (error) {
 			next(error)
 		}
@@ -61,7 +57,6 @@ bookingsController.put(
 			const bookingToUpdate = { ...req.body }
 			await bookingService.updateOne(id, bookingToUpdate),
 				res.json({ message: 'Booking successfully updated' })
-
 		} catch (error) {
 			next(error)
 		}

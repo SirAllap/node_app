@@ -1,5 +1,5 @@
 import { IRoom } from '../interface/room'
-import { ModifyQuery, SelectQuery } from '../util/util'
+import { modifyQuery, selectQuery } from '../util/util'
 
 const fetchAll = async () => {
 	const query = `
@@ -9,7 +9,7 @@ const fetchAll = async () => {
 	LEFT JOIN amenity a ON ahr.amenity_id = a.id
 	GROUP BY r.id;
 	`
-	const result = await SelectQuery(query)
+	const result = await selectQuery(query)
 	return result
 }
 
@@ -23,7 +23,7 @@ const fetchOne = async (roomId: number) => {
 	GROUP BY r.id;
 	`
 	const params = [roomId]
-	const result = await SelectQuery(query, params)
+	const result = await selectQuery(query, params)
 	return result
 }
 
@@ -41,7 +41,7 @@ const createOne = async (room: IRoom) => {
 		room.discount,
 		room.status,
 	]
-	const result = await ModifyQuery(query, params)
+	const result = await modifyQuery(query, params)
 	console.log(result)
 	if (result.affectedRows === 0) throw new Error('Nothing has been created')
 	const createdRoom = await fetchOne(result.insertId)
@@ -64,7 +64,7 @@ const updateOne = async (roomId: string, update: Partial<IRoom>) => {
 		update.status,
 		roomId,
 	]
-	const result = await ModifyQuery(query, params)
+	const result = await modifyQuery(query, params)
 	return result
 }
 
@@ -73,7 +73,7 @@ const destroyOne = async (roomId: number) => {
 	DELETE FROM room WHERE id=?;
 	`
 	const params = [roomId]
-	const result = await SelectQuery(query, params)
+	const result = await selectQuery(query, params)
 	return result
 }
 
