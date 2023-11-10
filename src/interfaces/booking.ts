@@ -1,5 +1,5 @@
 export interface IBooking {
-	booking_id?: number | string
+	_id?: number | string
 	guest: string
 	phone_number: string
 	order_date: string

@@ -2,7 +2,6 @@ import { Schema, model } from 'mongoose'
 import { IBooking } from '../interfaces/booking'
 
 const bookingSchema = new Schema<IBooking>({
-	booking_id: { type: String, required: true },
 	guest: { type: String, required: true },
 	phone_number: { type: String, required: true },
 	order_date: { type: String, required: true },
@@ -16,4 +15,4 @@ const bookingSchema = new Schema<IBooking>({
 	roomId: { type: String },
 })
 
-export const bookingModel = model<IBooking>('bookings', bookingSchema)
+export const BookingModel = model<IBooking>('bookings', bookingSchema)

@@ -1,76 +1,40 @@
-import { IBooking } from '../interface/booking'
-import { modifyQuery, selectQuery } from '../util/util'
+import { IBooking } from '../interfaces/booking'
+import { BookingModel } from '../models/booking.model'
 
 const fetchAll = async () => {
-	const query = `
-	SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures 
-	FROM booking b LEFT JOIN room r ON b.room_id = r.id 
-	LEFT JOIN photo p ON r.id = p.room_id 
-	GROUP BY b.id, r.room_number, r.room_type;
-	`
-	const result = await selectQuery(query)
+	const result = await BookingModel.find()
+	if (result.length === 0)
+		throw new Error('There is no bookings in the database.')
 	return result
 }
 
 const fetchOne = async (bookingId: number) => {
-	const query = `
-	SELECT b.*, r.room_number, r.room_type, GROUP_CONCAT(p.photos) AS room_pictures
-	FROM booking b
-	LEFT JOIN room r ON b.room_id = r.id
-	LEFT JOIN photo p ON r.id = p.room_id
-	WHERE b.id = ?
-	GROUP BY b.id, r.room_number, r.room_type;
-	`
-	const params = [bookingId]
-	const result = await selectQuery(query, params)
+	const result = await BookingModel.findById(bookingId)
+	if (!result)
+		throw new Error('There is no booking with that ID in the database.')
 	return result
 }
 
 const createOne = async (booking: IBooking) => {
-	console.trace()
-	const query = `
-	INSERT INTO booking (guest, phone_number, order_date, check_in, check_out, special_request, status, room_id) 
-	VALUES (?, ?, ?, ?, ?, ?, ?, ?);
-	`
-	const params = [
-		booking.guest,
-		booking.phone_number,
-		booking.order_date,
-		booking.check_in,
-		booking.check_out,
-		booking.special_request,
-		booking.status,
-		booking.room_id,
-	]
-	const result = await modifyQuery(query, params)
+	const result = await BookingModel.create(booking)
 	return result
 }
 
-const updateOne = async (bookingId: string, update: Partial<IBooking>) => {
-	const query = `
-	UPDATE booking
-	SET guest=?, phone_number=?, order_date=?, check_in=?, check_out=?, special_request=?, status=?, room_id=?
-	WHERE id=?;
-	`
-	const params = [
-		update.guest,
-		update.phone_number,
-		update.order_date,
-		update.check_in,
-		update.check_out,
-		update.special_request,
-		update.status,
-		update.room_id,
-		bookingId,
-	]
-	const result = await modifyQuery(query, params)
+const updateOne = async (bookingId: number, update: Partial<IBooking>) => {
+	const result = await BookingModel.findByIdAndUpdate(bookingId, update, {
+		new: true,
+	})
+	if (!result) {
+		throw new Error()
+	}
 	return result
 }
 
 const destroyOne = async (bookingId: number) => {
-	const query = `DELETE FROM booking WHERE id=?;`
-	const params = [bookingId]
-	const result = await modifyQuery(query, params)
+	const result = await BookingModel.findByIdAndDelete(bookingId)
+	if (!result) {
+		throw new Error()
+	}
 	return result
 }
 

@@ -1,213 +1,151 @@
+import { connect } from 'mongoose'
+import 'dotenv/config'
 import { faker } from '@faker-js/faker'
 import { modifyQuery, endConection } from './src/util/util'
 
 const loop: number = 10
 const loopPlus: number = 60
 
+import { BookingModel } from './src/models/booking.model'
+import { RoomModel } from './src/models/room.model'
+import { ContactModel } from './src/models/contact.model'
+import { UserModel } from './src/models/user.model'
+import { IRoom } from './src/interfaces/room'
 ;(async () => {
-	await modifyQuery(`DROP DATABASE travl_db;`)
-	await modifyQuery(
-		`
-        CREATE DATABASE IF NOT EXISTS travl_db;
-        `
-	)
-	await modifyQuery(`USE travl_db;`)
-	await modifyQuery(`
-	CREATE TABLE IF NOT EXISTS room (
-	    id INT NOT NULL AUTO_INCREMENT,
-	    room_number INT NOT NULL,
-	    room_type VARCHAR(45) NOT NULL,
-	    description LONGTEXT NOT NULL,
-	    price INT NOT NULL,
-	    offer_price BOOLEAN NOT NULL,
-	    discount INT NOT NULL,
-	    status BOOLEAN NOT NULL,
-	    PRIMARY KEY(id));
-	`)
-	for (let index = 0; index < loop; index++) {
-		const query = `
-            INSERT INTO room (room_number, room_type, description, price, offer_price, discount, status)
-            VALUES (?, ?, ?, ?, ?, ?, ?);
-        `
-		const params = [
-			faker.helpers.rangeToNumber({ min: 100, max: 900 }),
-			faker.helpers.arrayElement([
-				'Single Bed',
-				'Double Bed',
-				'Double Superior',
-				'Suite',
-			]),
-			faker.lorem.sentence(),
-			faker.helpers.rangeToNumber({ min: 100, max: 1000 }),
-			faker.helpers.arrayElement([true, false]),
-			faker.helpers.arrayElement([0, 5, 10, 20]),
-			faker.helpers.arrayElement([true, false]),
-		]
-		await modifyQuery(query, params)
-	}
+	// const URI: string = process.env.MONGO_URI || ''
+	const URI_ATLAS: string = process.env.MONGO_ATLAS_URI || ''
+	try {
+		await connect(URI_ATLAS, {
+			dbName: process.env.MONGO_DB || 'Dashboard-api',
+		})
+		console.log('Connected to MongoDB')
 
-	await modifyQuery(`
-	CREATE TABLE IF NOT EXISTS booking (
-        id INT NOT NULL AUTO_INCREMENT,
-        guest VARCHAR(255) NOT NULL,
-        phone_number VARCHAR(45) NOT NULL,
-        order_date DATE NOT NULL,
-        check_in DATE NOT NULL,
-        check_out DATE NOT NULL,
-        special_request VARCHAR(255) NOT NULL,
-        status VARCHAR(45) NOT NULL,
-        room_id INT NOT NULL,
-        PRIMARY KEY(id),
-        FOREIGN KEY (room_id) REFERENCES room (id) ON DELETE CASCADE ON UPDATE CASCADE);
-	`)
-	for (let index = 0; index < loopPlus; index++) {
-		const query = `
-        INSERT INTO booking (guest, phone_number, order_date, check_in, check_out, special_request, status, room_id) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?);
-        `
-		const params = [
-			faker.person.fullName(),
-			faker.phone.number(),
-			faker.date.recent(),
-			faker.date.recent(),
-			faker.date.recent(),
-			faker.lorem.sentence(),
-			faker.helpers.arrayElement([
-				'Check In',
-				'Check Out',
-				'In Progress',
-			]),
-			faker.helpers.rangeToNumber({ min: 1, max: loop }),
-		]
-		await modifyQuery(query, params)
-	}
+		BookingModel.collection.drop()
+		RoomModel.collection.drop()
+		ContactModel.collection.drop()
+		UserModel.collection.drop()
 
-	await modifyQuery(`
-    CREATE TABLE IF NOT EXISTS user (
-        id INT NOT NULL AUTO_INCREMENT,
-        full_name VARCHAR(255) NOT NULL,
-        email VARCHAR(255) NOT NULL,
-        photo VARCHAR(255) NOT NULL,
-        start_date DATE NOT NULL,
-        description VARCHAR(255) NOT NULL,
-        phone_number VARCHAR(45) NOT NULL,
-        status BOOLEAN NOT NULL,
-        PRIMARY KEY (id));
-    `)
+		const numOfData: number = 10
+		const createdRooms: IRoom[] = []
 
-	for (let index = 0; index < loop; index++) {
-		const query = `
-            INSERT INTO user (full_name, email, photo, start_date, description, phone_number, status) 
-            VALUES (?, ?, ?, ?, ?, ?, ?);
-        `
-		const params = [
-			faker.person.fullName(),
-			faker.internet.email(),
-			faker.image.avatar(),
-			faker.date.recent(),
-			faker.helpers.arrayElement([
-				'Hotel Director',
-				'Cleaner',
-				'Recepcionist',
-				'Chef',
-				'Kitchen Porter',
-			]),
-			faker.phone.number(),
-			faker.helpers.arrayElement([true, false]),
-		]
-		await modifyQuery(query, params)
-	}
-
-	await modifyQuery(`
-    CREATE TABLE IF NOT EXISTS contact (
-        id INT NOT NULL AUTO_INCREMENT,
-        full_name VARCHAR(255) NOT NULL,
-        email VARCHAR(255) NOT NULL,
-        phone_number VARCHAR(45) NOT NULL,
-        subject_of_review VARCHAR(255) NOT NULL,
-        review_body VARCHAR(255) NOT NULL,
-        date DATE NOT NULL,
-        status BOOLEAN NOT NULL,
-        PRIMARY KEY (id));
-    `)
-
-	for (let index = 0; index < loop; index++) {
-		const query = `
-	INSERT INTO contact (full_name, email, phone_number, subject_of_review, review_body, date, status)
-	VALUES (?, ?, ?, ?, ?, ?, ?);
-	`
-		const params = [
-			faker.person.fullName(),
-			faker.internet.email(),
-			faker.phone.number(),
-			faker.lorem.sentence(),
-			faker.lorem.sentence(),
-			faker.date.recent(),
-			faker.helpers.arrayElement([true, false]),
-		]
-		await modifyQuery(query, params)
-	}
-
-	await modifyQuery(`
-    CREATE TABLE IF NOT EXISTS photo (
-        id INT NOT NULL AUTO_INCREMENT,
-        URL VARCHAR(255) NOT NULL,
-        room_id INT NOT NULL,
-        PRIMARY KEY (id),
-        FOREIGN KEY (room_id) REFERENCES room (id) ON DELETE CASCADE ON UPDATE CASCADE);
-    `)
-	for (let index = 0; index < loop; index++) {
-		const query = `
-        INSERT INTO photo (URL, room_id)
-        VALUES (?, ?);
-        `
-		const params = [
-			faker.image.urlPicsumPhotos(),
-			faker.helpers.rangeToNumber({ min: 1, max: loop }),
-		]
-		await modifyQuery(query, params)
-	}
-
-	await modifyQuery(`
-    CREATE TABLE IF NOT EXISTS amenity (
-        id INT NOT NULL AUTO_INCREMENT,
-        amenities VARCHAR(255) NOT NULL,
-        PRIMARY KEY (id));
-    `)
-	await modifyQuery(`
-        INSERT INTO amenity (amenities) 
-        VALUES ('Free Wifi'),
-        ('Towels'),
-        ('Mini Bar'),
-        ('Coffee Set'),
-        ('Nice Views'),
-        ('1/3 Bed Space'),
-        ('24-Hour Guard'),
-        ('Air Conditioner'),
-        ('Television'),
-        ('Coffee Set');
-    `)
-
-	await modifyQuery(`
-    CREATE TABLE IF NOT EXISTS amenities_has_room (
-        room_id INT NOT NULL,
-        amenity_id INT NOT NULL,
-        FOREIGN KEY (room_id) REFERENCES room (id) ON DELETE CASCADE ON UPDATE CASCADE,
-        FOREIGN KEY (amenity_id) REFERENCES amenity (id), 
-        PRIMARY KEY (room_id, amenity_id));
-            `)
-	for (let index = 1; index <= loop; index++) {
-		for (
-			let indexAmenity = 1;
-			indexAmenity <= Math.floor(Math.random() * (10 - 1) + 1);
-			indexAmenity++
-		) {
-			const query = faker.helpers.arrayElement([
-				`INSERT INTO amenities_has_room (room_id, amenity_id) VALUES (?, ?);`,
-			])
-			const params = [index, indexAmenity]
-			await modifyQuery(query, params)
+		for (let index = 0; index < numOfData; index++) {
+			const roomInput = {
+				room_number: faker.helpers.rangeToNumber({
+					min: 100,
+					max: 900,
+				}),
+				room_photo: faker.image.urlPicsumPhotos(),
+				room_type: faker.helpers.arrayElement([
+					'Single Bed',
+					'Double Bed',
+					'Double Superior',
+					'Suite',
+				]),
+				description: faker.lorem.sentence(),
+				amenities_type: faker.helpers.arrayElement([
+					'full',
+					'midrange',
+					'basic',
+					'premium',
+				]),
+				amenities: faker.helpers.arrayElements([
+					{ name: '1/3 Bed Space', description: 'Spacious bed area' },
+					{
+						name: '24-Hour Guard',
+						description: 'Security available around the clock',
+					},
+					{
+						name: 'Free Wifi',
+						description: 'High-speed internet access',
+					},
+					{ name: 'Air Conditioner', description: 'Climate control' },
+					{ name: 'Television', description: 'Flat-screen TV' },
+					{ name: 'Towels', description: 'Fresh towels provided' },
+					{
+						name: 'Mini Bar',
+						description: 'Mini bar with refreshments',
+					},
+					{
+						name: 'Coffee Set',
+						description: 'Coffee and tea making facilities',
+					},
+					{ name: 'Bathtub', description: 'Luxurious bathtub' },
+					{ name: 'Jacuzzi', description: 'Private Jacuzzi' },
+					{
+						name: 'Nice Views',
+						description: 'Scenic views from the room',
+					},
+				]),
+				price: faker.helpers.rangeToNumber({ min: 100, max: 1000 }),
+				offer_price: faker.helpers.arrayElement(['true', 'false']),
+				discount: faker.helpers.arrayElement([0, 5, 10, 20]),
+				status: faker.helpers.arrayElement(['Available', 'Booked']),
+			}
+			const room = await RoomModel.create(roomInput)
+			createdRooms.push(room)
 		}
+
+		for (let index = 0; index < numOfData + 20; index++) {
+			const bookingInput = {
+				guest: faker.person.fullName(),
+				phone_number: faker.phone.number(),
+				order_date: faker.date.recent(),
+				check_in: faker.date.recent(),
+				check_out: faker.date.recent(),
+				special_request: faker.lorem.sentence(),
+				room_type: createdRooms[index].room_type,
+				room_number: createdRooms[index].room_number,
+				status: faker.helpers.arrayElement([
+					'CheckIn',
+					'CheckOut',
+					'In Progress',
+				]),
+				photos: [faker.image.urlPicsumPhotos()],
+				roomId: createdRooms[index]._id,
+			}
+			await BookingModel.create(bookingInput)
+		}
+
+		for (let index = 0; index < numOfData; index++) {
+			const contactInput = {
+				full_name: faker.person.fullName(),
+				email: faker.internet.email(),
+				phone_number: faker.phone.number(),
+				subject_of_review: faker.lorem.sentence(),
+				review_body: faker.lorem.sentence(),
+				date: faker.date.recent(),
+				dateTime: faker.date.recent(),
+				isArchived: faker.helpers.arrayElement(['true', 'false']),
+			}
+			await ContactModel.create(contactInput)
+		}
+
+		await UserModel.create({
+			full_name: 'David Pallarés Robaina',
+			password:
+				'$2a$10$vBaQo2hqdDGMwimjbE7YaeyD1ABwFy8sPbogp.uSxUZjhF7JD1IFy',
+			email: 'dpr@gmail.com',
+			photo: 'https://robohash.org/DavidPR.png?set=any',
+			start_date: '2020-05-15',
+			description: 'Front Desk',
+			phone_number: '+1 (123) 456-7890',
+			status: 'active',
+		})
+		for (let index = 0; index < numOfData; index++) {
+			const userInput = {
+				full_name: faker.person.fullName(),
+				password: faker.internet.password(),
+				email: faker.internet.email(),
+				photo: faker.image.avatar(),
+				start_date: faker.date.recent(),
+				description: faker.lorem.sentence(),
+				phone_number: faker.phone.number(),
+				status: faker.helpers.arrayElement(['active', 'inactive']),
+			}
+			await UserModel.create(userInput)
+		}
+		process.exit()
+	} catch (err) {
+		throw new Error(`Error: ${err}`)
 	}
-	endConection()
 })()

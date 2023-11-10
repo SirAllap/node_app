@@ -8,77 +8,32 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userService = void 0;
-
-const util_1 = require("../util/util");
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const user_model_1 = require("../models/user.model");
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const query = `
-	SELECT * 
-	FROM user;
-	`;
-    const result = yield (0, util_1.SelectQuery)(query);
+    const result = yield user_model_1.UserModel.find({}, { password: 0 });
+    if (result.length === 0)
+        throw new Error('There is no users in the database.');
     return result;
 });
 const fetchOne = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const query = `
-	SELECT * 
-	FROM user WHERE id=?;
-	`;
-    const params = [userId];
-    const result = yield (0, util_1.SelectQuery)(query, params);
+    const result = yield user_model_1.UserModel.findById(userId, { password: 0 });
+    if (!result)
+        throw new Error('There is no user with that ID in the database.');
     return result;
 });
 const createOne = (user) => __awaiter(void 0, void 0, void 0, function* () {
-    const query = `
-	INSERT INTO user (full_name, email, photo, start_date, description, phone_number, status) 
-	VALUES (?, ?, ?, ?, ?, ?, ?);
-	`;
-    const params = [
-        user.full_name,
-        user.email,
-        user.photo,
-        user.start_date,
-        user.description,
-        user.phone_number,
-        user.status,
-    ];
-    const result = (0, util_1.ModifyQuery)(query, params);
-    return result;
-});
-const updateOne = (userId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    const query = `
-	UPDATE user
-	SET full_name=?, email=?, photo=?, start_date=?, description=?, phone_number=?, status=?
-	WHERE id=?;
-	`;
-    const params = [
-        update.full_name,
-        update.email,
-        update.photo,
-        update.start_date,
-        update.description,
-        update.phone_number,
-        update.status,
-        userId,
-    ];
-    const result = (0, util_1.ModifyQuery)(query, params);
-    return result;
-});
-const destroyOne = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const query = `
-	DELETE FROM user 
-	WHERE id=?;
-	`;
-    const params = [userId];
-    const result = yield (0, util_1.SelectQuery)(query, params);
-
+    user.password = bcryptjs_1.default.hashSync(user.password || '', 10);
+    const result = yield user_model_1.UserModel.create(user);
     return result;
 });
 exports.userService = {
     fetchAll,
     fetchOne,
     createOne,
-    updateOne,
-    destroyOne,
 };

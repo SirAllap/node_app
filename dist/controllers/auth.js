@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.authController = void 0;
 const auth_1 = require("../services/auth");
 const express_1 = require("express");
-const validation_1 = require("../validators/validation");
+const validation_1 = require("../middlewares/validation");
 const schemas_1 = require("../validators/schemas");
 exports.authController = (0, express_1.Router)();
 exports.authController.post('/', (0, validation_1.validateOject)(schemas_1.authSchema), (req, res) => __awaiter(void 0, void 0, void 0, function* () {

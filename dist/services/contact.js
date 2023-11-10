@@ -10,70 +10,37 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.contactService = void 0;
-
-const util_1 = require("../util/util");
+const contact_model_1 = require("../models/contact.model");
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const query = `
-	SELECT * 
-	FROM contact;
-	`;
-    const result = yield (0, util_1.SelectQuery)(query);
+    const result = yield contact_model_1.ContactModel.find();
+    if (result.length === 0)
+        throw new Error('There is no contacts in the database.');
     return result;
 });
 const fetchOne = (contactId) => __awaiter(void 0, void 0, void 0, function* () {
-    const query = `
-	SELECT * 
-	FROM contact
-	WHERE id=?
-	;
-	`;
-    const params = [contactId];
-    const result = yield (0, util_1.SelectQuery)(query, params);
+    const result = yield contact_model_1.ContactModel.findById(contactId);
+    if (!result)
+        throw new Error('There is no contact with that ID in the database.');
     return result;
 });
 const createOne = (contact) => __awaiter(void 0, void 0, void 0, function* () {
-    const query = `
-	INSERT INTO contact (full_name, email, phone_number, subject_of_review, review_body, date, status)
-	VALUES (?, ?, ?, ?, ?, ?, ?);
-	`;
-    const params = [
-        contact.full_name,
-        contact.email,
-        contact.phone_number,
-        contact.subject_of_review,
-        contact.review_body,
-        contact.date,
-        contact.status,
-    ];
-    const result = yield (0, util_1.ModifyQuery)(query, params);
+    const result = yield contact_model_1.ContactModel.create(contact);
     return result;
 });
 const updateOne = (contactId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    const query = `
-	UPDATE contact
-	SET full_name = ?, email = ?, phone_number = ?, subject_of_review = ?, review_body = ?, date = ?, status = ?
-	WHERE id = ?;
-	`;
-    const params = [
-        update.full_name,
-        update.email,
-        update.phone_number,
-        update.subject_of_review,
-        update.review_body,
-        update.date,
-        update.status,
-        contactId,
-    ];
-    const result = yield (0, util_1.ModifyQuery)(query, params);
+    const result = yield contact_model_1.ContactModel.findByIdAndUpdate(contactId, update, {
+        new: true,
+    });
+    if (!result) {
+        throw new Error();
+    }
     return result;
 });
 const destroyOne = (contactId) => __awaiter(void 0, void 0, void 0, function* () {
-    const query = `
-	DELETE FROM contact
-	WHERE id=?;`;
-    const params = [contactId];
-    const result = yield (0, util_1.SelectQuery)(query, params);
-
+    const result = yield contact_model_1.ContactModel.findByIdAndDelete(contactId);
+    if (!result) {
+        throw new Error();
+    }
     return result;
 });
 exports.contactService = {

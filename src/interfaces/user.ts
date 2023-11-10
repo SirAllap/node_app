@@ -1,5 +1,5 @@
 export interface IUser {
-	user_id?: number | string
+	_id?: number | string
 	full_name: string
 	password?: string
 	email: string
