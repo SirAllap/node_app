@@ -12,23 +12,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.contactService = void 0;
 const contact_model_1 = require("../models/contact.model");
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield contact_model_1.contactModel.find();
+    const result = yield contact_model_1.ContactModel.find();
     if (result.length === 0)
         throw new Error('There is no contacts in the database.');
     return result;
 });
 const fetchOne = (contactId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield contact_model_1.contactModel.findById(contactId);
+    const result = yield contact_model_1.ContactModel.findById(contactId);
     if (!result)
         throw new Error('There is no contact with that ID in the database.');
     return result;
 });
 const createOne = (contact) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield contact_model_1.contactModel.create(contact);
+    const result = yield contact_model_1.ContactModel.create(contact);
     return result;
 });
 const updateOne = (contactId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield contact_model_1.contactModel.findByIdAndUpdate(contactId, update, {
+    const result = yield contact_model_1.ContactModel.findByIdAndUpdate(contactId, update, {
         new: true,
     });
     if (!result) {
@@ -37,7 +37,7 @@ const updateOne = (contactId, update) => __awaiter(void 0, void 0, void 0, funct
     return result;
 });
 const destroyOne = (contactId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield contact_model_1.contactModel.findByIdAndDelete(contactId);
+    const result = yield contact_model_1.ContactModel.findByIdAndDelete(contactId);
     if (!result) {
         throw new Error();
     }

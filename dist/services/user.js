@@ -16,42 +16,24 @@ exports.userService = void 0;
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_model_1 = require("../models/user.model");
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.userModel.find({}, { password: 0 });
+    const result = yield user_model_1.UserModel.find({}, { password: 0 });
     if (result.length === 0)
         throw new Error('There is no users in the database.');
     return result;
 });
 const fetchOne = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.userModel.findById(userId, { password: 0 });
+    const result = yield user_model_1.UserModel.findById(userId, { password: 0 });
     if (!result)
         throw new Error('There is no user with that ID in the database.');
     return result;
 });
 const createOne = (user) => __awaiter(void 0, void 0, void 0, function* () {
     user.password = bcryptjs_1.default.hashSync(user.password || '', 10);
-    const result = yield user_model_1.userModel.create(user);
-    return result;
-});
-const updateOne = (userId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.userModel.findByIdAndUpdate(userId, update, {
-        new: true,
-    });
-    if (!result) {
-        throw new Error();
-    }
-    return result;
-});
-const destroyOne = (userId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.userModel.findByIdAndDelete(userId, { password: 0 });
-    if (!result) {
-        throw new Error();
-    }
+    const result = yield user_model_1.UserModel.create(user);
     return result;
 });
 exports.userService = {
     fetchAll,
     fetchOne,
     createOne,
-    updateOne,
-    destroyOne,
 };

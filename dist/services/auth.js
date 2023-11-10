@@ -19,7 +19,7 @@ const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_model_1 = require("../models/user.model");
 const secret = process.env.SECRET || '';
 const login = (email, password) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield user_model_1.userModel.findOne({ email: email });
+    const result = yield user_model_1.UserModel.findOne({ email: email });
     if (!result)
         throw new Error('User not found');
     bcryptjs_1.default.compare(password, result.password || '', (err, res) => {

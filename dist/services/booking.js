@@ -12,23 +12,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingService = void 0;
 const booking_model_1 = require("../models/booking.model");
 const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield booking_model_1.bookingModel.find();
+    const result = yield booking_model_1.BookingModel.find();
     if (result.length === 0)
         throw new Error('There is no bookings in the database.');
     return result;
 });
 const fetchOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield booking_model_1.bookingModel.findById(bookingId);
+    const result = yield booking_model_1.BookingModel.findById(bookingId);
     if (!result)
         throw new Error('There is no booking with that ID in the database.');
     return result;
 });
 const createOne = (booking) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield booking_model_1.bookingModel.create(booking);
+    const result = yield booking_model_1.BookingModel.create(booking);
     return result;
 });
 const updateOne = (bookingId, update) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield booking_model_1.bookingModel.findByIdAndUpdate(bookingId, update, {
+    const result = yield booking_model_1.BookingModel.findByIdAndUpdate(bookingId, update, {
         new: true,
     });
     if (!result) {
@@ -37,7 +37,7 @@ const updateOne = (bookingId, update) => __awaiter(void 0, void 0, void 0, funct
     return result;
 });
 const destroyOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield booking_model_1.bookingModel.findByIdAndDelete(bookingId);
+    const result = yield booking_model_1.BookingModel.findByIdAndDelete(bookingId);
     if (!result) {
         throw new Error();
     }

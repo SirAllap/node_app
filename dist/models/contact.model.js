@@ -1,9 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.contactModel = void 0;
+exports.ContactModel = void 0;
 const mongoose_1 = require("mongoose");
 const contacSchema = new mongoose_1.Schema({
-    contact_id: { type: String, required: true },
     full_name: { type: String, required: true },
     email: { type: String, required: true },
     phone_number: { type: String, required: true },
@@ -13,4 +12,4 @@ const contacSchema = new mongoose_1.Schema({
     dateTime: { type: String, required: true },
     isArchived: { type: String, required: true },
 });
-exports.contactModel = (0, mongoose_1.model)('contacts', contacSchema);
+exports.ContactModel = (0, mongoose_1.model)('contacts', contacSchema);
