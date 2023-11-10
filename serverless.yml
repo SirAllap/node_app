@@ -1,4 +1,6 @@
-service: travl-miranda-backend
+
+service: contact-serverless-api-sql
+
 frameworkVersion: "3"
 
 provider:
