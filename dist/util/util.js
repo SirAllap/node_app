@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.endConection = exports.ModifyQuery = exports.SelectQuery = void 0;
+exports.endConection = exports.modifyQuery = exports.selectQuery = void 0;
 const promise_1 = __importDefault(require("mysql2/promise"));
 require("dotenv/config");
 const host = process.env.SQL_HOST;
@@ -27,16 +27,16 @@ const access = {
     idleTimeout: 60000,
 };
 const pool = promise_1.default.createPool(access);
-const SelectQuery = (queryString, params) => __awaiter(void 0, void 0, void 0, function* () {
+const selectQuery = (queryString, params) => __awaiter(void 0, void 0, void 0, function* () {
     const [results] = yield pool.execute(queryString, params);
     return results;
 });
-exports.SelectQuery = SelectQuery;
-const ModifyQuery = (queryString, params) => __awaiter(void 0, void 0, void 0, function* () {
+exports.selectQuery = selectQuery;
+const modifyQuery = (queryString, params) => __awaiter(void 0, void 0, void 0, function* () {
     const [results] = yield pool.query(queryString, params);
     return results;
 });
-exports.ModifyQuery = ModifyQuery;
+exports.modifyQuery = modifyQuery;
 const endConection = () => __awaiter(void 0, void 0, void 0, function* () {
     yield pool.end();
 });

@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingsController = void 0;
 const express_1 = require("express");
 const booking_1 = require("../services/booking");
-const validation_1 = require("../validators/validation");
+const validation_1 = require("../middlewares/validation");
 const schemas_1 = require("../validators/schemas");
 exports.bookingsController = (0, express_1.Router)();
 exports.bookingsController.get('/', (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -35,11 +35,9 @@ exports.bookingsController.get('/:bookingId', (req, res) => __awaiter(void 0, vo
 }));
 exports.bookingsController.post('/', (0, validation_1.validateOject)(schemas_1.bookingSchema), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-
         const newBooking = Object.assign({}, req.body);
         yield booking_1.bookingService.createOne(newBooking);
         res.json({ message: 'Booking successfully created' });
-
     }
     catch (error) {
         next(error);
@@ -47,12 +45,10 @@ exports.bookingsController.post('/', (0, validation_1.validateOject)(schemas_1.b
 }));
 exports.bookingsController.put('/:bookingId', (0, validation_1.validateOject)(schemas_1.bookingSchema), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-
         const id = req.params.bookingId;
         const bookingToUpdate = Object.assign({}, req.body);
         yield booking_1.bookingService.updateOne(id, bookingToUpdate),
             res.json({ message: 'Booking successfully updated' });
-
     }
     catch (error) {
         next(error);
