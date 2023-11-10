@@ -1,6 +1,6 @@
 import { authService } from '../services/auth'
 import { Request, Response, Router } from 'express'
-import { validateOject } from '../validators/validation'
+import { validateOject } from '../middlewares/validation'
 import { authSchema } from '../validators/schemas'
 
 export const authController = Router()

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express'
 import { IContact } from '../interface/contact'
 import { contactService } from '../services/contact'
-import { validateOject } from '../validators/validation'
+import { validateOject } from '../middlewares/validation'
 import { contactSchema } from '../validators/schemas'
 
 export const contactsController = Router()
