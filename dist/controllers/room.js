@@ -12,6 +12,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.roomsController = void 0;
 const express_1 = require("express");
 const room_1 = require("../services/room");
+const validation_1 = require("../middlewares/validation");
+const schemas_1 = require("../validators/schemas");
 exports.roomsController = (0, express_1.Router)();
 exports.roomsController.get('/', (_req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -31,19 +33,22 @@ exports.roomsController.get('/:roomId', (req, res) => __awaiter(void 0, void 0, 
         res.status(500).json(`${error}`);
     }
 }));
-exports.roomsController.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.roomsController.post('/', (0, validation_1.validateOject)(schemas_1.roomSchema), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield room_1.roomService.createOne(req.body);
-        res.json(result);
+        const newRoom = Object.assign({}, req.body);
+        yield room_1.roomService.createOne(newRoom);
+        res.json('Room successfully created');
     }
     catch (error) {
         res.status(500).json(`${error}`);
     }
 }));
-exports.roomsController.put('/:roomId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.roomsController.put('/:roomId', (0, validation_1.validateOject)(schemas_1.roomSchema), (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield room_1.roomService.updateOne(req.params.roomId, req.body);
-        res.json(result);
+        const id = req.params.roomId;
+        const roomToUpdate = Object.assign({}, req.body);
+        yield room_1.roomService.updateOne(id, roomToUpdate),
+            res.json('Room successfully updated');
     }
     catch (error) {
         res.status(500).json(`${error}`);

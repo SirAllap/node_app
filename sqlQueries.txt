@@ -1,0 +1,91 @@
+CREATE SCHEMA IF NOT EXISTS `travl_db` DEFAULT CHARACTER SET utf8 ;
+USE `travl_db` ;
+
+-- -----------------------------------------------------
+-- Table `room`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `room` (
+`id` INT NOT NULL AUTO_INCREMENT,
+`room_number` INT NOT NULL,
+`room_type` VARCHAR(45) NOT NULL,
+`description` VARCHAR(255) NOT NULL,
+`price` INT NOT NULL,
+`offer_price` BOOLEAN NOT NULL,
+`discount` INT NOT NULL,
+`status` VARCHAR(45) NOT NULL,
+PRIMARY KEY(`id`));
+
+-- -----------------------------------------------------
+-- Table `booking`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `booking` (
+`id` INT NOT NULL AUTO_INCREMENT,
+`guest` VARCHAR(255) NOT NULL,
+`phone_number` INT NOT NULL,
+`order_date` DATE NOT NULL,
+`check_in` DATE NOT NULL,
+`check_out` DATE NOT NULL,
+`special_request` VARCHAR(255) NOT NULL,
+`room_type` VARCHAR(45) NOT NULL,
+`room_number` INT NOT NULL,
+`status` VARCHAR(45) NOT NULL,
+`photos` VARCHAR(255) NOT NULL,
+`room_id` INT NOT NULL,
+PRIMARY KEY(`id`),
+FOREIGN KEY (`room_id`) REFERENCES `room` (`id`));
+
+-- -----------------------------------------------------
+-- Table `user`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `user` (
+`id` INT NOT NULL AUTO_INCREMENT,
+`full_name` VARCHAR(255) NOT NULL,
+`email` VARCHAR(255) NOT NULL,
+`photo` VARCHAR(255) NOT NULL,
+`start_date` DATE NOT NULL,
+`description` VARCHAR(255) NOT NULL,
+`phone_number` VARCHAR(45) NOT NULL,
+`status` VARCHAR(45) NOT NULL,
+PRIMARY KEY (`id`));
+
+-- -----------------------------------------------------
+-- Table `contact`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `contact` (
+`id` INT NOT NULL AUTO_INCREMENT,
+`full_name` VARCHAR(255) NOT NULL,
+`email` VARCHAR(255) NOT NULL,
+`phone_number` VARCHAR(45) NOT NULL,
+`subject_of_review` VARCHAR(255) NOT NULL,
+`review_body` VARCHAR(255) NOT NULL,
+`date` DATE NOT NULL,
+`status` VARCHAR(45) NOT NULL,
+PRIMARY KEY (`id`));
+
+-- -----------------------------------------------------
+-- Table `photo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `photo` (
+`id` INT NOT NULL AUTO_INCREMENT,
+`photos` VARCHAR(255) NOT NULL,
+`room_id` INT NOT NULL,
+PRIMARY KEY (`id`),
+FOREIGN KEY (`room_id`) REFERENCES `room` (`id`) ON DELETE CASCADE ON UPDATE CASCADE);
+
+-- -----------------------------------------------------
+-- Table `photo`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `amenity` (
+`id` INT NOT NULL AUTO_INCREMENT,
+`amenities` VARCHAR(255) NOT NULL,
+PRIMARY KEY (`id`));
+
+-- -----------------------------------------------------
+-- Table `amenities_has_room`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `amenities_has_room` (
+`room_id` INT NOT NULL,
+`amenity_id` INT NOT NULL,
+FOREIGN KEY (`room_id`) REFERENCES `room` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (`amenity_id`) REFERENCES `amenity` (`id`), 
+PRIMARY KEY (`room_id`, `amenity_id`));

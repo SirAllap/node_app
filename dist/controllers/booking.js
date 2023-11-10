@@ -12,11 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingsController = void 0;
 const express_1 = require("express");
 const booking_1 = require("../services/booking");
+const validation_1 = require("../middlewares/validation");
+const schemas_1 = require("../validators/schemas");
 exports.bookingsController = (0, express_1.Router)();
 exports.bookingsController.get('/', (_req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield booking_1.bookingService.fetchAll();
-        res.json(result);
+        res.json({ result });
     }
     catch (error) {
         next(error);
@@ -31,19 +33,22 @@ exports.bookingsController.get('/:bookingId', (req, res) => __awaiter(void 0, vo
         res.status(500).json(`${error}`);
     }
 }));
-exports.bookingsController.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController.post('/', (0, validation_1.validateOject)(schemas_1.bookingSchema), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield booking_1.bookingService.createOne(req.body);
-        res.json(result);
+        const newBooking = Object.assign({}, req.body);
+        yield booking_1.bookingService.createOne(newBooking);
+        res.json({ message: 'Booking successfully created' });
     }
     catch (error) {
         next(error);
     }
 }));
-exports.bookingsController.put('/:bookingId', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.bookingsController.put('/:bookingId', (0, validation_1.validateOject)(schemas_1.bookingSchema), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield booking_1.bookingService.updateOne(req.params.bookingId, req.body);
-        res.json(result);
+        const id = req.params.bookingId;
+        const bookingToUpdate = Object.assign({}, req.body);
+        yield booking_1.bookingService.updateOne(id, bookingToUpdate),
+            res.json({ message: 'Booking successfully updated' });
     }
     catch (error) {
         next(error);
