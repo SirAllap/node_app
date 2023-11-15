@@ -1,6 +1,11 @@
 import { connect } from 'mongoose'
 import 'dotenv/config'
 import { faker } from '@faker-js/faker'
+import { modifyQuery, endConection } from './src/util/util'
+
+const loop: number = 10
+const loopPlus: number = 60
+
 import { BookingModel } from './src/models/booking.model'
 import { RoomModel } from './src/models/room.model'
 import { ContactModel } from './src/models/contact.model'
