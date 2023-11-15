@@ -15,7 +15,7 @@ contactsController.get('/', async (_req: Request, res: Response) => {
 
 contactsController.get(
 	'/:contactId',
-	async (req: Request<{ contactId: number }>, res: Response) => {
+	async (req: Request<{ contactId: string }>, res: Response) => {
 		try {
 			const result = await contactService.fetchOne(req.params.contactId)
 			res.json(result)
@@ -40,7 +40,7 @@ contactsController.post(
 contactsController.put(
 	'/:contactId',
 	async (
-		req: Request<{ contactId: number }, IContact>,
+		req: Request<{ contactId: string }, Partial<IContact>>,
 		res: Response,
 		next: NextFunction
 	) => {
@@ -59,7 +59,7 @@ contactsController.put(
 contactsController.delete(
 	'/:contactId',
 	async (
-		req: Request<{ contactId: number }>,
+		req: Request<{ contactId: string }>,
 		res: Response,
 		next: NextFunction
 	) => {
