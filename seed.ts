@@ -7,10 +7,10 @@ import { ContactModel } from './src/models/contact.model'
 import { UserModel } from './src/models/user.model'
 import { IRoom } from './src/interfaces/room'
 ;(async () => {
-	// const URI: string = process.env.MONGO_URI || ''
-	const URI_ATLAS: string = process.env.MONGO_ATLAS_URI || ''
+	const URI: string = process.env.MONGO_URI || ''
+	// const URI_ATLAS: string = process.env.MONGO_ATLAS_URI || ''
 	try {
-		await connect(URI_ATLAS, {
+		await connect(URI, {
 			dbName: process.env.MONGO_DB || 'Dashboard-api',
 		})
 		console.log('Connected to MongoDB')
@@ -21,6 +21,7 @@ import { IRoom } from './src/interfaces/room'
 		UserModel.collection.drop()
 
 		const numOfData: number = 10
+		const numOfDataPlus: number = 60
 		const createdRooms: IRoom[] = []
 
 		for (let index = 0; index < numOfData; index++) {
@@ -80,7 +81,9 @@ import { IRoom } from './src/interfaces/room'
 			createdRooms.push(room)
 		}
 
-		for (let index = 0; index < numOfData + 20; index++) {
+		for (let index = 0; index < numOfDataPlus; index++) {
+			let randomRoom = Math.floor(Math.random() * numOfData)
+			const randomId = createdRooms[randomRoom]._id
 			const bookingInput = {
 				guest: faker.person.fullName(),
 				phone_number: faker.phone.number(),
@@ -88,15 +91,15 @@ import { IRoom } from './src/interfaces/room'
 				check_in: faker.date.recent(),
 				check_out: faker.date.recent(),
 				special_request: faker.lorem.sentence(),
-				room_type: createdRooms[index].room_type,
-				room_number: createdRooms[index].room_number,
+				room_type: createdRooms[randomRoom].room_type,
+				room_number: createdRooms[randomRoom].room_number,
 				status: faker.helpers.arrayElement([
 					'CheckIn',
 					'CheckOut',
 					'In Progress',
 				]),
 				photos: [faker.image.urlPicsumPhotos()],
-				roomId: createdRooms[index]._id,
+				roomId: randomId,
 			}
 			await BookingModel.create(bookingInput)
 		}
@@ -110,7 +113,7 @@ import { IRoom } from './src/interfaces/room'
 				review_body: faker.lorem.sentence(),
 				date: faker.date.recent(),
 				dateTime: faker.date.recent(),
-				isArchived: faker.helpers.arrayElement(['true', 'false']),
+				isArchived: 'false',
 			}
 			await ContactModel.create(contactInput)
 		}
