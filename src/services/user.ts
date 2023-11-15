@@ -22,8 +22,28 @@ const createOne = async (user: IUser) => {
 	return result
 }
 
+const updateOne = async (contactId: number, update: Partial<IUser>) => {
+	const result = await UserModel.findByIdAndUpdate(contactId, update, {
+		new: true,
+	})
+	if (!result) {
+		throw new Error()
+	}
+	return result
+}
+
+const destroyOne = async (contactId: number) => {
+	const result = await UserModel.findByIdAndDelete(contactId)
+	if (!result) {
+		throw new Error()
+	}
+	return result
+}
+
 export const userService = {
 	fetchAll,
 	fetchOne,
 	createOne,
+	updateOne,
+	destroyOne,
 }
