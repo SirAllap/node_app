@@ -25,6 +25,7 @@ const fetchOne = (roomId) => __awaiter(void 0, void 0, void 0, function* () {
 });
 const createOne = (room) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield room_model_1.RoomModel.create(room);
+    console.log('im here');
     return result;
 });
 const updateOne = (roomId, update) => __awaiter(void 0, void 0, void 0, function* () {

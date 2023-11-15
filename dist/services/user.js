@@ -32,8 +32,26 @@ const createOne = (user) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.UserModel.create(user);
     return result;
 });
+const updateOne = (contactId, update) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.UserModel.findByIdAndUpdate(contactId, update, {
+        new: true,
+    });
+    if (!result) {
+        throw new Error();
+    }
+    return result;
+});
+const destroyOne = (contactId) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield user_model_1.UserModel.findByIdAndDelete(contactId);
+    if (!result) {
+        throw new Error();
+    }
+    return result;
+});
 exports.userService = {
     fetchAll,
     fetchOne,
     createOne,
+    updateOne,
+    destroyOne,
 };
