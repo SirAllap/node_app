@@ -8,7 +8,7 @@ const fetchAll = async () => {
 	return result
 }
 
-const fetchOne = async (contactId: number) => {
+const fetchOne = async (contactId: string) => {
 	const result = await ContactModel.findById(contactId)
 	if (!result)
 		throw new Error('There is no contact with that ID in the database.')
@@ -20,7 +20,7 @@ const createOne = async (contact: IContact) => {
 	return result
 }
 
-const updateOne = async (contactId: number, update: Partial<IContact>) => {
+const updateOne = async (contactId: string, update: Partial<IContact>) => {
 	const result = await ContactModel.findByIdAndUpdate(contactId, update, {
 		new: true,
 	})
@@ -30,7 +30,7 @@ const updateOne = async (contactId: number, update: Partial<IContact>) => {
 	return result
 }
 
-const destroyOne = async (contactId: number) => {
+const destroyOne = async (contactId: string) => {
 	const result = await ContactModel.findByIdAndDelete(contactId)
 	if (!result) {
 		throw new Error()
