@@ -7,17 +7,14 @@ const secret: string = process.env.SECRET || ''
 
 const login = async (email: string, password: string) => {
 	const result = await UserModel.findOne({ email: email })
-	if (!result) throw new Error('User not found')
-	bcrypt.compare(password, result.password || '', (err, res) => {
-		if (err) throw new Error('Something went wrong')
-		if (!res) throw new Error('Email or password incorrect')
-	})
-	const signResponse = signJWT({ email })
-	return signResponse
+	if (!result) throw new Error()
+	const passwordCheck = await bcrypt.compare(password, result.password || '')
+	if (!passwordCheck) throw new Error()
+	return signJWT({ email })
 }
 
 const signJWT = (payload: { email: string }) => {
-	const token = jwt.sign(payload, secret, { expiresIn: '1h' })
+	const token = jwt.sign(payload, secret, { expiresIn: '5h' })
 	return { payload, token }
 }
 
