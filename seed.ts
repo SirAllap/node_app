@@ -7,11 +7,11 @@ import { ContactModel } from './src/models/contact.model'
 import { UserModel } from './src/models/user.model'
 import { IRoom } from './src/interfaces/room'
 ;(async () => {
-	const URI: string = process.env.MONGO_URI || ''
-	// const URI_ATLAS: string = process.env.MONGO_ATLAS_URI || ''
+	// const URI_LOCAL: string = process.env.MONGO_URI || ''
+	const URI_ATLAS: string = process.env.MONGO_ATLAS_URI || ''
 	try {
-		await connect(URI, {
-			dbName: process.env.MONGO_DB || 'Dashboard-api',
+		await connect(URI_ATLAS, {
+			dbName: process.env.MONGO_DB,
 		})
 		console.log('Connected to MongoDB')
 
@@ -109,8 +109,8 @@ import { IRoom } from './src/interfaces/room'
 				full_name: faker.person.fullName(),
 				email: faker.internet.email(),
 				phone_number: faker.phone.number(),
-				subject_of_review: faker.lorem.sentence(),
-				review_body: faker.lorem.sentence(),
+				subject_of_review: faker.lorem.sentence({ min: 2, max: 4 }),
+				review_body: faker.lorem.sentence({ min: 5, max: 15 }),
 				date: faker.date.recent(),
 				dateTime: faker.date.recent(),
 				isArchived: 'false',

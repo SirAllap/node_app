@@ -21,18 +21,14 @@ const secret = process.env.SECRET || '';
 const login = (email, password) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.UserModel.findOne({ email: email });
     if (!result)
-        throw new Error('User not found');
-    bcryptjs_1.default.compare(password, result.password || '', (err, res) => {
-        if (err)
-            throw new Error('Something went wrong');
-        if (!res)
-            throw new Error('Email or password incorrect');
-    });
-    const signResponse = signJWT({ email });
-    return signResponse;
+        throw new Error();
+    const passwordCheck = yield bcryptjs_1.default.compare(password, result.password || '');
+    if (!passwordCheck)
+        throw new Error('Wrong password');
+    return signJWT({ email });
 });
 const signJWT = (payload) => {
-    const token = jsonwebtoken_1.default.sign(payload, secret, { expiresIn: '1h' });
+    const token = jsonwebtoken_1.default.sign(payload, secret, { expiresIn: '5h' });
     return { payload, token };
 };
 const verifyJWT = (token) => {
