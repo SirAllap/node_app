@@ -26,11 +26,11 @@ const room_1 = require("./controllers/room");
 const contact_1 = require("./controllers/contact");
 const user_1 = require("./controllers/user");
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    const URI = process.env.MONGO_URI || '';
-    const DBNAME = process.env.MONGO_DB || '';
+    // const URI_LOCAL: string = process.env.MONGO_URI || ''
+    const URI_ATLAS = process.env.MONGO_ATLAS_URI || '';
     try {
-        yield (0, mongoose_1.connect)(URI, {
-            dbName: DBNAME || 'Dashboard-api',
+        yield (0, mongoose_1.connect)(URI_ATLAS, {
+            dbName: process.env.MONGO_DB || 'Dashboard-api',
         });
         console.log('Connected to MongoDB');
     }
