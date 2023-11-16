@@ -7,11 +7,11 @@ import { ContactModel } from './src/models/contact.model'
 import { UserModel } from './src/models/user.model'
 import { IRoom } from './src/interfaces/room'
 ;(async () => {
-	// const URI_LOCAL: string = process.env.MONGO_URI || ''
-	const URI_ATLAS: string = process.env.MONGO_ATLAS_URI || ''
+	const URI: string = process.env.MONGO_URI || ''
+	const DBNAME: string = process.env.MONGO_DB || ''
 	try {
-		await connect(URI_ATLAS, {
-			dbName: process.env.MONGO_DB,
+		await connect(URI, {
+			dbName: DBNAME || 'Dashboard-api',
 		})
 		console.log('Connected to MongoDB')
 
@@ -30,7 +30,12 @@ import { IRoom } from './src/interfaces/room'
 					min: 100,
 					max: 900,
 				}),
-				room_photo: faker.image.urlPicsumPhotos(),
+				room_photo: [
+					'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+					'https://images.pexels.com/photos/164595/pexels-photo-164595.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+					'https://images.pexels.com/photos/262048/pexels-photo-262048.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+					'https://images.pexels.com/photos/1579253/pexels-photo-1579253.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
+				],
 				room_type: faker.helpers.arrayElement([
 					'Single Bed',
 					'Double Bed',
@@ -98,7 +103,6 @@ import { IRoom } from './src/interfaces/room'
 					'CheckOut',
 					'In Progress',
 				]),
-				photos: [faker.image.urlPicsumPhotos()],
 				roomId: randomId,
 			}
 			await BookingModel.create(bookingInput)
@@ -122,11 +126,11 @@ import { IRoom } from './src/interfaces/room'
 			full_name: 'David Pallarés Robaina',
 			password:
 				'$2a$10$vBaQo2hqdDGMwimjbE7YaeyD1ABwFy8sPbogp.uSxUZjhF7JD1IFy',
-			email: 'dpr@gmail.com',
-			photo: 'https://robohash.org/DavidPR.png?set=any',
-			start_date: '2020-05-15',
-			description: 'Front Desk',
-			phone_number: '+1 (123) 456-7890',
+			email: 'david.pr.developer@gmail.com',
+			photo: 'https://avatars.githubusercontent.com/u/53468881',
+			start_date: faker.date.recent(),
+			description: 'FullStack Developer',
+			phone_number: '+34 638-492-817',
 			status: 'active',
 		})
 		for (let index = 0; index < numOfData; index++) {
@@ -136,7 +140,12 @@ import { IRoom } from './src/interfaces/room'
 				email: faker.internet.email(),
 				photo: faker.image.avatar(),
 				start_date: faker.date.recent(),
-				description: faker.lorem.sentence(),
+				description: faker.helpers.arrayElement([
+					'Director',
+					'Cleaner',
+					'Recepcionist',
+					'Sales',
+				]),
 				phone_number: faker.phone.number(),
 				status: faker.helpers.arrayElement(['active', 'inactive']),
 			}
