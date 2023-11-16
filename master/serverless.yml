@@ -1,0 +1,22 @@
+
+service: contact-serverless-api-sql
+
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: eu-west-1
+  environment:
+    SECRET: ${file(.env.json):SECRET}
+    MONGO_ATLAS_URI: ${file(.env.json):MONGO_ATLAS_URI}
+
+functions:
+  api:
+    handler: src/lambda.handler
+    events:
+      - httpApi: "*"
+
+plugins:
+  - serverless-plugin-typescript
+  - serverless-offline
