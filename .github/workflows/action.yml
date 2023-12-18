@@ -18,9 +18,13 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+        
+    - name: Setting the env variables
+      run: echo '{"SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}"}' > .env.json
 
-    - run: echo '{"SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}"}' > .env.json
-    - run: npm ci
+    - name: NPM clean install
+      run: npm ci
+      
     - name: serverless deploy
       uses: serverless/github-action@v3.2
       with:
