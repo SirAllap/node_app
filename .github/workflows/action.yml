@@ -18,10 +18,10 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+      env:
+        SECRET: ${{ secrets.SECRET }}
+        MONGO_URI: ${{ secrets.MONGO_URI }}
         
-    - name: Setting the env variables
-      run: echo '{"SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}"}' > .env.json
-
     - name: NPM clean install
       run: npm ci
       
