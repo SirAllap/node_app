@@ -8,8 +8,6 @@ provider:
   environment:
     SECRET: ${file(.env.json):SECRET}
     MONGO_URI: ${file(.env.json):MONGO_URI}
-    # SECRET: ${env:SECRET}
-    # MONGO_URI: ${env.):MONGO_URI}
 
 functions:
   api:
