@@ -16,11 +16,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Setting the env variables
-      run: echo '{"SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}"}' > .env.json
-
     - name: NPM clean install
       run: npm ci  
+      env:
+        SECRET: ${{ secrets.SECRET }}
+        MONGO_URI: ${{ secrets.MONGO_URI }}
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
