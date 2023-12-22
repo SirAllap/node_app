@@ -14,10 +14,10 @@ import { usersController } from './controllers/user'
 // connect to DB
 ;(async () => {
 	const URI: string = process.env.MONGO_URI || ''
-	const DBNAME: string = process.env.MONGO_DB || ''
+	const DBNAME: string = process.env.MONGO_DB || 'Dashboard-api'
 	try {
 		await connect(URI, {
-			dbName: DBNAME || 'Dashboard-api',
+			dbName: DBNAME,
 		})
 		console.log('Connected to MongoDB')
 	} catch (err) {
