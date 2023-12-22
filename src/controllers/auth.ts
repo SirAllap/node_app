@@ -9,7 +9,6 @@ authController.post(
 		req: Request<{ email: string; password: string }>,
 		res: Response
 	) => {
-		console.log(req.body.email)
 		try {
 			const result = await authService.login(
 				req.body.email,

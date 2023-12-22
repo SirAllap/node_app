@@ -18,6 +18,9 @@ jobs:
 
     - name: NPM clean install
       run: npm ci  
+      # env:
+      #   SECRET: ${{ secrets.SECRET }}
+      #   MONGO_URI: ${{ secrets.MONGO_URI }}
 
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v3
@@ -29,7 +32,7 @@ jobs:
       with:
         args: deploy
       env:
-        SECRET: ${{ secrets.SECRET }}
-        MONGO_URI: ${{ secrets.MONGO_URI }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        SECRET: ${{ secrets.SECRET }}
+        MONGO_URI: ${{ secrets.MONGO_URI }}
