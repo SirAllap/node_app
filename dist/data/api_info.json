@@ -8,6 +8,7 @@
         "private": {
             "/bookings": ["GET", "POST"],
             "/bookings/bookingsId": ["GET", "PUT", "DELETE"],
+            "/bookings/ref/reference_number": ["GET"],
             "/rooms": ["GET", "POST"],
             "/rooms/roomsId": ["GET", "PUT", "DELETE"],
             "/contact": ["GET", "POST"],

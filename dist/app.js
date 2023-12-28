@@ -19,12 +19,13 @@ const cors_1 = __importDefault(require("cors"));
 const morgan_1 = __importDefault(require("morgan"));
 require("dotenv/config");
 const auth_1 = require("./middlewares/auth");
-const api_info_json_1 = __importDefault(require("./data/api_info.json"));
 const auth_2 = require("./controllers/auth");
 const booking_1 = require("./controllers/booking");
 const room_1 = require("./controllers/room");
 const contact_1 = require("./controllers/contact");
 const user_1 = require("./controllers/user");
+// connect to DB
+const infoController_1 = require("./controllers/infoController");
 (() => __awaiter(void 0, void 0, void 0, function* () {
     const URI = process.env.MONGO_URI || '';
     const DBNAME = process.env.MONGO_DB || 'Dashboard-api';
@@ -43,7 +44,7 @@ exports.app = (0, express_1.default)()
     .use((0, cors_1.default)())
     .use(express_1.default.json())
     .use((0, morgan_1.default)('combined'))
-    .use('/api-info', (_req, res) => res.json({ api_info: api_info_json_1.default }))
+    .use('/', infoController_1.infoController)
     .use('/login', auth_2.authController)
     .use(auth_1.authMiddleware)
     .use('/bookings', booking_1.bookingsController)
