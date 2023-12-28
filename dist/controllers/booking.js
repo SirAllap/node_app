@@ -31,6 +31,15 @@ exports.bookingsController.get('/:bookingId', (req, res) => __awaiter(void 0, vo
         res.status(500).json(`${error}`);
     }
 }));
+exports.bookingsController.get('/ref/:reference_number', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield booking_1.bookingService.fetchOneByRefNumber(req.params.reference_number);
+        res.json(result);
+    }
+    catch (error) {
+        res.status(500).json(`${error}`);
+    }
+}));
 exports.bookingsController.post('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield booking_1.bookingService.createOne(req.body);

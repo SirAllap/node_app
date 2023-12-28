@@ -23,6 +23,14 @@ const fetchOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
         throw new Error('There is no booking with that ID in the database.');
     return result;
 });
+const fetchOneByRefNumber = (reference_number) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield booking_model_1.BookingModel.findOne({
+        reference_number: reference_number,
+    });
+    if (!result)
+        throw new Error('There is no booking with that reference number in the database.');
+    return result;
+});
 const createOne = (booking) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield booking_model_1.BookingModel.create(booking);
     return result;
@@ -46,6 +54,7 @@ const destroyOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* ()
 exports.bookingService = {
     fetchAll,
     fetchOne,
+    fetchOneByRefNumber,
     createOne,
     updateOne,
     destroyOne,

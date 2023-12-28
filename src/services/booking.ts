@@ -15,6 +15,17 @@ const fetchOne = async (bookingId: number) => {
 	return result
 }
 
+const fetchOneByRefNumber = async (reference_number: number) => {
+	const result = await BookingModel.findOne({
+		reference_number: reference_number,
+	})
+	if (!result)
+		throw new Error(
+			'There is no booking with that reference number in the database.'
+		)
+	return result
+}
+
 const createOne = async (booking: IBooking) => {
 	const result = await BookingModel.create(booking)
 	return result
@@ -41,6 +52,7 @@ const destroyOne = async (bookingId: number) => {
 export const bookingService = {
 	fetchAll,
 	fetchOne,
+	fetchOneByRefNumber,
 	createOne,
 	updateOne,
 	destroyOne,
