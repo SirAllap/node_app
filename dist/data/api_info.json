@@ -1,19 +1,20 @@
 {
-    "name": "Travl Dashboard",
-    "endpoints": {
-        "public": {
-            "/info-app": "GET",
-            "/login": "POST"
-        },
-        "private": {
-            "/bookings": ["GET", "POST"],
-            "/bookings/bookingsId": ["GET", "PUT", "DELETE"],
-            "/rooms": ["GET", "POST"],
-            "/rooms/roomsId": ["GET", "PUT", "DELETE"],
-            "/contact": ["GET", "POST"],
-            "/contact/contactId": ["GET"],
-            "/users": ["GET", "POST"],
-            "/users/usersId": ["GET", "PUT", "DELETE"]
-        }
-    }
+	"name": "Travl Dashboard",
+	"endpoints": {
+		"public": {
+			"/info-app": "GET",
+			"/login": "POST"
+		},
+		"private": {
+			"/bookings": ["GET", "POST"],
+			"/bookings/bookingsId": ["GET", "PUT", "DELETE"],
+			"/bookings/ref/reference_number": ["GET"],
+			"/rooms": ["GET", "POST"],
+			"/rooms/roomsId": ["GET", "PUT", "DELETE"],
+			"/contact": ["GET", "POST"],
+			"/contact/contactId": ["GET"],
+			"/users": ["GET", "POST"],
+			"/users/usersId": ["GET", "PUT", "DELETE"]
+		}
+	}
 }
