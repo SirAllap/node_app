@@ -28,6 +28,20 @@ bookingsController.get(
 	}
 )
 
+bookingsController.get(
+	'/ref/:reference_number',
+	async (req: Request<{ reference_number: number }>, res: Response) => {
+		try {
+			const result = await bookingService.fetchOneByRefNumber(
+				req.params.reference_number
+			)
+			res.json(result)
+		} catch (error) {
+			res.status(500).json(`${error}`)
+		}
+	}
+)
+
 bookingsController.post(
 	'/',
 	async (req: Request<IBooking>, res: Response, next: NextFunction) => {
