@@ -8,7 +8,7 @@ The Authentication flow for the application is:
 
 | METHOD | ENDPOINT  | TOKEN | DESCRIPTION               | POST PARAMS | RETURNS       |
 | ------ | --------- | ----- | ------------------------- | ----------- | ------------- |
-| POST   | /api-info | -     | Api endpoints information | -           | All endpoints |
+| POST   | / | -     | Api endpoints information | -           | All endpoints |
 
 ### Authentication Endpoints
 
