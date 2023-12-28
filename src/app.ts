@@ -4,7 +4,6 @@ import cors from 'cors'
 import morgan from 'morgan'
 import 'dotenv/config'
 import { authMiddleware } from './middlewares/auth'
-import api_info from './data/api_info.json'
 import { authController } from './controllers/auth'
 import { bookingsController } from './controllers/booking'
 import { roomsController } from './controllers/room'
@@ -12,6 +11,7 @@ import { contactsController } from './controllers/contact'
 import { usersController } from './controllers/user'
 
 // connect to DB
+import { infoController } from './controllers/infoController'
 ;(async () => {
 	const URI: string = process.env.MONGO_URI || ''
 	const DBNAME: string = process.env.MONGO_DB || 'Dashboard-api'
@@ -30,7 +30,7 @@ export const app: Express = express()
 	.use(cors())
 	.use(express.json())
 	.use(morgan('combined'))
-	.use('/api-info', (_req: Request, res: Response) => res.json({ api_info }))
+	.use('/', infoController)
 	.use('/login', authController)
 	.use(authMiddleware)
 	.use('/bookings', bookingsController)
