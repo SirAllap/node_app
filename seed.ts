@@ -123,6 +123,7 @@ import { IRoom } from './src/interfaces/room'
 					'CheckOut',
 					'In Progress',
 				]),
+				reference_number: faker.string.nanoid(5),
 				roomId: randomId,
 			}
 			await BookingModel.create(bookingInput)
