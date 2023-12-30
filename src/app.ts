@@ -9,9 +9,9 @@ import { bookingsController } from './controllers/booking'
 import { roomsController } from './controllers/room'
 import { contactsController } from './controllers/contact'
 import { usersController } from './controllers/user'
+import { infoController } from './controllers/infoController'
 
 // connect to DB
-import { infoController } from './controllers/infoController'
 ;(async () => {
 	const URI: string = process.env.MONGO_URI || ''
 	const DBNAME: string = process.env.MONGO_DB || 'Dashboard-api'
