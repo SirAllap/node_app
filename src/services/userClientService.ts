@@ -1,6 +1,5 @@
-import bcrypt from 'bcryptjs'
-import { IUser } from '../interfaces/user'
 import { UserClientModel } from '../models/userClient.model'
+import { IUserClient } from '../interfaces/userClient'
 
 const fetchAll = async () => {
 	const result = await UserClientModel.find({}, { password: 0 })
@@ -16,13 +15,7 @@ const fetchOne = async (userId: number) => {
 	return result
 }
 
-const createOne = async (user: IUser) => {
-	user.password = bcrypt.hashSync(user.password || '', 10)
-	const result = await UserClientModel.create(user)
-	return result
-}
-
-const updateOne = async (contactId: number, update: Partial<IUser>) => {
+const updateOne = async (contactId: number, update: Partial<IUserClient>) => {
 	const result = await UserClientModel.findByIdAndUpdate(contactId, update, {
 		new: true,
 	})
@@ -43,7 +36,6 @@ const destroyOne = async (contactId: number) => {
 export const userClientService = {
 	fetchAll,
 	fetchOne,
-	createOne,
 	updateOne,
 	destroyOne,
 }

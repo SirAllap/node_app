@@ -2,6 +2,8 @@ import jwt from 'jsonwebtoken'
 import 'dotenv/config'
 import bcrypt from 'bcryptjs'
 import { UserModel } from '../models/user.model'
+import { IUserClient } from '../interfaces/userClient'
+import { UserClientModel } from '../models/userClient.model'
 
 const secret: string = process.env.SECRET || ''
 
@@ -10,6 +12,12 @@ interface IUserInfo {
 	name: string
 	role: string
 	photo: string
+}
+
+const signup = async (user: IUserClient) => {
+	user.password = bcrypt.hashSync(user.password || '', 10)
+	const result = await UserClientModel.create(user)
+	return result
 }
 
 const login = async (email: string, password: string) => {
@@ -37,6 +45,7 @@ const verifyJWT = (token: string) => {
 }
 
 export const authService = {
+	signup,
 	login,
 	signJWT,
 	verifyJWT,
