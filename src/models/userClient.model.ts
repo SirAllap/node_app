@@ -9,4 +9,7 @@ const userClientSchema = new Schema<IUserClient>({
 	phone_number: { type: String, required: true },
 })
 
-export const UserClientModel = model<IUserClient>('users', userClientSchema)
+export const UserClientModel = model<IUserClient>(
+	'usersClient',
+	userClientSchema
+)
