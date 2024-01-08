@@ -24,7 +24,6 @@ const booking_1 = require("./controllers/booking");
 const room_1 = require("./controllers/room");
 const contact_1 = require("./controllers/contact");
 const user_1 = require("./controllers/user");
-// connect to DB
 const infoController_1 = require("./controllers/infoController");
 (() => __awaiter(void 0, void 0, void 0, function* () {
     const URI = process.env.MONGO_URI || '';
