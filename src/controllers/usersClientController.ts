@@ -25,18 +25,6 @@ usersClientController.get(
 	}
 )
 
-usersClientController.post(
-	'/',
-	async (req: Request<IUserClient>, res: Response, next: NextFunction) => {
-		try {
-			const result = await userClientService.createOne(req.body)
-			res.json(result)
-		} catch (error) {
-			next(error)
-		}
-	}
-)
-
 usersClientController.put(
 	'/:userId',
 	async (
