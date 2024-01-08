@@ -17,7 +17,13 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 require("dotenv/config");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const user_model_1 = require("../models/user.model");
+const userClient_model_1 = require("../models/userClient.model");
 const secret = process.env.SECRET || '';
+const signup = (user) => __awaiter(void 0, void 0, void 0, function* () {
+    user.password = bcryptjs_1.default.hashSync(user.password || '', 10);
+    const result = yield userClient_model_1.UserClientModel.create(user);
+    return result;
+});
 const login = (email, password) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield user_model_1.UserModel.findOne({ email: email });
     if (!result)
@@ -33,6 +39,19 @@ const login = (email, password) => __awaiter(void 0, void 0, void 0, function* (
     };
     return signJWT({ userInfo });
 });
+const loginClient = (email, password) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield userClient_model_1.UserClientModel.findOne({ email: email });
+    if (!result)
+        throw new Error();
+    const passwordCheck = yield bcryptjs_1.default.compare(password, result.password || '');
+    if (!passwordCheck)
+        throw new Error();
+    const userClientInfo = {
+        email: result.email,
+        name: result.full_name,
+    };
+    return signJWT({ userInfo: userClientInfo });
+});
 const signJWT = (payload) => {
     const token = jsonwebtoken_1.default.sign(payload, secret, { expiresIn: '5h' });
     return { payload, token };
@@ -42,7 +61,9 @@ const verifyJWT = (token) => {
     return payload;
 };
 exports.authService = {
+    signup,
     login,
+    loginClient,
     signJWT,
     verifyJWT,
 };

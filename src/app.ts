@@ -14,6 +14,7 @@ import { usersClientController } from './controllers/usersClientController'
 
 // connect to DB
 import { newUserController } from './controllers/newUser'
+import { authClientController } from './controllers/authClient'
 ;(async () => {
 	const URI: string = process.env.MONGO_URI || ''
 	const DBNAME: string = process.env.MONGO_DB || 'Dashboard-api'
@@ -34,6 +35,7 @@ export const app: Express = express()
 	.use(morgan('combined'))
 	.use('/', infoController)
 	.use('/login', authController)
+	.use('/loginClient', authClientController)
 	.use('/signup', newUserController)
 	.use(authMiddleware)
 	.use('/bookings', bookingsController)
