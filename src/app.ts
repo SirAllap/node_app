@@ -10,6 +10,7 @@ import { roomsController } from './controllers/room'
 import { contactsController } from './controllers/contact'
 import { usersController } from './controllers/user'
 import { infoController } from './controllers/infoController'
+import { usersClientController } from './controllers/usersClientController'
 
 // connect to DB
 ;(async () => {
@@ -32,11 +33,13 @@ export const app: Express = express()
 	.use(morgan('combined'))
 	.use('/', infoController)
 	.use('/login', authController)
+	.use('/signup', authController)
 	.use(authMiddleware)
 	.use('/bookings', bookingsController)
 	.use('/rooms', roomsController)
 	.use('/contacts', contactsController)
 	.use('/users', usersController)
+	.use('/usersClient', usersClientController)
 	.use((err: Error, _req: Request, res: Response, _next: NextFunction) => {
 		console.error(err)
 		return res
