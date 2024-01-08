@@ -39,6 +39,19 @@ const login = (email, password) => __awaiter(void 0, void 0, void 0, function* (
     };
     return signJWT({ userInfo });
 });
+const loginClient = (email, password) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield userClient_model_1.UserClientModel.findOne({ email: email });
+    if (!result)
+        throw new Error();
+    const passwordCheck = yield bcryptjs_1.default.compare(password, result.password || '');
+    if (!passwordCheck)
+        throw new Error();
+    const userClientInfo = {
+        email: result.email,
+        name: result.full_name,
+    };
+    return signJWT({ userInfo: userClientInfo });
+});
 const signJWT = (payload) => {
     const token = jsonwebtoken_1.default.sign(payload, secret, { expiresIn: '5h' });
     return { payload, token };
@@ -50,6 +63,7 @@ const verifyJWT = (token) => {
 exports.authService = {
     signup,
     login,
+    loginClient,
     signJWT,
     verifyJWT,
 };

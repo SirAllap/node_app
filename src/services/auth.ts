@@ -14,6 +14,11 @@ interface IUserInfo {
 	photo: string
 }
 
+interface IUserClientInfo {
+	email: string
+	name: string
+}
+
 const signup = async (user: IUserClient) => {
 	user.password = bcrypt.hashSync(user.password || '', 10)
 	const result = await UserClientModel.create(user)
@@ -34,7 +39,19 @@ const login = async (email: string, password: string) => {
 	return signJWT({ userInfo })
 }
 
-const signJWT = (payload: { userInfo: IUserInfo }) => {
+const loginClient = async (email: string, password: string) => {
+	const result = await UserClientModel.findOne({ email: email })
+	if (!result) throw new Error()
+	const passwordCheck = await bcrypt.compare(password, result.password || '')
+	if (!passwordCheck) throw new Error()
+	const userClientInfo: IUserClientInfo = {
+		email: result.email,
+		name: result.full_name,
+	}
+	return signJWT({ userInfo: userClientInfo })
+}
+
+const signJWT = (payload: { userInfo: IUserInfo | IUserClientInfo }) => {
 	const token = jwt.sign(payload, secret, { expiresIn: '5h' })
 	return { payload, token }
 }
@@ -47,6 +64,7 @@ const verifyJWT = (token: string) => {
 export const authService = {
 	signup,
 	login,
+	loginClient,
 	signJWT,
 	verifyJWT,
 }

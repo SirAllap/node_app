@@ -28,6 +28,7 @@ const infoController_1 = require("./controllers/infoController");
 const usersClientController_1 = require("./controllers/usersClientController");
 // connect to DB
 const newUser_1 = require("./controllers/newUser");
+const authClient_1 = require("./controllers/authClient");
 (() => __awaiter(void 0, void 0, void 0, function* () {
     const URI = process.env.MONGO_URI || '';
     const DBNAME = process.env.MONGO_DB || 'Dashboard-api';
@@ -48,6 +49,7 @@ exports.app = (0, express_1.default)()
     .use((0, morgan_1.default)('combined'))
     .use('/', infoController_1.infoController)
     .use('/login', auth_2.authController)
+    .use('/loginClient', authClient_1.authClientController)
     .use('/signup', newUser_1.newUserController)
     .use(auth_1.authMiddleware)
     .use('/bookings', booking_1.bookingsController)
