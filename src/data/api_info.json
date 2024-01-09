@@ -3,7 +3,8 @@
 	"endpoints": {
 		"public": {
 			"/": "GET",
-			"/login": "POST"
+			"/login": "POST",
+			"/loginClient": "POST"
 		},
 		"private": {
 			"/bookings": ["GET", "POST"],
