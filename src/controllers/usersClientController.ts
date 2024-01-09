@@ -14,10 +14,12 @@ usersClientController.get('/', async (_req: Request, res: Response) => {
 })
 
 usersClientController.get(
-	'/:userId',
-	async (req: Request<{ userId: number }>, res: Response) => {
+	'/:userClientId',
+	async (req: Request<{ userClientId: number }>, res: Response) => {
 		try {
-			const result = await userClientService.fetchOne(req.params.userId)
+			const result = await userClientService.fetchOne(
+				req.params.userClientId
+			)
 			res.json(result)
 		} catch (error) {
 			res.status(500).json(`${error}`)
@@ -26,15 +28,15 @@ usersClientController.get(
 )
 
 usersClientController.put(
-	'/:userId',
+	'/:userClientId',
 	async (
-		req: Request<{ userId: number }, IUserClient>,
+		req: Request<{ userClientId: number }, IUserClient>,
 		res: Response,
 		next: NextFunction
 	) => {
 		try {
 			const result = await userClientService.updateOne(
-				req.params.userId,
+				req.params.userClientId,
 				req.body
 			)
 			res.json(result)
@@ -45,14 +47,16 @@ usersClientController.put(
 )
 
 usersClientController.delete(
-	'/:userId',
+	'/:userClientId',
 	async (
-		req: Request<{ userId: number }>,
+		req: Request<{ userClientId: number }>,
 		res: Response,
 		next: NextFunction
 	) => {
 		try {
-			const result = await userClientService.destroyOne(req.params.userId)
+			const result = await userClientService.destroyOne(
+				req.params.userClientId
+			)
 			res.json(result)
 		} catch (error) {
 			next(error)
