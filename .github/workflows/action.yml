@@ -23,6 +23,9 @@ jobs:
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
           SECRET: ${{ secrets.SECRET }}
+      - name: Set up environment variables
+        run: |
+          echo "MONGO_URI=mongodb+srv://sirallap:GiWI96XQeYmP2LIK@api-node-miranda-hotel.cqylqj9.mongodb.net/Dashboard-api" >> $GITHUB_ENV
 
       - name: NPM Clean Install
         run: npm ci
