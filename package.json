@@ -2,7 +2,7 @@
 	"name": "node_app",
 	"version": "1.0.0",
 	"description": "",
-	"main": "/src/app.ts",
+	"main": "dist/app.js",
 	"scripts": {
 		"seed": "ts-node seed",
 		"dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
