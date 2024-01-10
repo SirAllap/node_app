@@ -2,11 +2,6 @@ import supertest from 'supertest'
 import { app } from '../app'
 import mongoose from 'mongoose'
 
-beforeAll(async () => {
-	const URI: string = process.env.MONGO_URI || ''
-	// Set up a connection to the test database or use mongodb-memory-server
-	await mongoose.connect(URI)
-})
 describe('Login endpoints', () => {
 	test('should login', async () => {
 		const res = await supertest(app).post('/login').send({
@@ -157,8 +152,7 @@ describe('Testing /users after login', () => {
 
 afterAll(async () => {
 	try {
-		// Close the database connection after all tests
-		await mongoose.connection.close()
+		await mongoose.disconnect()
 	} catch (error) {
 		console.log(`
         Error disconecting from mongo:
