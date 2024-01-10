@@ -8,7 +8,8 @@ describe('Login endpoints', () => {
 			email: 'david.pr.developer@gmail.com',
 			password: 'ilovebaguettes',
 		})
-		expect(res.statusCode).toEqual(200)
+		console.log('Response:', res)
+		expect(res.statusCode).toBe(200)
 		expect(res.body).toHaveProperty('token')
 		expect(res.body).toHaveProperty('payload')
 	}, 10000)
@@ -17,7 +18,7 @@ describe('Login endpoints', () => {
 			email: 'david',
 			password: 'pallarés',
 		})
-		expect(res.statusCode).toEqual(401)
+		expect(res.statusCode).toBe(401)
 		expect(res.body).toEqual('Error: Email or password incorrect')
 	})
 })
