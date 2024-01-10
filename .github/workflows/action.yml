@@ -7,36 +7,32 @@ on:
 
 jobs:
   deploy:
-    name: deploy
+    name: Deploy
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [18.x]
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.18.2
 
-    - name: Setting the .env.json variables and .env
-      run: echo '{"SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}"}' > .env.json
-      env: 
-        MONGO_URI: ${{ secrets.MONGO_URI }}
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: NPM clean install
-      run: npm ci  
+      - name: Set Environment Variables
+        run: echo '{"SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}"}' > .env.json
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
 
-    - name: Use Node.js 
-      uses: actions/setup-node@v3
-      with:
-        node-version: 18.18.2
+      - name: NPM Clean Install
+        run: npm ci
 
-      
-    - name: serverless deploy
-      uses: serverless/github-action@v3.2
-      with:
-        args: deploy
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Deploy with Serverless
+        uses: serverless/github-action@v3.2
+        with:
+          args: deploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
-    - name: Run Jest Tests
-      run: npm run test
+      - name: Run Jest Tests
+        run: npm run test
