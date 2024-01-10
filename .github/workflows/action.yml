@@ -18,8 +18,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set Environment Variables
+      - name: Set Environment Variables .json
         run: echo '{"SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}"}' > .env.json
+      - name: Set .env
+        run: echo "SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}" > .env
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
           SECRET: ${{ secrets.SECRET }}
