@@ -9,6 +9,9 @@ jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./dist
     steps:
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -23,15 +26,6 @@ jobs:
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
           SECRET: ${{ secrets.SECRET }}
-      
-      - name: Make envfile
-        uses: SpicyPizza/create-envfile@v2.0
-        with:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-          SECRET: ${{ secrets.SECRET }}
-          file_name: .env
-          fail_on_empty: false
-          sort_keys: false
 
       - name: NPM Clean Install
         run: npm ci
@@ -44,5 +38,6 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - uses: actions/checkout@v3
       - name: Run Jest Tests
         run: npm run test
