@@ -1,6 +1,6 @@
 import supertest from 'supertest'
 import { app } from '../app'
-// import mongoose from 'mongoose'
+import mongoose from 'mongoose'
 
 describe('Login endpoints', () => {
 	test('should login', async () => {
@@ -9,7 +9,8 @@ describe('Login endpoints', () => {
 			password: 'ilovebaguettes',
 		})
 		expect(res.statusCode).toEqual(200)
-		expect(res.body).toHaveProperty('token' && 'payload')
+		expect(res.body).toHaveProperty('token')
+		expect(res.body).toHaveProperty('payload')
 	})
 	test('should NOT login', async () => {
 		const res = await supertest(app).post('/login').send({
@@ -149,14 +150,14 @@ describe('Testing /users after login', () => {
 	})
 })
 
-// afterAll(async () => {
-// 	try {
-// 		await mongoose.disconnect()
-// 	} catch (error) {
-// 		console.log(`
-//         Error disconecting from mongo:
-//         ${error}
-//       `)
-// 		throw error
-// 	}
-// })
+afterAll(async () => {
+	try {
+		await mongoose.disconnect()
+	} catch (error) {
+		console.log(`
+        Error disconecting from mongo:
+        ${error}
+      `)
+		throw error
+	}
+})
