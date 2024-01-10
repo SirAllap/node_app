@@ -4,7 +4,8 @@
 		"public": {
 			"/": "GET",
 			"/login": "POST",
-			"/loginClient": "POST"
+			"/loginClient": "POST",
+			"/signup": "POST"
 		},
 		"private": {
 			"/bookings": ["GET", "POST"],
