@@ -22,6 +22,7 @@ jobs:
         run: echo '{"SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}"}' > .env.json
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
+          SECRET: ${{ secrets.SECRET }}
 
       - name: NPM Clean Install
         run: npm ci
