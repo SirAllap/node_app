@@ -11,9 +11,8 @@ const bookingSchema = new Schema<IBooking>({
 	room_type: { type: String, required: true },
 	room_number: { type: String, required: true },
 	status: { type: String, required: true },
-	reference_number: { type: String, required: true },
-	photos: { type: [String], required: true },
-	roomId: { type: String },
+	reference_number: { type: String, required: false },
+	roomId: { type: String, required: false },
 })
 
 export const BookingModel = model<IBooking>('bookings', bookingSchema)
