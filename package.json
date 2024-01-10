@@ -7,7 +7,7 @@
 		"seed": "ts-node seed",
 		"dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
 		"build": "rimraf dist && tsc",
-		"test": "jest",
+		"test": "jest --detectOpenHandles",
 		"deploy": "npm run build && serverless deploy --force",
 		"start": "sls offline start"
 	},
