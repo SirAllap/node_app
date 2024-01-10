@@ -1,6 +1,6 @@
 import supertest from 'supertest'
 import { app } from '../app'
-import mongoose from 'mongoose'
+// import mongoose from 'mongoose'
 
 describe('Login endpoints', () => {
 	test('should login', async () => {
@@ -149,14 +149,14 @@ describe('Testing /users after login', () => {
 	})
 })
 
-afterAll(async () => {
-	try {
-		await mongoose.disconnect()
-	} catch (error) {
-		console.log(`
-        Error disconecting from mongo: 
-        ${error}
-      `)
-		throw error
-	}
-})
+// afterAll(async () => {
+// 	try {
+// 		await mongoose.disconnect()
+// 	} catch (error) {
+// 		console.log(`
+//         Error disconecting from mongo:
+//         ${error}
+//       `)
+// 		throw error
+// 	}
+// })

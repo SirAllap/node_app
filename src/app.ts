@@ -17,8 +17,7 @@ import { newUserController } from './controllers/newUser'
 import { authClientController } from './controllers/authClient'
 ;(async () => {
 	const URI: string =
-		process.env.MONGO_URI ||
-		'mongodb+srv://sirallap:GiWI96XQeYmP2LIK@api-node-miranda-hotel.cqylqj9.mongodb.net/Dashboard-api'
+		'mongodb+srv://sirallap:GiWI96XQeYmP2LIK@api-node-miranda-hotel.cqylqj9.mongodb.net'
 	const DBNAME: string = process.env.MONGO_DB || 'Dashboard-api'
 	try {
 		await connect(URI, {
