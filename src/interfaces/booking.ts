@@ -10,6 +10,5 @@ export interface IBooking {
 	room_number: string
 	status: string
 	reference_number: string
-	photos: string[]
 	roomId: string | number
 }
