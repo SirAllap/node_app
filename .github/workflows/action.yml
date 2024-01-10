@@ -18,13 +18,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set Environment Variables .json
+      - name: Set Environment Variables
         run: echo '{"SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}"}' > .env.json
-      - name: Set .env
-        run: echo "SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}" > .env
         env:
           MONGO_URI: ${{ secrets.MONGO_URI }}
           SECRET: ${{ secrets.SECRET }}
+      
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v2.0
+        with:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          SECRET: ${{ secrets.SECRET }}
+          file_name: .env
+          fail_on_empty: false
+          sort_keys: false
 
       - name: NPM Clean Install
         run: npm ci
