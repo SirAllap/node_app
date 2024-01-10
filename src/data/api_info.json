@@ -16,8 +16,8 @@
 			"/contact": ["GET", "POST"],
 			"/contact/contactId": ["GET"],
 			"/users": ["GET", "POST"],
-			"/usersClient": ["GET", "PUT", "DELETE"],
-			"/users/usersId": ["GET", "PUT", "DELETE"]
+			"/users/usersId": ["GET", "PUT", "DELETE"],
+			"/usersClient": ["GET", "PUT", "DELETE"]
 		}
 	}
 }

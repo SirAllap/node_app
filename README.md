@@ -6,15 +6,17 @@ The Authentication flow for the application is:
 
 ### API Info Endpoint
 
-| METHOD | ENDPOINT  | TOKEN | DESCRIPTION               | POST PARAMS | RETURNS       |
-| ------ | --------- | ----- | ------------------------- | ----------- | ------------- |
-| POST   | / | -     | Api endpoints information | -           | All endpoints |
+| METHOD | ENDPOINT | TOKEN | DESCRIPTION               | POST PARAMS | RETURNS       |
+| ------ | -------- | ----- | ------------------------- | ----------- | ------------- |
+| POST   | /        | -     | Api endpoints information | -           | All endpoints |
 
 ### Authentication Endpoints
 
-| METHOD | ENDPOINT | TOKEN | DESCRIPTION | POST PARAMS | RETURNS |
-| ------ | -------- | ----- | ----------- | ----------- | ------- |
-| POST   | /login   | -     | User Login  | -           | token   |
+| METHOD | ENDPOINT     | TOKEN | DESCRIPTION      | POST PARAMS | RETURNS |
+| ------ | ------------ | ----- | ---------------- | ----------- | ------- |
+| POST   | /login       | -     | User Login       | -           | token   |
+| POST   | /loginClient | -     | UserClient Login | -           | token   |
+| POST   | /signup      | -     | User Signup      | -           |         |
 
 ### Bookings Endpoints
 
@@ -55,3 +57,12 @@ The Authentication flow for the application is:
 | POST   | /users        | YES   | Create a new user | -           | User creation confirmation   |
 | PUT    | /users/userId | YES   | Update a user     | user ID     | User update confirmation     |
 | DELETE | /users/userId | YES   | Delete a user     | -           | User deletition confirmation |
+
+### UsersClient Endpoints
+
+| METHOD | ENDPOINT            | TOKEN | DESCRIPTION         | POST PARAMS   | RETURNS                            |
+| ------ | ------------------- | ----- | ------------------- | ------------- | ---------------------------------- |
+| GET    | /usersClient        | YES   | Get all usersCLient | -             | All usersCLient                    |
+| GET    | /usersClient/userId | YES   | Get one userCLient  | userCLient ID | A single userCLient                |
+| PUT    | /usersClient/userId | YES   | Update a userCLient | userCLient ID | UserCLient update confirmation     |
+| DELETE | /usersClient/userId | YES   | Delete a userCLient | -             | UserCLient deletition confirmation |
