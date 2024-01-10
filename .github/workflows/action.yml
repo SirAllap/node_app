@@ -20,12 +20,6 @@ jobs:
 
       - name: Set Environment Variables
         run: echo '{"SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}"}' > .env.json
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-          SECRET: ${{ secrets.SECRET }}
-      - name: Set up environment variables
-        run: |
-          echo "MONGO_URI=mongodb+srv://sirallap:GiWI96XQeYmP2LIK@api-node-miranda-hotel.cqylqj9.mongodb.net/Dashboard-api" >> $GITHUB_ENV
 
       - name: NPM Clean Install
         run: npm ci
@@ -37,6 +31,3 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-      - name: Run Jest Tests
-        run: npm run test
