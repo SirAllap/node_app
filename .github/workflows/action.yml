@@ -18,8 +18,11 @@ jobs:
       - name: Set Environment Variables
         run: echo '{"SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}"}' > .env.json
         env:
-          SECRET: ${{ secrets.SECRET }}
           MONGO_URI: ${{ secrets.MONGO_URI }}
+
+      - name: Debug Environment Variables
+        run: |
+          cat .env
 
       - name: NPM Clean Install and Run Tests
         run: |
