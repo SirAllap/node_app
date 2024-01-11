@@ -12,8 +12,7 @@ const bookingSchema = new mongoose_1.Schema({
     room_type: { type: String, required: true },
     room_number: { type: String, required: true },
     status: { type: String, required: true },
-    reference_number: { type: String, required: true },
-    photos: { type: [String], required: true },
-    roomId: { type: String },
+    reference_number: { type: String, required: false },
+    roomId: { type: String, required: false },
 });
 exports.BookingModel = (0, mongoose_1.model)('bookings', bookingSchema);

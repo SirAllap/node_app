@@ -19,6 +19,6 @@ exports.authController.post('/', (req, res) => __awaiter(void 0, void 0, void 0,
         res.json(result);
     }
     catch (error) {
-        res.status(401).json(`${error}`);
+        res.status(401).json(`${error}: Email or password incorrect`);
     }
 }));
