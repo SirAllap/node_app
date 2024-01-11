@@ -21,6 +21,9 @@ const fetchOne = async (bookingId: number) => {
 const fetchOneByRefNumber = async (reference_number: number) => {
 	const result = await BookingModel.findOne({
 		reference_number: reference_number,
+	}).populate({
+		path: 'roomId',
+		model: 'rooms',
 	})
 	if (!result)
 		throw new Error(

@@ -29,6 +29,9 @@ const fetchOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
 const fetchOneByRefNumber = (reference_number) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield booking_model_1.BookingModel.findOne({
         reference_number: reference_number,
+    }).populate({
+        path: 'roomId',
+        model: 'rooms',
     });
     if (!result)
         throw new Error('There is no booking with that reference number in the database.');
