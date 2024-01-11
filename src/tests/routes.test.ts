@@ -8,8 +8,6 @@ describe('Login endpoints', () => {
 			email: 'david.pr.developer@gmail.com',
 			password: 'ilovebaguettes',
 		})
-		console.log('body: ', res.body)
-		console.log('header: ', res.header)
 		expect(res.statusCode).toBe(200)
 		expect(res.body).toHaveProperty('token')
 		expect(res.body).toHaveProperty('payload')
