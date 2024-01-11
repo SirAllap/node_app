@@ -19,7 +19,6 @@ import { authClientController } from './controllers/authClient'
 	const URI: string = process.env.MONGO_URI || ''
 	const DBNAME: string = process.env.MONGO_DB || 'Dashboard-api'
 
-	console.log('Environment Variables:', process.env)
 	try {
 		await connect(URI, {
 			dbName: DBNAME,

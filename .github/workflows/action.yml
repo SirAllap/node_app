@@ -19,6 +19,7 @@ jobs:
         run: |
           echo '{"SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}"}' > .env.json
           echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> .env
+          echo "SECRET=${{ secrets.SECRET }}" >> .env
 
       - name: Debug Environment Variables
         run: |
