@@ -3,7 +3,9 @@
     "endpoints": {
         "public": {
             "/": "GET",
-            "/login": "POST"
+            "/login": "POST",
+            "/loginClient": "POST",
+            "/signup": "POST"
         },
         "private": {
             "/bookings": ["GET", "POST"],
@@ -14,7 +16,8 @@
             "/contact": ["GET", "POST"],
             "/contact/contactId": ["GET"],
             "/users": ["GET", "POST"],
-            "/users/usersId": ["GET", "PUT", "DELETE"]
+            "/users/usersId": ["GET", "PUT", "DELETE"],
+            "/usersClient": ["GET", "PUT", "DELETE"]
         }
     }
 }

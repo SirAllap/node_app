@@ -22,27 +22,27 @@ exports.usersClientController.get('/', (_req, res) => __awaiter(void 0, void 0, 
         res.status(500).json(`${error}`);
     }
 }));
-exports.usersClientController.get('/:userId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.usersClientController.get('/:userClientId', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield userClientService_1.userClientService.fetchOne(req.params.userId);
+        const result = yield userClientService_1.userClientService.fetchOne(req.params.userClientId);
         res.json(result);
     }
     catch (error) {
         res.status(500).json(`${error}`);
     }
 }));
-exports.usersClientController.put('/:userId', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.usersClientController.put('/:userClientId', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield userClientService_1.userClientService.updateOne(req.params.userId, req.body);
+        const result = yield userClientService_1.userClientService.updateOne(req.params.userClientId, req.body);
         res.json(result);
     }
     catch (error) {
         next(error);
     }
 }));
-exports.usersClientController.delete('/:userId', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.usersClientController.delete('/:userClientId', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield userClientService_1.userClientService.destroyOne(req.params.userId);
+        const result = yield userClientService_1.userClientService.destroyOne(req.params.userClientId);
         res.json(result);
     }
     catch (error) {

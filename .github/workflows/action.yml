@@ -1,9 +1,6 @@
 name: Deploy Lambda
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
   deploy:
@@ -19,10 +16,19 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Set Environment Variables
-        run: echo '{"SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}"}' > .env.json
+        run: |
+          echo '{"SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}"}' > .env.json
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" >> .env
+          echo "SECRET=${{ secrets.SECRET }}" >> .env
 
-      - name: NPM Clean Install
-        run: npm ci
+      - name: Debug Environment Variables
+        run: |
+          cat .env
+
+      - name: NPM Clean Install and Run Tests
+        run: |
+          npm ci
+          npm test
 
       - name: Deploy with Serverless
         uses: serverless/github-action@v3.2

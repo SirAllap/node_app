@@ -1,3 +1,5 @@
+import { IRoom } from './room'
+
 export interface IBooking {
 	_id?: number | string
 	guest: string
@@ -10,5 +12,5 @@ export interface IBooking {
 	room_number: string
 	status: string
 	reference_number: string
-	roomId: string | number
+	roomId: IRoom
 }

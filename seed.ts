@@ -20,16 +20,17 @@ import { IRoom } from './src/interfaces/room'
 		ContactModel.collection.drop()
 		UserModel.collection.drop()
 
-		const numOfData: number = 40
-		const numOfDataPlus: number = 100
+		const numOfData: number = 200
+		const numOfDataPlus: number = 2000
 		const createdRooms: IRoom[] = []
+		const roomNumberGenerator = (roomNumber: number) => {
+			const num = roomNumber.toString().padStart(3, '0')
+			return parseInt(num)
+		}
 
-		for (let index = 0; index < numOfData; index++) {
+		for (let index = 1; index <= numOfData; index++) {
 			const roomInput = {
-				room_number: faker.helpers.rangeToNumber({
-					min: 100,
-					max: 900,
-				}),
+				room_number: roomNumberGenerator(index),
 				room_photo: faker.helpers.arrayElement([
 					[
 						'https://images.pexels.com/photos/271624/pexels-photo-271624.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1',
@@ -62,7 +63,12 @@ import { IRoom } from './src/interfaces/room'
 					'Double Superior',
 					'Suite',
 				]),
-				description: faker.lorem.sentence(),
+				description: faker.helpers.arrayElement([
+					"Embrace comfort and simplicity in our Single Bed Room, designed for solo travelers seeking a cozy retreat. This thoughtfully appointed space features a comfortable single bed, modern amenities, and a private bathroom. Whether you're here for business or leisure, enjoy a restful night's sleep in a space tailored to meet your individual needs.",
+					'Unwind in style in our Double Bed Room, perfect for couples or those who prefer a bit more space. Revel in the inviting atmosphere, furnished with a spacious double bed, contemporary decor, and all the conveniences you desire. This room offers a harmonious blend of comfort and functionality, ensuring a pleasant stay for you and your companion.',
+					'Elevate your stay in our Double Superior Room, where luxury meets convenience. This refined accommodation boasts a generous double bed, enhanced amenities, and additional space for your comfort. Immerse yourself in an ambiance of sophistication, and indulge in the heightened level of service and attention to detail that sets our Superior rooms apart.',
+					'Experience the epitome of luxury in our exquisite Suite, designed for those who seek an indulgent escape. This spacious haven combines a chic living area with a sumptuous bedroom, offering a heightened level of privacy and opulence. Enjoy panoramic views, premium amenities, and personalized service, creating an unforgettable retreat for those who appreciate the finer things in life. Unwind in style and make your stay truly exceptional in our distinguished Suite.',
+				]),
 				amenities_type: faker.helpers.arrayElement([
 					'full',
 					'midrange',
@@ -97,7 +103,7 @@ import { IRoom } from './src/interfaces/room'
 						description: 'Scenic views from the room',
 					},
 				]),
-				price: faker.helpers.rangeToNumber({ min: 100, max: 1000 }),
+				price: faker.helpers.rangeToNumber({ min: 110, max: 700 }),
 				offer_price: faker.helpers.arrayElement(['true', 'false']),
 				discount: faker.helpers.arrayElement([0, 5, 10, 20]),
 				status: faker.helpers.arrayElement(['Available', 'Booked']),
@@ -109,12 +115,24 @@ import { IRoom } from './src/interfaces/room'
 		for (let index = 0; index < numOfDataPlus; index++) {
 			let randomRoom = Math.floor(Math.random() * numOfData)
 			const randomId = createdRooms[randomRoom]._id
+			const orderDate = faker.date.between({
+				from: '2023-11-22T00:00:00.000Z',
+				to: '2023-12-01T00:00:00.000Z',
+			})
+			const checkIn = faker.date.between({
+				from: orderDate,
+				to: '2024-12-31T00:00:00.000Z',
+			})
+			const checkOut = faker.date.between({
+				from: checkIn,
+				to: '2025-06-01T00:00:00.000Z',
+			})
 			const bookingInput = {
 				guest: faker.person.fullName(),
 				phone_number: faker.phone.number(),
-				order_date: faker.date.recent(),
-				check_in: faker.date.recent(),
-				check_out: faker.date.recent(),
+				order_date: orderDate.toISOString().slice(0, 10),
+				check_in: checkIn.toISOString().slice(0, 10),
+				check_out: checkOut.toISOString().slice(0, 10),
 				special_request: faker.lorem.sentence(),
 				room_type: createdRooms[randomRoom].room_type,
 				room_number: createdRooms[randomRoom].room_number,
@@ -123,7 +141,10 @@ import { IRoom } from './src/interfaces/room'
 					'CheckOut',
 					'In Progress',
 				]),
-				reference_number: faker.string.nanoid(5),
+				reference_number: faker.string.alphanumeric({
+					length: 5,
+					casing: 'upper',
+				}),
 				roomId: randomId,
 			}
 			await BookingModel.create(bookingInput)
@@ -162,10 +183,11 @@ import { IRoom } from './src/interfaces/room'
 				photo: faker.image.avatar(),
 				start_date: faker.date.recent(),
 				description: faker.helpers.arrayElement([
-					'Director',
+					'Hotel Director',
 					'Cleaner',
 					'Recepcionist',
-					'Sales',
+					'Chef',
+					'Kitchen Porter',
 				]),
 				phone_number: faker.phone.number(),
 				status: faker.helpers.arrayElement(['active', 'inactive']),

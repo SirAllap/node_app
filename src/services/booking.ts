@@ -9,7 +9,10 @@ const fetchAll = async () => {
 }
 
 const fetchOne = async (bookingId: number) => {
-	const result = await BookingModel.findById(bookingId)
+	const result = await BookingModel.findById(bookingId).populate({
+		path: 'roomId',
+		model: 'rooms',
+	})
 	if (!result)
 		throw new Error('There is no booking with that ID in the database.')
 	return result
