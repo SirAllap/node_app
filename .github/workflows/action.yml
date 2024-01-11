@@ -1,9 +1,6 @@
 name: Deploy Lambda
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
   deploy:
@@ -20,9 +17,14 @@ jobs:
 
       - name: Set Environment Variables
         run: echo '{"SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}"}' > .env.json
+        env:
+          SECRET: ${{ secrets.SECRET }}
+          MONGO_URI: ${{ secrets.TEST_MONGO_URI }}
 
-      - name: NPM Clean Install
-        run: npm ci
+      - name: NPM Clean Install and Run Tests
+        run: |
+          npm ci
+          npm test
 
       - name: Deploy with Serverless
         uses: serverless/github-action@v3.2
