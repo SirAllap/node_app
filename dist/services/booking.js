@@ -18,7 +18,10 @@ const fetchAll = () => __awaiter(void 0, void 0, void 0, function* () {
     return result;
 });
 const fetchOne = (bookingId) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield booking_model_1.BookingModel.findById(bookingId);
+    const result = yield booking_model_1.BookingModel.findById(bookingId).populate({
+        path: 'roomId',
+        model: 'rooms',
+    });
     if (!result)
         throw new Error('There is no booking with that ID in the database.');
     return result;
