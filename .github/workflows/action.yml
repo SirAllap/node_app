@@ -19,7 +19,7 @@ jobs:
         run: echo '{"SECRET":"${{ secrets.SECRET }}", "MONGO_URI":"${{ secrets.MONGO_URI }}"}' > .env.json
         env:
           SECRET: ${{ secrets.SECRET }}
-          MONGO_URI: ${{ secrets.TEST_MONGO_URI }}
+          MONGO_URI: ${{ secrets.MONGO_URI }}
 
       - name: NPM Clean Install and Run Tests
         run: |
