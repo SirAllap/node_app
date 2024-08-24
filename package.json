@@ -6,6 +6,7 @@
 	"scripts": {
 		"seed": "ts-node seed",
 		"dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/server.js\"",
+		"dev-w-bun": "concurrently \"bun run src/server.ts\"",
 		"build": "rimraf dist && tsc",
 		"test": "jest --detectOpenHandles",
 		"deploy": "npm run build && serverless deploy --force",

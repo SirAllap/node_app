@@ -6,7 +6,9 @@ import 'dotenv/config'
 const PORT = process.env.PORT
 app.listen(PORT, () => {
 	console.info('>'.repeat(40))
-	console.info(`📡  PORT: http://localhost:${PORT}`)
+	if (process.env.NODE_ENV === 'development')
+		console.info(`📡  PORT: http://localhost:${PORT}`)
+	else console.info(`📡  PORT: ${PORT}`)
 	console.info('>'.repeat(40) + '\n')
 }).on('error', (err) => {
 	console.error('Error starting the server:', err)

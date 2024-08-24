@@ -9,3 +9,4 @@ const serverless_http_1 = __importDefault(require("serverless-http"));
 exports.handler = (0, serverless_http_1.default)(app_1.app, {
     response: { headers: { 'Access-Control-Allow-Origin': '*' } },
 });
+// redeploy
