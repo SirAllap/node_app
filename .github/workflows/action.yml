@@ -27,7 +27,7 @@ jobs:
 
       - name: NPM Clean Install and Run Tests
         run: |
-          npm ci
+          npm i
           npm test
 
       - name: Deploy with Serverless
